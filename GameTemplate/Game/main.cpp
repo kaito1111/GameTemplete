@@ -4,7 +4,6 @@
 #include "Player2.h"
 #include "Stage.h"
 #include "level/Level.h"
-#include "GameObjectManager.h"
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -18,14 +17,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 	
+	CGameObjectManager()->Init();
 	//プレイヤー
 	Player player[4];
 	//Player2 player2;
 	//Stage stage;
-	ksEngine::GameObjectManager* GM = ksEngine::GameObjectManager::GetInstance();
 	//GM->Init();
-	GM->AddGameObjectManager(0,player[0]);
-	GM->DeleteGameObjectManager(player[0]);
+	addGO(0, &player[0], "player");
+	DeleteGO(&player[0]);
 	//GM->AddGameObjectManager(&player[1]);
 	//GM->AddGameObjectManager(&player[2]);
 	//GM->AddGameObjectManager(&player[3]);
@@ -42,9 +41,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 		//物理エンジンの更新。
 		g_physics.Update();
-		
-		GM->ExcuteMain();
-		GM->ExcuteGame();
+		CGameObjectManager()->ExcuteMain();
+		CGameObjectManager()->ExcuteGame();
 		//カメラの更新。
 		g_camera3D.Update();
 		//描画終了。
