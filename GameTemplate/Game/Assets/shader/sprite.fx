@@ -8,7 +8,7 @@ cbuffer VScb : register(b0) {
 	//float4x4 mProj;	//プロジェクション行列。
 
 	float4x4 mWvp;		//ワールドビュープロジェクション行列。
-		//float4 mulColor;
+		float4 mulColor;
 };
 
 //Texture2D<float4> colorTexture : register(t0);	//カラーテクスチャ。
@@ -34,6 +34,6 @@ float4 VSMain(float4 Pos: POSITION) :SV_POSITION
 float4 PSMain(float4 pos : SV_POSITION) : SV_Target
 {
 	float4 color = float4(1.0f, 0.0f, 1.0f, 1.0f);
-	color;// *= mulColor;
+	color *= mulColor;
 	return color;//colorTexture.Sample(Sampler /*,In.uv*/) * mulColor;
 }
