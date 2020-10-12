@@ -8,15 +8,22 @@ cbuffer VScb : register(b0) {
 	//float4x4 mProj;	//プロジェクション行列。
 
 	float4x4 mWvp;		//ワールドビュープロジェクション行列。
-		float4 mulColor;
+	float4 mulColor;
 };
 
-//Texture2D<float4> colorTexture : register(t0);	//カラーテクスチャ。
-//sampler Sampler : register(s0);
+struct PSInput {
+	float4 pos : SV_POSITION;
+	float2 uv  : TEXCOORD0;
+};
 
-float4 VSMain(float4 Pos: POSITION) :SV_POSITION
+Texture2D<float4> colorTexture : register(t0);	//カラーテクスチャ。
+sampler Sampler : register(s0);
+
+PSInput VSMain(PSInput Input)
 {
-	float4 pos = mul(mWvp, Pos);
+	PSInput In;
+	In.pos = mul(mWvp, Input.pos);
+	In.uv = Input.uv;
 	//PSInput psIn;
 	//psIn.pos = mul(mvp, In.pos);
 	//psIn.pos = In.pos;
@@ -29,11 +36,11 @@ float4 VSMain(float4 Pos: POSITION) :SV_POSITION
 	////スクリーンの正規化座標系(-1.0～1.0の座標系)に変換する。
 	//pos = mul(mProj, pos);
 	//座標変換が終わった。
-	return pos;
+	return In;
 }
-float4 PSMain(float4 pos : SV_POSITION) : SV_Target
+float4 PSMain(PSInput In) : SV_Target0
 {
-	float4 color = float4(1.0f, 0.0f, 1.0f, 1.0f);
-	color *= mulColor;
-	return color;//colorTexture.Sample(Sampler /*,In.uv*/) * mulColor;
+	//float4 color /*= float4(1.0f, 0.0f, 1.0f, 1.0f)*/;
+	//color = mulColor;
+	return colorTexture.Sample(Sampler ,In.uv) * mulColor;
 }

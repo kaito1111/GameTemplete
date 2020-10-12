@@ -15,14 +15,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
 	//カメラを初期化。
-	g_camera3D.SetPosition({ 0.0f, 100.0f, 300.0f });
-	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
+	g_camera3D.SetPosition({ 0.0f, 00.0f, -10.0f });
+	g_camera3D.SetTarget({ 0.0f, 00.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 
 	CGameObjectManager()->Init();
 	
 	Sprite sprite;
-	sprite.Init();
+	sprite.Init(L"Assets/sprite/discode_icon.dds");
+	//CQuaternion rot;
+	//rot.SetRotationDeg(CVector3::AxisY(), 90.0f);
+	//sprite.SetRotation(rot);
 	//IGameObjectPtr hoge = NewGO< PlayerHoge>(0);
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -38,9 +41,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		CGameObjectManager()->ExcuteMain();
 		CGameObjectManager()->ExcuteGame();
 
-		sprite.Update();
-		sprite.Draw();
 
+		sprite.Update();
+		sprite.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
 
 
 		//カメラの更新。

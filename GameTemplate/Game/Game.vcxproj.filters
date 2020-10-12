@@ -51,4 +51,7 @@
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\stage.FBX" />
   </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\discode_icon.png" />
+  </ItemGroup>
 </Project>
