@@ -20,9 +20,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D.SetFar(10000.0f);
 
 	CGameObjectManager()->Init();
-	
-	Sprite sprite;
-	sprite.Init(L"Assets/sprite/discode_icon.dds");
+	Sprite* sprite=NewGO<Sprite>(0);
+	sprite->Init(L"Assets/sprite/discode_icon.dds");
 	//CQuaternion rot;
 	//rot.SetRotationDeg(CVector3::AxisY(), 90.0f);
 	//sprite.SetRotation(rot);
@@ -38,16 +37,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		}
 		//物理エンジンの更新。
 		g_physics.Update();
+		//カメラの更新。
+		g_camera3D.Update();
 		CGameObjectManager()->ExcuteMain();
 		CGameObjectManager()->ExcuteGame();
 
 
-		sprite.Update();
-		sprite.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
 
 
-		//カメラの更新。
-		g_camera3D.Update();
 		//描画終了。
 		g_graphicsEngine->EndRender();
 	}
