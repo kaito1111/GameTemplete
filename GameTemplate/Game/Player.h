@@ -8,9 +8,11 @@ public:
 	~Player();
 	bool Start();
 	void Update();
-	void Draw();
 private:
-	SkinModel m_model;									//スキンモデル。
-	CVector3 m_pos = CVector3::Zero();
+	SkinModelRender* m_model = nullptr;									//スキンモデル。
+	CVector3 m_Pos = CVector3::Zero();
+	CQuaternion m_Rot = CQuaternion::Identity();
+	float m_angle;
+	CharacterController m_CharaCon;
 };
 

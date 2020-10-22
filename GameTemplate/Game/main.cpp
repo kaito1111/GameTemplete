@@ -4,7 +4,6 @@
 #include "Player2.h"
 #include "Stage.h"
 #include "level/Level.h"
-#include "graphics/2D/Sprite.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -15,28 +14,30 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
 	//カメラを初期化。
-	g_camera3D.SetPosition({ 0.0f, 00.0f, -10.0f });
-	g_camera3D.SetTarget({ 0.0f, 00.0f, 0.0f });
+	g_camera3D.SetPosition({ 0.0f, 0.0f, 300.0f });
+	g_camera3D.SetTarget({ 0.0f, 0.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 
 	CGameObjectManager()->Init();
-	Sprite* sprite=NewGO<Sprite>(0);
-	sprite->Init(L"Assets/sprite/discode_icon.dds");
-	//CQuaternion rot;
-	//rot.SetRotationDeg(CVector3::AxisY(), 90.0f);
-	//sprite.SetRotation(rot);
-	//IGameObjectPtr hoge = NewGO< PlayerHoge>(0);
+
+	Player*m_player = NewGO<Player>(0);
+
+	SkinModelRender* m_unity = NewGO<SkinModelRender>(0);
+	m_unity->Init(L"Assets/modelData/unityChan.cmo");
+
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
 		//描画開始。
 		g_graphicsEngine->BegineRender();
+		//g_physics.
 		//ゲームパッドの更新。	
 		for (auto& pad : g_pad) {
 			pad.Update();
 		}
 		//物理エンジンの更新。
 		g_physics.Update();
+		g_physics.GetDynamicWorld()->debugDrawWorld();
 		//カメラの更新。
 		g_camera3D.Update();
 		CGameObjectManager()->ExcuteMain();

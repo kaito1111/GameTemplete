@@ -1,4 +1,5 @@
 #pragma once
+#include "physics/PhysicsStaticObject.h"
 class Stage :public IGameObject
 {
 public:
@@ -6,11 +7,10 @@ public:
 	~Stage();
 	bool Start();
 	void Update();
-	void Draw();
 
 private:
-	SkinModel m_Model;
+	SkinModelRender* m_Model = nullptr;
 	CVector3 m_pos = CVector3::Zero();
-
+	PhysicsStaticObject m_phy;
 };
 
