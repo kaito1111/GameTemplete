@@ -1,0 +1,34 @@
+#include "pch.h"
+#include "Game.h"
+
+#include "Player.h"
+#include "Stage.h"
+#include "GameCamera.h"
+
+Game::Game()
+{
+}
+
+Game::~Game()
+{
+}
+
+bool Game::Start()
+{
+	m_Player = NewGO<Player>(0);
+	m_Camera = NewGO<GameCamera>(0);
+	m_Camera->SetPlayer(m_Player);
+	m_Stage = NewGO<Stage>(0);
+	return true;
+}
+
+void Game::Update()
+{
+}
+
+void Game::OnDestroy()
+{
+	DeleteGO(m_Player);
+	DeleteGO(m_Stage);
+	DeleteGO(m_Camera);
+}

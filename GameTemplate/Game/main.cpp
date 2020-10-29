@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "system/system.h"
-#include "Player.h"
-#include "Player2.h"
-#include "Stage.h"
+#include "Game.h"
 #include "level/Level.h"
 
 ///////////////////////////////////////////////////////////////////
@@ -14,16 +12,13 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
 	//カメラを初期化。
-	g_camera3D.SetPosition({ 0.0f, 0.0f, 300.0f });
-	g_camera3D.SetTarget({ 0.0f, 0.0f, 0.0f });
+	g_camera3D.SetPosition({ 0.0f, 200.0f, 300.0f });
+	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 
 	CGameObjectManager()->Init();
 
-	Player*m_player = NewGO<Player>(0);
-
-	SkinModelRender* m_unity = NewGO<SkinModelRender>(0);
-	m_unity->Init(L"Assets/modelData/unityChan.cmo");
+	Game* game = NewGO<Game>(0);
 
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -40,7 +35,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_physics.GetDynamicWorld()->debugDrawWorld();
 		//カメラの更新。
 		g_camera3D.Update();
-		CGameObjectManager()->ExcuteMain();
+
 		CGameObjectManager()->ExcuteGame();
 
 
