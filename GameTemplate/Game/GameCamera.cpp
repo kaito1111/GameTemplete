@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "GameCamera.h"
-#include "Player.h"
+#include "Player/Player.h"
 
 GameCamera::GameCamera()
 {
@@ -14,7 +14,7 @@ bool GameCamera::Start()
 {
 	g_camera3D.SetFar(2000.0f);
 	g_camera3D.SetNear(1.0f);
-	m_CharaCon.Init(10.0f, 10.0f, m_Pos);
+	//m_CharaCon.Init(10.0f, 10.0f, m_Pos);
 	return true;
 }
 
@@ -35,6 +35,8 @@ void GameCamera::Update()
 	m_Pos.y = max(-50.0f, min(300.0f, m_Pos.y));
 	m_Pos += Target;
 	g_camera3D.SetPosition(m_Pos);
+	//カメラの更新。
+	g_camera3D.Update();
 
 	//ばねカメラのようなものを実装しようとしていた。
 	//CVector3 Target = m_player->GetPosition();

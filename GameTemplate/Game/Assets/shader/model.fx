@@ -65,10 +65,16 @@ struct PSInput {
 	float2 TexCoord 	: TEXCOORD0;
 };
 
-cbuffer LightCb : register(b0) {
+struct DirectionLight {
 	float3 dligDirection;
 	float4 dligColor;
 };
+
+cbuffer Slight : register(b0) {
+	DirectionLight direction;
+	float3 eyePos;
+	float specPow;
+}
 /*!
  *@brief	スキン行列を計算。
  */
@@ -148,11 +154,34 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
+	return albedoColor;
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	lig += max(0.0f, dot(In.Normal * -1.0f, dligDirection)) * dligColor;
+	lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection)) * direction.dligColor;
+
+	float3 R = reflect(direction.dligDirection, In.Normal);
+
+	float3 toEye = eyePos - In.Position;
+	toEye = normalize(toEye);
+
+	float t = dot(toEye, R);
+	if (t < 0.0f) {
+		t = 0.0f;
+	}
+
+	t = pow(t, specPow);
+
+	lig += direction.dligColor.xyz*t;
 
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;
 	return finalColor;
+}
+
+//--------------------------------------------------------------------------------------
+// シルエット描画用のピクセルシェーダーのエントリ関数。
+//--------------------------------------------------------------------------------------
+float4 PSMain_Silhouette(PSInput In) : SV_Target0
+{
+	return float4(0.5f, 0.5f, 0.5f, 1.0f);
 }

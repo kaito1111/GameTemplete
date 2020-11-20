@@ -12,20 +12,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
 	//カメラを初期化。
-	g_camera3D.SetPosition({ 0.0f, 200.0f, 300.0f });
+	g_camera3D.SetPosition({ 0.0f,100.0f,500.0f });
 	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
 	g_camera3D.SetFar(10000.0f);
 
+	g_camera2D.SetPosition({ 0.0f, 0.0f, 500.0f });
+
 	CGameObjectManager()->Init();
 
+	//SpriteRender* m_Sprite = NewGO<SpriteRender>(0);
+	//m_Sprite->Init(L"Assets/sprite/HP_Top_Blue.dds");
 	Game* game = NewGO<Game>(0);
-
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
 		//描画開始。
 		g_graphicsEngine->BegineRender();
-		//g_physics.
 		//ゲームパッドの更新。	
 		for (auto& pad : g_pad) {
 			pad.Update();
@@ -33,11 +35,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_physics.GetDynamicWorld()->debugDrawWorld();
-		//カメラの更新。
-		g_camera3D.Update();
 
 		CGameObjectManager()->ExcuteGame();
-
 
 
 

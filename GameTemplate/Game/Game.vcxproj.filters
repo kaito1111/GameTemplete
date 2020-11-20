@@ -31,23 +31,36 @@
     <Filter Include="system">
       <UniqueIdentifier>{48b58c60-bbe2-40d8-9d2f-e81d065b6820}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{5fcc62fa-f19f-4bb9-ad30-cf717aeddd0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\State\IPlayerState.cpp" />
+    <ClCompile Include="Player\State\PlayerStateIdle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Player2.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Player\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\State\IPlayerState.h" />
+    <ClInclude Include="Player\State\PlayerStateIdle.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -55,8 +68,23 @@
     </MeshContentTask>
     <MeshContentTask Include="Assets\modelData\Floor.FBX" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
+    <MeshContentTask Include="Assets\modelData\Enemy.FBX" />
+    <MeshContentTask Include="C:\Users\佐藤　賀郁\Desktop\就職作品\GameTemplate\Game\Assets\modelData\EnemyDown.FBX" />
+    <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
+    <MeshContentTask Include="Assets\modelData\yuka.FBX" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />
+    <ImageContentTask Include="Assets\sprite\EnemyHP.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Blue.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Orenge.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Purple.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_White.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Top_Yellor.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Under_Gray.png" />
+    <ImageContentTask Include="Assets\sprite\HP_Under_LightGray.png" />
   </ItemGroup>
 </Project>

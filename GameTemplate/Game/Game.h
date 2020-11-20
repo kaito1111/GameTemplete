@@ -3,6 +3,7 @@
 class Player;
 class Stage;
 class GameCamera;
+class Enemy;
 
 class Game : public IGameObject
 {
@@ -18,4 +19,5 @@ private:
 	Player* m_Player = nullptr;
 	Stage* m_Stage = nullptr;
 	GameCamera* m_Camera = nullptr;
+	Enemy* m_Enemy = nullptr;
 };
