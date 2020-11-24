@@ -1,10 +1,11 @@
 #pragma once
 #include "character/CharacterController.h"
+
 class IPlayerState;
 
 class Player : public IGameObject
 {
-private:
+public:
 	//プレイヤーのステート
 	enum State {
 		State_Idle,		//待機中
@@ -14,9 +15,8 @@ private:
 		State_RollingAttack,
 		State_Num
 	};
-public:
 	enum AnimePattern {
-		idol,
+		idle,
 		walk,
 		Cloase,
 		Back,
@@ -89,6 +89,13 @@ public:
 	void SetMulAnimSpeed(float mulSpeed) 
 	{
 		m_mulAnimSpeed = mulSpeed;
+	}
+	/// <summary>
+	/// プレイヤーのアニメーション再生中？
+	/// </summary>
+	/// <returns></returns>
+	bool IsPlayAnimation() {
+		return m_Animation.IsPlaying();
 	}
 private:
 	/// <summary>

@@ -48,6 +48,10 @@
     </ClCompile>
     <ClCompile Include="Player\State\IPlayerState.cpp" />
     <ClCompile Include="Player\State\PlayerStateIdle.cpp" />
+    <ClCompile Include="Player\State\PlayerStateBackStep.cpp" />
+    <ClCompile Include="Player\State\PlayerStateRun.cpp" />
+    <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
+    <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -61,6 +65,10 @@
     </ClInclude>
     <ClInclude Include="Player\State\IPlayerState.h" />
     <ClInclude Include="Player\State\PlayerStateIdle.h" />
+    <ClInclude Include="Player\State\PlayerStateBackStep.h" />
+    <ClInclude Include="Player\State\PlayerStateRun.h" />
+    <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />
+    <ClInclude Include="Player\State\PlayerStateAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">

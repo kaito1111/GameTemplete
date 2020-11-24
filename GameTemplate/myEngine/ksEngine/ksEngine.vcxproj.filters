@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="graphics\Camera.cpp" />
+    <ClCompile Include="graphics\GraphicsEngine.cpp" />
+    <ClCompile Include="graphics\Shader.cpp" />
+    <ClCompile Include="graphics\ShaderResources.cpp" />
+    <ClCompile Include="graphics\Skeleton.cpp" />
+    <ClCompile Include="graphics\SkinModel.cpp" />
+    <ClCompile Include="graphics\SkinModelDataManager.cpp" />
+    <ClCompile Include="graphics\SkinModelEffect.cpp" />
+    <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="level\Level.cpp" />
+    <ClCompile Include="level\MapChip.cpp" />
+    <ClCompile Include="math\kMath.cpp" />
+    <ClCompile Include="math\Matrix.cpp" />
+    <ClCompile Include="math\Vector.cpp" />
+    <ClCompile Include="physics\CapsuleCollider.cpp" />
+    <ClCompile Include="physics\MeshCollider.cpp" />
+    <ClCompile Include="physics\Physics.cpp" />
+    <ClCompile Include="physics\PhysicsStaticObject.cpp" />
+    <ClCompile Include="physics\RigidBody.cpp" />
+    <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="HID\Pad.cpp" />
+    <ClCompile Include="GameObject\GameObjectManager.cpp" />
+    <ClCompile Include="GameObject\IGameObject.cpp" />
+    <ClCompile Include="graphics\2D\Sprite.cpp" />
+    <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="graphics\GPUBuffer\VertexBuffer.cpp" />
+    <ClCompile Include="graphics\GPUBuffer\IndexBuffer.cpp" />
+    <ClCompile Include="graphics\2D\SpriteRender.cpp" />
+    <ClCompile Include="graphics\SkinModelRender.cpp" />
+    <ClCompile Include="graphics\animation\Animation.cpp" />
+    <ClCompile Include="graphics\animation\AnimationClip.cpp" />
+    <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="graphics\Camera.h" />
+    <ClInclude Include="graphics\GraphicsEngine.h" />
+    <ClInclude Include="graphics\Shader.h" />
+    <ClInclude Include="graphics\ShaderResources.h" />
+    <ClInclude Include="graphics\Skeleton.h" />
+    <ClInclude Include="graphics\SkinModel.h" />
+    <ClInclude Include="graphics\SkinModelDataManager.h" />
+    <ClInclude Include="graphics\SkinModelEffect.h" />
+    <ClInclude Include="graphics\SkinModelShaderConst.h" />
+    <ClInclude Include="character\CharacterController.h" />
+    <ClInclude Include="level\Level.h" />
+    <ClInclude Include="level\MapChip.h" />
+    <ClInclude Include="math\kMath.h" />
+    <ClInclude Include="math\Matrix.h" />
+    <ClInclude Include="math\Vector.h" />
+    <ClInclude Include="physics\CapsuleCollider.h" />
+    <ClInclude Include="physics\CollisionAttr.h" />
+    <ClInclude Include="physics\ICollider.h" />
+    <ClInclude Include="physics\MeshCollider.h" />
+    <ClInclude Include="physics\Physics.h" />
+    <ClInclude Include="physics\PhysicsStaticObject.h" />
+    <ClInclude Include="physics\RigidBody.h" />
+    <ClInclude Include="system\system.h" />
+    <ClInclude Include="util\Util.h" />
+    <ClInclude Include="HID\Pad.h" />
+    <ClInclude Include="GameObject\GameObjectManager.h" />
+    <ClInclude Include="GameObject\IGameObject.h" />
+    <ClInclude Include="graphics\2D\Sprite.h" />
+    <ClInclude Include="Primitive.h" />
+    <ClInclude Include="graphics\GPUBuffer\VertexBuffer.h" />
+    <ClInclude Include="graphics\GPUBuffer\IndexBuffer.h" />
+    <ClInclude Include="graphics\2D\SpriteRender.h" />
+    <ClInclude Include="graphics\SkinModelRender.h" />
+    <ClInclude Include="graphics\animation\Animation.h" />
+    <ClInclude Include="graphics\animation\AnimationClip.h" />
+    <ClInclude Include="graphics\animation\AnimationPlayController.h" />
+  </ItemGroup>
+</Project>

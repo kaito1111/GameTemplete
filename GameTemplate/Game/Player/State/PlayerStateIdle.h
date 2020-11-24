@@ -19,7 +19,7 @@ public:
 	/// <summary>
 	/// 更新処理。
 	/// </summary>
-	void Update() override = 0;
+	void Update() override;
 	/// <summary>
 	/// 移動するか判定。
 	/// </summary>

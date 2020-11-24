@@ -47,7 +47,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;$(SolutionDir)/x64/Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)/bulletPhysics/src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)myEngine\ksEngine\bulletPhysics\src;$(SolutionDir)myEngine\ksEngine;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -108,6 +108,10 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
+    <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
+    <ClCompile Include="Player\State\PlayerStateRun.cpp" />
+    <ClCompile Include="Player\State\PlayerStateBackStep.cpp" />
     <ClCompile Include="Player\State\PlayerStateIdle.cpp" />
     <ClCompile Include="Player\State\IPlayerState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -123,6 +127,10 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
+    <ClInclude Include="Player\State\PlayerStateAttack.h" />
+    <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />
+    <ClInclude Include="Player\State\PlayerStateRun.h" />
+    <ClInclude Include="Player\State\PlayerStateBackStep.h" />
     <ClInclude Include="Player\State\PlayerStateIdle.h" />
     <ClInclude Include="Player\State\IPlayerState.h" />
     <ClInclude Include="pch.h" />

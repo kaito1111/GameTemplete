@@ -1,5 +1,9 @@
 #include "Player.h"
 #include "State/PlayerStateIdle.h"
+#include "State/PlayerStateRun.h"
+#include "State/PlayerStateAttack.h"
+#include "State/PlayerStateBackStep.h"
+#include "State/PlayerStateRollingAttack.h"
 
 Player::Player()
 {
@@ -22,8 +26,8 @@ bool Player::Start()
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
-	m_AnimeClip[AnimePattern::idol].Load(L"Assets/animData/idol.tka");
-	m_AnimeClip[AnimePattern::idol].SetLoopFlag(true);
+	m_AnimeClip[AnimePattern::idle].Load(L"Assets/animData/idol.tka");
+	m_AnimeClip[AnimePattern::idle].SetLoopFlag(true);
 
 	m_AnimeClip[AnimePattern::walk].Load(L"Assets/animData/walk.tka");
 	m_AnimeClip[AnimePattern::walk].SetLoopFlag(true);
@@ -36,6 +40,7 @@ bool Player::Start()
 
 	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimePattern::AnimeNum);
 
+	m_Animation.Play(AnimePattern::idle, 0.2f);
 //	m_Model->SetRenderMode(RenderMode::Silhouette);
 	return true;
 }
@@ -94,19 +99,26 @@ void Player::ChangeState(State state)
 	//引数で渡されたステートのインスタンスを作成。
 	switch (state) {
 	case State_Idle:
+		if (m_currentState != nullptr) {
+			delete m_currentState;
+		}
 		m_currentState = new PlayerStateIdle(this);
 		break;
 	case State_Run:		//走り中
-
+		delete m_currentState;
+		m_currentState = new PlayerStateRun(this);
 		break;
 	case State_Backstep:	//バックステップ中。
-
+		delete m_currentState;
+		m_currentState = new PlayerStateBackStep(this);
 		break;
 	case State_Attack:
-
+		delete m_currentState;
+		m_currentState = new PlayerStateAttack(this);
 		break;
 	case State_RollingAttack:
-
+		delete m_currentState;
+		m_currentState = new PlayerStateRollingAttack(this);
 		break;
 	}
 

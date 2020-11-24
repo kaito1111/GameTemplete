@@ -6,7 +6,7 @@ void PlayerStateIdle::Update()
 {
 	m_player->SetMulAnimSpeed(1.0f);
 	
-	m_player->PlayAnimation(Player::idol);
+	m_player->PlayAnimation(Player::idle);
 
 	m_player->TryChangeMoveState();
 	
