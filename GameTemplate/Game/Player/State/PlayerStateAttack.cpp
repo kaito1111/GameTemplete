@@ -6,7 +6,7 @@ void PlayerStateAttack::Update()
 {
 	m_player->SetMulAnimSpeed(1.0f);
 
-	m_player->PlayAnimation(Player::AnimePattern::Attack);
+	m_player->PlayAnimation(Player::Attack);
 
 	if(m_player->IsPlayAnimation()==false){
 		m_player->ChangeState(Player::State::State_Idle);

@@ -25,7 +25,7 @@ namespace ksEngine {
 		 }
 
 		 void SetRenderMode(int rm) {
-			// m_Skin.SetRenderMode(rm);
+			 m_Skin.SetRenderMode(rm);
 		 }
 	private:
 		void Update();

@@ -63,14 +63,15 @@ struct PSInput {
 	float3 Normal		: NORMAL;
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
+	float3 worldPos		: TEXCOORD1;	//ワールド座標。
 };
 
 struct DirectionLight {
-	float3 dligDirection;
-	float4 dligColor;
+	float4 dligDirection[4];
+	float4 dligColor[4];
 };
 
-cbuffer Slight : register(b0) {
+cbuffer Slight : register(b1) {
 	DirectionLight direction;
 	float3 eyePos;
 	float specPow;
@@ -99,6 +100,8 @@ PSInput VSMain(VSInputNmTxVcTangent In)
 {
 	PSInput psInput = (PSInput)0;
 	float4 pos = mul(mWorld, In.Position);
+	psInput.worldPos = pos;
+
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -154,14 +157,15 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
-	return albedoColor;
+	
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection)) * direction.dligColor;
+	for (int i = 0; i <4 ; i++) {
+		lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection[i])) * direction.dligColor[i];
+	
+	float3 R = reflect(direction.dligDirection[i], In.Normal);
 
-	float3 R = reflect(direction.dligDirection, In.Normal);
-
-	float3 toEye = eyePos - In.Position;
+	float3 toEye = eyePos - In.worldPos;
 	toEye = normalize(toEye);
 
 	float t = dot(toEye, R);
@@ -171,7 +175,8 @@ float4 PSMain(PSInput In) : SV_Target0
 
 	t = pow(t, specPow);
 
-	lig += direction.dligColor.xyz*t;
+	lig += direction.dligColor[i].xyz*t*10;
+	}
 
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "graphics/Shader.h"
+#include <array>
 
 /*!
 *@brief	モデルエフェクト。
@@ -8,19 +9,21 @@
 class ModelEffect : public DirectX::IEffect {
 protected:
 	std::wstring m_materialName;	//!<マテリアル名。
-	Shader* m_pVSShader = nullptr;
-	Shader* m_pPSShader = nullptr;
-	Shader m_vsShader;
-	Shader m_psShader;
+	ksEngine::Shader* m_pVSShader = nullptr;
+	ksEngine::Shader* m_pPSShader = nullptr;
+	ksEngine::Shader m_vsShader;
+	ksEngine::Shader m_psShader;
 	bool isSkining;
-	Shader m_psSilhouette;		//シルエット描画用のピクセルシェーダー。
-	ID3D11ShaderResourceView* m_albedoTex = nullptr;
-//	int m_RenderMode = RenderMode::Nomal;
+	ksEngine::Shader m_psSilhouette;		//シルエット描画用のピクセルシェーダー。
+	int m_RenderMode = 0;
 	ID3D11DepthStencilState* m_silhouettoDepthStepsilState = nullptr;	//シルエット描画用のデプスステンシルステート。
+	ID3D11ShaderResourceView* m_albedoTexture = nullptr;
+	std::array<ID3D11ShaderResourceView*, 4> m_albedoTextureStack = { nullptr };
+	int m_albedoTextureStackPos = 0;
 public:
 	ModelEffect()
 	{
-		m_psShader.Load("Assets/shader/model.fx", "PSMain", Shader::EnType::PS);
+		m_psShader.Load("Assets/shader/model.fx", "PSMain", ksEngine::Shader::EnType::PS);
 		
 		m_pPSShader = &m_psShader;
 
@@ -33,12 +36,12 @@ public:
 
 		dv->CreateDepthStencilState(&desc, &m_silhouettoDepthStepsilState);
 
-		m_psSilhouette.Load("Assets/shader/model.fx", "PSMain_Silhouette", Shader::EnType::PS);
+		m_psSilhouette.Load("Assets/shader/model.fx", "PSMain_Silhouette", ksEngine::Shader::EnType::PS);
 	}
 	virtual ~ModelEffect()
 	{
-		if (m_albedoTex) {
-			m_albedoTex->Release();
+		if (m_albedoTexture) {
+			m_albedoTexture->Release();
 		}
 		if (m_silhouettoDepthStepsilState != nullptr) {
 			m_silhouettoDepthStepsilState->Release();
@@ -51,10 +54,6 @@ public:
 		*pShaderByteCode = m_vsShader.GetByteCode();
 		*pByteCodeLength = m_vsShader.GetByteCodeSize();
 	}
-	void SetAlbedoTexture(ID3D11ShaderResourceView* tex)
-	{
-		m_albedoTex = tex;
-	}
 	void SetMatrialName(const wchar_t* matName)
 	{
 		m_materialName = matName;
@@ -66,7 +65,28 @@ public:
 	}
 	
 	void SetRenderMode(int rm) {
-	//	m_RenderMode = rm;
+		m_RenderMode = rm;
+	}
+	void SetAlbedoTexture(ID3D11ShaderResourceView* texSRV)
+	{
+		if (m_albedoTexture != nullptr) {
+			//参照カウンタを下げる。
+			m_albedoTexture->Release();
+		}
+		m_albedoTexture = texSRV;
+		//参照カウンタを上げる。
+		m_albedoTexture->AddRef();
+	}
+	void PushAlbedoTexture()
+	{
+		m_albedoTextureStack[m_albedoTextureStackPos] = m_albedoTexture;
+		m_albedoTexture = nullptr;
+		m_albedoTextureStackPos++;
+	}
+	void PopAlbedoTexture()
+	{
+		m_albedoTextureStackPos--;
+		SetAlbedoTexture(m_albedoTextureStack[m_albedoTextureStackPos]);
 	}
 };
 /*!
@@ -77,7 +97,7 @@ class NonSkinModelEffect : public ModelEffect {
 public:
 	NonSkinModelEffect()
 	{
-		m_vsShader.Load("Assets/shader/model.fx", "VSMain", Shader::EnType::VS);
+		m_vsShader.Load("Assets/shader/model.fx", "VSMain", ksEngine::Shader::EnType::VS);
 		m_pVSShader = &m_vsShader;
 		isSkining = false;
 	}
@@ -92,7 +112,7 @@ public:
 	{
 		wchar_t hoge[256];
 		GetCurrentDirectoryW(256, hoge);
-		m_vsShader.Load("Assets/shader/model.fx", "VSMainSkin", Shader::EnType::VS);
+		m_vsShader.Load("Assets/shader/model.fx", "VSMainSkin", ksEngine::Shader::EnType::VS);
 		m_pVSShader = &m_vsShader;
 		isSkining = true;
 	}

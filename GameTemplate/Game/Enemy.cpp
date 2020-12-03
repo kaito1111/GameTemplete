@@ -16,16 +16,17 @@ void Enemy::Hit()
 	CVector3 Right = CVector3::Right(); 
 	diff.Normalize();
 	Right.Cross(diff, CVector3::Up());
-	m_DownAngle = 10.0f;
+	m_DownAngle = 180.0f;
 	CQuaternion DownRot;
-	DownRot.SetRotationDeg(Right, m_DownAngle);
+	DownRot.SetRotationDeg(CVector3::AxisX(), m_DownAngle);
 	m_Rot.Multiply(DownRot);
 }
 
 bool Enemy::Start()
 {
+	m_Pos.y += 100.0f;
 	m_Skin = NewGO<SkinModelRender>(0);
-	m_Skin->Init(L"Assets/modelData/Enemy.cmo");
+	m_Skin->Init(L"Assets/modelData/Boss.cmo");
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetRotation(m_Rot);
 	m_Skin->SetScale(m_Scale);
@@ -44,6 +45,9 @@ void Enemy::Update()
 			Hit();
 		}
 	}
+	//static float g_RotAngle = 10.0;
+	//	m_Rot.SetRotationDeg(CVector3::AxisX(), g_RotAngle); 
+	//g_RotAngle += 10.0f;
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetRotation(m_Rot);
 }

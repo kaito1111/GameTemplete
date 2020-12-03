@@ -26,22 +26,21 @@ bool Player::Start()
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
-	m_AnimeClip[AnimePattern::idle].Load(L"Assets/animData/idol.tka");
-	m_AnimeClip[AnimePattern::idle].SetLoopFlag(true);
+	m_AnimeClip[idle].Load(L"Assets/animData/idol.tka");
+	m_AnimeClip[idle].SetLoopFlag(true);
 
-	m_AnimeClip[AnimePattern::walk].Load(L"Assets/animData/walk.tka");
-	m_AnimeClip[AnimePattern::walk].SetLoopFlag(true);
+	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
+	m_AnimeClip[walk].SetLoopFlag(true);
 	
 	m_AnimeClip[Back].Load(L"Assets/animData/back.tka");
 
-	m_AnimeClip[AnimePattern::Attack].Load(L"Assets/animData/Attack.tka");
+	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
 
-	m_AnimeClip[AnimePattern::RollingAttack].Load(L"Assets/animData/RollingAttack.tka");
+	m_AnimeClip[RollingAttack].Load(L"Assets/animData/RollingAttack.tka");
 
-	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimePattern::AnimeNum);
+	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
 
-	m_Animation.Play(AnimePattern::idle, 0.2f);
-//	m_Model->SetRenderMode(RenderMode::Silhouette);
+	m_Animation.Play(idle, 0.2f);
 	return true;
 }
 

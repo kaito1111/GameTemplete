@@ -22,7 +22,10 @@ void SkinModelRender::Update()
 
 void SkinModelRender::Draw()
 {
-	if (m_IsDraw) {
+ 	if (m_IsDraw) {
+		//m_Skin.SetRenderMode(1);
+		//m_Skin.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
+		m_Skin.SetRenderMode(0);
 		m_Skin.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
 	}
 }

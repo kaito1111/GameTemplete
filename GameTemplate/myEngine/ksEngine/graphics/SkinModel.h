@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Skeleton.h"
+class Shader;
+#include "graphics/RenderTarget.h"
+class ModelEffect;
 
 /*!
 *@brief	FBXの上方向。
@@ -14,9 +17,20 @@ enum EnFbxUpAxis {
 */
 class SkinModel
 {
+	static const int m_NumDirection = 4;
+	struct DirectionLight {
+		CVector4 Direction[m_NumDirection];
+		CVector4 Color[m_NumDirection];
+	};
+	struct Light {
+		DirectionLight dir;
+		CVector3 eyePos;
+		float pow;
+	};
 public:
 	//メッシュが見つかったときのコールバック関数。
 	using OnFindMesh = std::function<void(const std::unique_ptr<DirectX::ModelMeshPart>&)>;
+	SkinModel();
 	/*!
 	*@brief	デストラクタ。
 	*/
@@ -79,6 +93,17 @@ public:
 		enSkinModelSRVReg_DiffuseTexture = 0,		//!<ディフューズテクスチャ。
 		enSkinModelSRVReg_BoneMatrix,				//!<ボーン行列。
 	};
+
+	const void SetRenderMode(int rm) {
+		m_renderMode = rm;
+	}
+
+	void QueryMaterials(std::function<void(ModelEffect*)> func)
+	{
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			func(reinterpret_cast<ModelEffect*>(material));
+		});
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -94,6 +119,12 @@ private:
 	*/
 	void InitSkeleton(const wchar_t* filePath);
 	
+	void InitShader();
+
+	void InitDirectionLight();
+
+	void InitSilhouettoDepthStepsilState();
+
 private:
 	//定数バッファ。
 	struct SVSConstantBuffer {
@@ -107,5 +138,16 @@ private:
 	CMatrix				m_worldMatrix;					//!<ワールド行列。
 	DirectX::Model*		m_modelDx;						//!<DirectXTKが提供するモデルクラス。
 	ID3D11SamplerState* m_samplerState = nullptr;		//!<サンプラステート。
+	ksEngine::Shader m_vsShader;
+	ksEngine::Shader m_psShader;
+	ID3D11Buffer* m_light = nullptr;
+	Light m_dirLight;
+
+	ID3D11ShaderResourceView* m_albedoTexture = nullptr;
+	ksEngine::Shader m_psSilhouette;
+	int m_renderMode = 0;
+	ID3D11DepthStencilState* m_silhouettoDepthStepsilState = nullptr;	//シルエット描画用のデプスステンシルステート。
+
+	RenderTarget m_renderTarget;
 };
 

@@ -80,6 +80,7 @@
     <MeshContentTask Include="C:\Users\佐藤　賀郁\Desktop\就職作品\GameTemplate\Game\Assets\modelData\EnemyDown.FBX" />
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\yuka.FBX" />
+    <MeshContentTask Include="Assets\modelData\Boss.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

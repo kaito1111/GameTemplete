@@ -139,6 +139,7 @@
     <ClInclude Include="Stage.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\Boss.fbx" />
     <MeshContentTask Include="Assets\modelData\Enemy.FBX" />
     <MeshContentTask Include="Assets\modelData\Floor.FBX" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />

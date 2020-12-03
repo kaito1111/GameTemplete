@@ -13,5 +13,14 @@ public:
 	/// XVˆ—B
 	/// </summary>
 	void Update()override;
+
+	/// <summary>
+	/// ‰ñ“]‚Å‚«‚é‚©
+	/// </summary>
+	/// <returns></returns>
+	bool IsPossibleRotate()const override
+	{
+		return true;
+	}
 };
 

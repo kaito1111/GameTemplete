@@ -24,9 +24,10 @@ public:
 	/// ˆÚ“®‚·‚é‚©”»’èB
 	/// </summary>
 	/// <returns></returns>
-	virtual bool IsPossibleMove() const override
+	bool IsPossibleMove() const override
 	{
 		return false;
 	}
+
 };
 

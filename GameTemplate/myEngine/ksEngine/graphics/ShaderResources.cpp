@@ -8,7 +8,7 @@
 #include "graphics/Shader.h"
 #include "util/Util.h"
 
-namespace {
+namespace ksEngine {
 	std::unique_ptr<char[]> ReadFile(const char* filePath, int& fileSize)
 	{
 		FILE* fp = fopen(filePath, "rb");
@@ -40,7 +40,7 @@ namespace {
 
 		// 入力情報定義を読み込み
 		std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayoutDesc;
-		for (unsigned int i = 0; i< shaderDesc.InputParameters; i++)
+		for (unsigned int i = 0; i < shaderDesc.InputParameters; i++)
 		{
 			D3D11_SIGNATURE_PARAMETER_DESC paramDesc;
 			pVertexShaderReflection->GetInputParameterDesc(i, &paramDesc);
@@ -96,164 +96,165 @@ namespace {
 		pVertexShaderReflection->Release();
 		return hr;
 	}
-}
-/*!
- *@brief	コンストラクタ。
- */
-ShaderResources::ShaderResources()
-{
-}
-/*!
- *@brief	デストラクタ。
- */
-ShaderResources::~ShaderResources()
-{
-	Release();
-}
-void ShaderResources::Release()
-{
-	for (auto it = m_shaderResourceMap.begin(); it != m_shaderResourceMap.end(); it++) {
-		switch (it->second->type) {
-		case Shader::EnType::VS:
-			((ID3D11VertexShader*)it->second->shader)->Release();
-			break;
-		case Shader::EnType::PS:
-			((ID3D11PixelShader*)it->second->shader)->Release();
-			break;
-		case Shader::EnType::CS:
-			((ID3D11ComputeShader*)it->second->shader)->Release();
-			break;
-		}
-		if (it->second->inputLayout) {
-			it->second->inputLayout->Release();
-		}
-		it->second->blobOut->Release();
-	}
-	m_shaderResourceMap.clear();
-	m_shaderProgramMap.clear();
-}
-bool ShaderResources::Load(
-	void*& shader,
-	ID3D11InputLayout*& inputLayout,
-	ID3DBlob*& blob,
-	const char* filePath, 
-	const char* entryFuncName,
-	Shader::EnType shaderType
-)
-{
-	//ファイルパスからハッシュ値を作成する。
-	int hash = Util::MakeHash(filePath);
-	//シェーダープログラムをロード済みか調べる。
-	auto it = m_shaderProgramMap.find(hash);
-	SShaderProgram* shaderProgram;
-	if (it == m_shaderProgramMap.end()) {
-		//新規。
-		SShaderProgramPtr prog = std::make_unique<SShaderProgram>();
-		prog->program = ReadFile(filePath, prog->programSize);
-		shaderProgram = prog.get();
-		std::pair<int, SShaderProgramPtr> pair;
-		pair.first = hash;
-		pair.second = std::move(prog);
-		m_shaderProgramMap.insert(std::move(pair));
-		
-	}
-	else {
-		//すでに読み込み済み。
-		shaderProgram = it->second.get();
-	}
 
-	//続いて、シェーダーをコンパイル済み調べる。
-	static char buff[1024];
-	strcpy(buff, filePath);
-	strcat(buff, entryFuncName );
-	//ファイルパス＋エントリーポイントの関数名でハッシュ値を作成する。
-	hash = Util::MakeHash(buff);
-	auto itShaderResource = m_shaderResourceMap.find(hash);
-	if (itShaderResource == m_shaderResourceMap.end()) {
-		//新規。
-		HRESULT hr = S_OK;
+	/*!
+	 *@brief	コンストラクタ。
+	 */
+	ShaderResources::ShaderResources()
+	{
+	}
+	/*!
+	 *@brief	デストラクタ。
+	 */
+	ShaderResources::~ShaderResources()
+	{
+		Release();
+	}
+	void ShaderResources::Release()
+	{
+		for (auto it = m_shaderResourceMap.begin(); it != m_shaderResourceMap.end(); it++) {
+			switch (it->second->type) {
+			case ksEngine::Shader::EnType::VS:
+				((ID3D11VertexShader*)it->second->shader)->Release();
+				break;
+			case Shader::EnType::PS:
+				((ID3D11PixelShader*)it->second->shader)->Release();
+				break;
+			case Shader::EnType::CS:
+				((ID3D11ComputeShader*)it->second->shader)->Release();
+				break;
+			}
+			if (it->second->inputLayout) {
+				it->second->inputLayout->Release();
+			}
+			it->second->blobOut->Release();
+		}
+		m_shaderResourceMap.clear();
+		m_shaderProgramMap.clear();
+	}
+	bool ShaderResources::Load(
+		void*& shader,
+		ID3D11InputLayout*& inputLayout,
+		ID3DBlob*& blob,
+		const char* filePath,
+		const char* entryFuncName,
+		ksEngine::Shader::EnType shaderType
+	)
+	{
+		//ファイルパスからハッシュ値を作成する。
+		int hash = Util::MakeHash(filePath);
+		//シェーダープログラムをロード済みか調べる。
+		auto it = m_shaderProgramMap.find(hash);
+		SShaderProgram* shaderProgram;
+		if (it == m_shaderProgramMap.end()) {
+			//新規。
+			SShaderProgramPtr prog = std::make_unique<SShaderProgram>();
+			prog->program = ReadFile(filePath, prog->programSize);
+			shaderProgram = prog.get();
+			std::pair<int, SShaderProgramPtr> pair;
+			pair.first = hash;
+			pair.second = std::move(prog);
+			m_shaderProgramMap.insert(std::move(pair));
 
-		DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_OPTIMIZATION_LEVEL3;
-		/*if (strcmp(filePath, "Assets/shader/bloom.fx") == 0
-		|| strcmp(filePath, "Assets/shader/model.fx") == 0) {
-		dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-		}*/
+		}
+		else {
+			//すでに読み込み済み。
+			shaderProgram = it->second.get();
+		}
+
+		//続いて、シェーダーをコンパイル済み調べる。
+		static char buff[1024];
+		strcpy(buff, filePath);
+		strcat(buff, entryFuncName);
+		//ファイルパス＋エントリーポイントの関数名でハッシュ値を作成する。
+		hash = Util::MakeHash(buff);
+		auto itShaderResource = m_shaderResourceMap.find(hash);
+		if (itShaderResource == m_shaderResourceMap.end()) {
+			//新規。
+			HRESULT hr = S_OK;
+
+			DWORD dwShaderFlags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_OPTIMIZATION_LEVEL3;
+			/*if (strcmp(filePath, "Assets/shader/bloom.fx") == 0
+			|| strcmp(filePath, "Assets/shader/model.fx") == 0) {
+			dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+			}*/
 #if BUILD_LEVEL == BUILD_LEVEL_DEBUG
-		// Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
-		// Setting this flag improves the shader debugging experience, but still allows 
-		// the shaders to be optimized and to run exactly the way they will run in 
-		// the release configuration of this program.
-		dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+			// Set the D3DCOMPILE_DEBUG flag to embed debug information in the shaders.
+			// Setting this flag improves the shader debugging experience, but still allows 
+			// the shaders to be optimized and to run exactly the way they will run in 
+			// the release configuration of this program.
+			dwShaderFlags |= D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
-		static const char* shaderModelNames[] = {
-			"vs_5_0",
-			"ps_5_0",
-			"cs_5_0"
-		};
-		ID3DBlob* blobOut;
-		ID3DBlob* errorBlob;
+			static const char* shaderModelNames[] = {
+				"vs_5_0",
+				"ps_5_0",
+				"cs_5_0"
+			};
+			ID3DBlob* blobOut;
+			ID3DBlob* errorBlob;
 
-		hr = D3DCompile(shaderProgram->program.get(), shaderProgram->programSize, filePath, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryFuncName,
-			shaderModelNames[(int)shaderType], dwShaderFlags, 0, &blobOut, &errorBlob);
-		
-		if (FAILED(hr))
-		{
-			if (errorBlob != nullptr) {
-				static char errorMessage[10 * 1024];
-				sprintf(errorMessage, "filePath : %s, %s", filePath, (char*)errorBlob->GetBufferPointer());
-				MessageBox(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
+			hr = D3DCompile(shaderProgram->program.get(), shaderProgram->programSize, filePath, nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryFuncName,
+				shaderModelNames[(int)shaderType], dwShaderFlags, 0, &blobOut, &errorBlob);
+
+			if (FAILED(hr))
+			{
+				if (errorBlob != nullptr) {
+					static char errorMessage[10 * 1024];
+					sprintf(errorMessage, "filePath : %s, %s", filePath, (char*)errorBlob->GetBufferPointer());
+					MessageBox(NULL, errorMessage, "シェーダーコンパイルエラー", MB_OK);
+				}
+				return false;
 			}
-			return false;
+			SShaderResourcePtr resource = std::make_unique<SShaderResource>();
+			resource->inputLayout = nullptr;
+			resource->type = shaderType;
+			ID3D11Device* pD3DDevice = g_graphicsEngine->GetD3DDevice();
+			switch (shaderType) {
+			case Shader::EnType::VS: {
+				//頂点シェーダー。
+				hr = pD3DDevice->CreateVertexShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11VertexShader**)&resource->shader);
+				if (FAILED(hr)) {
+					return false;
+				}
+				//入力レイアウトを作成。
+				hr = CreateInputLayoutDescFromVertexShaderSignature(blobOut, pD3DDevice, &resource->inputLayout);
+				if (FAILED(hr)) {
+					//入力レイアウトの作成に失敗した。
+					return false;
+				}
+			}break;
+			case Shader::EnType::PS: {
+				//ピクセルシェーダー。
+				hr = pD3DDevice->CreatePixelShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11PixelShader**)&resource->shader);
+				if (FAILED(hr)) {
+					return false;
+				}
+			}break;
+			case Shader::EnType::CS: {
+				//コンピュートシェーダー。
+				hr = pD3DDevice->CreateComputeShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11ComputeShader**)&resource->shader);
+				if (FAILED(hr)) {
+					return false;
+				}
+			}break;
+			}
+			resource->blobOut = blobOut;
+			shader = resource->shader;
+			inputLayout = resource->inputLayout;
+			blob = blobOut;
+			std::pair<int, SShaderResourcePtr> pair;
+			pair.first = hash;
+			pair.second = std::move(resource);
+			m_shaderResourceMap.insert(std::move(pair));
+
 		}
-		SShaderResourcePtr resource = std::make_unique<SShaderResource>();
-		resource->inputLayout = nullptr;
-		resource->type = shaderType;
-		ID3D11Device* pD3DDevice = g_graphicsEngine->GetD3DDevice();
-		switch (shaderType) {
-		case Shader::EnType::VS: {
-			//頂点シェーダー。
-			hr = pD3DDevice->CreateVertexShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11VertexShader**)&resource->shader);
-			if (FAILED(hr)) {
-				return false;
-			}
-			//入力レイアウトを作成。
-			hr = CreateInputLayoutDescFromVertexShaderSignature(blobOut, pD3DDevice, &resource->inputLayout);
-			if (FAILED(hr)) {
-				//入力レイアウトの作成に失敗した。
-				return false;
-			}
-		}break;
-		case Shader::EnType::PS: {
-			//ピクセルシェーダー。
-			hr = pD3DDevice->CreatePixelShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11PixelShader**)&resource->shader);
-			if (FAILED(hr)) {
-				return false;
-			}
-		}break;
-		case Shader::EnType::CS: {
-			//コンピュートシェーダー。
-			hr = pD3DDevice->CreateComputeShader(blobOut->GetBufferPointer(), blobOut->GetBufferSize(), nullptr, (ID3D11ComputeShader**)&resource->shader);
-			if (FAILED(hr)) {
-				return false;
-			}
-		}break;
+		else {
+			//すでに読み込み済み。
+			shader = itShaderResource->second->shader;
+			inputLayout = itShaderResource->second->inputLayout;
+			blob = itShaderResource->second->blobOut;
 		}
-		resource->blobOut = blobOut;
-		shader = resource->shader;
-		inputLayout = resource->inputLayout;
-		blob = blobOut;
-		std::pair<int, SShaderResourcePtr> pair;
-		pair.first = hash;
-		pair.second = std::move(resource);
-		m_shaderResourceMap.insert(std::move(pair));
-		 
+		return true;
 	}
-	else {
-		//すでに読み込み済み。
-		shader = itShaderResource->second->shader;
-		inputLayout = itShaderResource->second->inputLayout;
-		blob = itShaderResource->second->blobOut;
-	}
-	return true;
 }

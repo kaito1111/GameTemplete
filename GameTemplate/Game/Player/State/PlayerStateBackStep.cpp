@@ -5,7 +5,7 @@
 void PlayerStateBackStep::Update() {
 	m_player->SetMulAnimSpeed(1.0f);
 
-	m_player->PlayAnimation(Player::AnimePattern::Back);
+	m_player->PlayAnimation(Player::Back);
 
 
 	if (m_player->IsPlayAnimation() == false) {

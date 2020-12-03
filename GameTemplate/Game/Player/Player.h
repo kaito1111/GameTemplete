@@ -41,6 +41,12 @@ public:
 	/// </summary>
 	/// <param name="state"></param>
 	void ChangeState(State state);
+
+	void TryChangIdleState() {
+		if (!IsMove()) {
+			ChangeState(State_Idle);
+		}
+	}
 	/// <summary>
 	/// 移動ステートに切り替えることができたら切り替える。
 	/// </summary>
@@ -51,7 +57,7 @@ public:
 		}
 	}
 	/// <summary>
-	/// バックステップステートに切り替えることができたら切り替える。ｓ
+	/// バックステップステートに切り替えることができたら切り替える。
 	/// </summary>
 	void TryChangeBackStepState()
 	{

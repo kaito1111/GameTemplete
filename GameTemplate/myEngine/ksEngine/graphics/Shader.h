@@ -21,6 +21,7 @@ namespace ksEngine {
 			VS,			//!<頂点シェーダー。
 			PS,			//!<ピクセルシェーダー。
 			CS,			//!<コンピュートシェーダー。
+
 		};
 		Shader();
 		~Shader();
