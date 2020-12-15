@@ -51,6 +51,8 @@
     <ClCompile Include="graphics\2D\Sprite.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="graphics\RenderTarget.cpp" />
+    <ClCompile Include="graphics\2D\SampleSprite.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -92,6 +94,8 @@
     <ClInclude Include="graphics\2D\Sprite.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="graphics\RenderTarget.h" />
+    <ClInclude Include="graphics\2D\SampleSprite.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="util\Util.h" />

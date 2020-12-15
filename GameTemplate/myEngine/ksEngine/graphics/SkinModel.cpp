@@ -127,7 +127,7 @@ void SkinModel::InitConstantBuffer()
 	//作成。
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_cb);
 
-	bufferDesc.ByteWidth = sizeof(Light);				//SDirectionLightは16byteの倍数になっているので、切り上げはやらない。
+	bufferDesc.ByteWidth = (((sizeof(Light)) / 16) + 1) * 16;				//SDirectionLightは16byteの倍数になっているので、切り上げはやらない。
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_light);
 }
 void SkinModel::InitSamplerState()
@@ -190,54 +190,134 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	//ボーン行列をGPUに転送。
 	m_skeleton.SendBoneMatrixArrayToGPU();
 
-	//d3dDeviceContext->VSSetShader((ID3D11VertexShader*)m_vsShader.GetBody(), NULL, 0);
-	//switch (m_renderMode) {
-	//case 0:
-	//	//通常描画。
-	//	d3dDeviceContext->PSSetShader((ID3D11PixelShader*)m_psShader.GetBody(), NULL, 0);
-	//	d3dDeviceContext->PSSetShaderResources(0, 1, &m_albedoTexture);
-	//	break;
-	//case 1:
-	//	//シルエット描画。
-	//	d3dDeviceContext->PSSetShader((ID3D11PixelShader*)m_psSilhouette.GetBody(), NULL, 0);
-	//	//デプスステンシルステートを切り替える。
-	//	d3dDeviceContext->OMSetDepthStencilState(m_silhouettoDepthStepsilState, 0);
-	//	break;
-	//}
+	switch (m_renderMode)
+	{
+		//通常描画
+	case enNormalDraw:
+		//通常描画
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+			//通常描画
+			modelMaterial->SetRenderMode(enNormalDraw);
+		});
 
+		//描画。                                                                           
+		m_modelDx->Draw(
+			d3dDeviceContext,
+			state,
+			m_worldMatrix,
+			viewMatrix,
+			projMatrix
+		);
+		break;
+		//シルエット描画→通常描画
+	case enSilhouetteDraw:
 
-	m_renderTarget.OffScreenRendering();
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+			//シルエット描画
+			modelMaterial->SetRenderMode(enSilhouetteDraw);
+		});
 
-	QueryMaterials([&](ModelEffect* material) {
-		//差し替え前のテクスチャをスタックに退避。
-		material->PushAlbedoTexture();
-		//テクスチャを差し替える。
-		material->SetAlbedoTexture(m_renderTarget.GetRTSRV());
-	});
+		//描画。                                                                           
+		m_modelDx->Draw(
+			d3dDeviceContext,
+			state,
+			m_worldMatrix,
+			viewMatrix,
+			projMatrix
+		);
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+			//通常描画に切り替え
+			modelMaterial->SetRenderMode(enNormalDraw);
+		});
 
-	//描画。                                                                           
-	m_modelDx->Draw(
-		d3dDeviceContext,
-		state,
-		m_worldMatrix,
-		viewMatrix,
-		projMatrix
-	);
+		//描画。                                                                           
+		m_modelDx->Draw(
+			d3dDeviceContext,
+			state,
+			m_worldMatrix,
+			viewMatrix,
+			projMatrix
+		);
+		break;
+	case enShadowDraw:
+		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+			auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+			//シャドウ描画
+			modelMaterial->SetRenderMode(enShadowDraw);
+		});
+		//描画。                                                                           
+		m_modelDx->Draw(
+			d3dDeviceContext,
+			state,
+			m_worldMatrix,
+			viewMatrix,
+			projMatrix
+		);
+		////通常描画
+		//m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+		//	auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+		//	//通常描画
+		//	modelMaterial->SetRenderMode(enNormalDraw);
+		//});
 
-	m_renderTarget.OnScreenRendering();
+		////描画。                                                                           
+		//m_modelDx->Draw(
+		//	d3dDeviceContext,
+		//	state,
+		//	m_worldMatrix,
+		//	viewMatrix,
+		//	projMatrix
+		//);
+	default:
+		break;
+	}
+	//m_renderTarget.OffScreenRendering();
 
-	//背景のテクスチャを元に戻す。
-	QueryMaterials([&](ModelEffect* material) {
-		//差し替え前のテクスチャをスタックから復帰。
-		material->PopAlbedoTexture();
-	});
+	//m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+	//	auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+	//	//差し替え前のテクスチャをスタックに退避。
+	//	modelMaterial->PushAlbedoTexture();
+	//	//テクスチャを差し替える。
+	//	//modelMaterial->SetAlbedoTexture(m_renderTarget.GetRTSRV());
+	//	//シルエット描画に切り替え
+	//	modelMaterial->SetRenderMode(1);
+	//});
+	////QueryMaterials([&](ModelEffect* material) {
+	////	//差し替え前のテクスチャをスタックに退避。
+	////	material->PushAlbedoTexture();
+	////	//テクスチャを差し替える。
+	////	material->SetAlbedoTexture(m_renderTarget.GetRTSRV());
+	////});
 
-	//描画。                                                                           
-	m_modelDx->Draw(
-		d3dDeviceContext,
-		state,
-		m_worldMatrix,
-		viewMatrix,
-		projMatrix
-	);
+	////描画。                                                                           
+	//m_modelDx->Draw(
+	//	d3dDeviceContext,
+	//	state,
+	//	m_worldMatrix,
+	//	viewMatrix,
+	//	projMatrix
+	//);
+
+	////m_renderTarget.OnScreenRendering();
+
+	//////背景のテクスチャを元に戻す。
+	//m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {
+	//	auto modelMaterial = reinterpret_cast<ModelEffect*>(material);
+	//	//差し替え前のテクスチャをスタックから復帰。
+	//	modelMaterial->PopAlbedoTexture();
+	//	//通常描画に戻す
+	//	modelMaterial->SetRenderMode(0);
+	//});
+
+	////描画。                                                                           
+	//m_modelDx->Draw(
+	//	d3dDeviceContext,
+	//	state,
+	//	m_worldMatrix,
+	//	viewMatrix,
+	//	projMatrix
+	//);
 }

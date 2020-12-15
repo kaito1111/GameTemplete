@@ -2,14 +2,42 @@
 #include "RenderTarget.h"
 
 RenderTarget::RenderTarget() {
+}
+
+RenderTarget::~RenderTarget()
+{
+	if (m_depthStencilView != nullptr) {
+		m_depthStencilView->Release();
+		m_depthStencilView = nullptr;
+	}
+	if (m_depthStencilTex != nullptr) {
+		m_depthStencilTex->Release();
+		m_depthStencilTex = nullptr;
+	}
+
+	if (m_renderTargetView != nullptr) {
+		m_renderTargetView->Release();
+		m_renderTargetView = nullptr;
+	}
+	if (m_renderTargetTex != nullptr) {
+		m_renderTargetTex->Release();
+		m_renderTargetTex = nullptr;
+	}
+	if (m_renderTargetSRV != nullptr) {
+		m_renderTargetSRV->Release();
+	}
+}
+
+void RenderTarget::Create(UINT w, UINT h, DXGI_FORMAT format)
+{
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
 	D3D11_TEXTURE2D_DESC texDesc = { 0 };
 	{
-		texDesc.Width = 1280;
-		texDesc.Height = 720;
+		texDesc.Width = w;
+		texDesc.Height = h;
 		texDesc.MipLevels = 1;
 		texDesc.ArraySize = 1;
-		texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		texDesc.Format = format;
 		texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
 		texDesc.SampleDesc.Count = 1;
 		texDesc.SampleDesc.Quality = 0;
@@ -40,7 +68,7 @@ RenderTarget::RenderTarget() {
 		d3dDevice->CreateTexture2D(&depthTexDesc, nullptr, &m_depthStencilTex);
 	}
 	{
-		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc ;
+		D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 		depthStencilViewDesc.Format = depthTexDesc.Format;
 		depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		depthStencilViewDesc.Texture2D.MipSlice = 0;
@@ -52,31 +80,7 @@ RenderTarget::RenderTarget() {
 	}
 }
 
-RenderTarget::~RenderTarget()
-{
-	if (m_depthStencilView != nullptr) {
-		m_depthStencilView->Release();
-		m_depthStencilView = nullptr;
-	}
-	if (m_depthStencilTex != nullptr) {
-		m_depthStencilTex->Release();
-		m_depthStencilTex = nullptr;
-	}
-
-	if (m_renderTargetView != nullptr) {
-		m_renderTargetView->Release();
-		m_renderTargetView = nullptr;
-	}
-	if (m_renderTargetTex != nullptr) {
-		m_renderTargetTex->Release();
-		m_renderTargetTex = nullptr;
-	}
-	if (m_renderTargetSRV != nullptr) {
-		m_renderTargetSRV->Release();
-	}
-}
-
-void RenderTarget::OffScreenRendering()
+void RenderTarget::SaveRenderTarget()
 {
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	//現在のレンダリングターゲットをバックアップしておく。
@@ -92,7 +96,7 @@ void RenderTarget::OffScreenRendering()
 	d3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
-void RenderTarget::OnScreenRendering()
+void RenderTarget::BackUpRenderTarget()
 {
 	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 	//レンダリングターゲットを元に戻す。
@@ -100,4 +104,12 @@ void RenderTarget::OnScreenRendering()
 	//レンダリングターゲットとデプスステンシルの参照カウンタを下す。
 	m_oldRenderTargetView->Release();
 	m_oldDepthStencilView->Release();
+}
+
+void RenderTarget::ClearRenderTarget(float * clearColor)
+{
+	auto d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
+	//レンダリングターゲットをクリア。
+	d3dDeviceContext->ClearRenderTargetView(m_renderTargetView, clearColor);
+	d3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

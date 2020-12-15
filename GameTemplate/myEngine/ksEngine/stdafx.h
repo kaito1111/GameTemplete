@@ -46,5 +46,7 @@ static const int MAX_BONE = 512;	//!<ƒ{[ƒ“‚ÌÅ‘å”B
 #include "GameObject/GameObjectManager.h"
 #include "graphics/2D/SpriteRender.h"
 #include "graphics/SkinModelRender.h"
+#include "ShadowMap.h"
+#include "graphics/RenderTarget.h"
 
 using namespace ksEngine;

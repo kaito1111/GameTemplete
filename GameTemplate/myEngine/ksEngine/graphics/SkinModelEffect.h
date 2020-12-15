@@ -13,6 +13,8 @@ protected:
 	ksEngine::Shader* m_pPSShader = nullptr;
 	ksEngine::Shader m_vsShader;
 	ksEngine::Shader m_psShader;
+	ksEngine::Shader m_vsShadowMap;			//シャドウマップ生成用の頂点シェーダー。
+	ksEngine::Shader m_psShadowMap;			//シャドウマップ生成用のピクセルシェーダー。
 	bool isSkining;
 	ksEngine::Shader m_psSilhouette;		//シルエット描画用のピクセルシェーダー。
 	int m_RenderMode = 0;
@@ -20,6 +22,8 @@ protected:
 	ID3D11ShaderResourceView* m_albedoTexture = nullptr;
 	std::array<ID3D11ShaderResourceView*, 4> m_albedoTextureStack = { nullptr };
 	int m_albedoTextureStackPos = 0;
+	ID3D11DepthStencilView* m_depthStencilView;
+
 public:
 	ModelEffect()
 	{
@@ -29,6 +33,7 @@ public:
 
 		auto dv = g_graphicsEngine->GetD3DDevice();
 
+		//作成する深度ステンシルステートの定義を設定していく。
 		D3D11_DEPTH_STENCIL_DESC desc = { 0 };
 		desc.DepthEnable = true;
 		desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -37,6 +42,9 @@ public:
 		dv->CreateDepthStencilState(&desc, &m_silhouettoDepthStepsilState);
 
 		m_psSilhouette.Load("Assets/shader/model.fx", "PSMain_Silhouette", ksEngine::Shader::EnType::PS);
+
+		m_vsShadowMap.Load("Assets/shader/model.fx", "VSMain_ShadowMap", ksEngine::Shader::EnType::VS);
+		m_psShadowMap.Load("Assets/shader/model.fx", "PSMain_ShadowMap", ksEngine::Shader::EnType::PS);
 	}
 	virtual ~ModelEffect()
 	{

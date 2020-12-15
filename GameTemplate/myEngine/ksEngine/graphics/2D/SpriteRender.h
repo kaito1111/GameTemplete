@@ -1,5 +1,6 @@
 #pragma once
 #include "graphics/2D/Sprite.h"
+#include "graphics/2D/SampleSprite.h"
 
 namespace ksEngine {
 	class SpriteRender :public IGameObject
@@ -23,7 +24,7 @@ namespace ksEngine {
 			m_Scale = scale;
 		}
 	private:
-		ksEngine::Sprite m_sprite;
+		SampleSprite m_sprite;
 		CVector3 m_Pos = CVector3::Zero();
 		CQuaternion m_Rot = CQuaternion::Identity();
 		CVector3 m_Scale = CVector3::One();

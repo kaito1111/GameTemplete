@@ -21,8 +21,8 @@ bool Player::Start()
 	m_Model->Init(L"Assets/modelData/PlayerArmor.cmo");
 	m_Model->SetPosition(m_Pos);
 	m_Model->SetRotation(m_Rot);
+	m_Model->SetRenderMode(enSilhouetteDraw);
 	//m_CharaCon.Init(20.0f, 80.0f, m_Pos);
-
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
@@ -54,7 +54,8 @@ void Player::Update()
 	m_MoveSpeed.z = -tmp;
 	//モデル空間からワールド空間に変換。
 	m_Rot.Multiply(m_MoveSpeed);
-	
+
+	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
 	PlayerMove();
 	PlayerRotate();
 	m_Model->SetPosition(m_Pos);

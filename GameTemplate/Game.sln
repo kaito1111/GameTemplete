@@ -23,6 +23,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BulletDynamics", "myEngine\ksEngine\bulletPhysics\src\BulletDynamics\BulletDynamics.vcxproj", "{0D35853E-017B-46F6-879C-238BBD6EB37C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ksEngine", "myEngine\ksEngine\ksEngine.vcxproj", "{E2FCB0B3-69AB-4E9F-9950-CB867305B752}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D35853E-017B-46F6-879C-238BBD6EB37C} = {0D35853E-017B-46F6-879C-238BBD6EB37C}
+		{D498FF91-F47E-4A2C-BC92-4DF199E34F60} = {D498FF91-F47E-4A2C-BC92-4DF199E34F60}
+		{8B23B8BF-24CC-4C00-A810-D877452B6BA6} = {8B23B8BF-24CC-4C00-A810-D877452B6BA6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

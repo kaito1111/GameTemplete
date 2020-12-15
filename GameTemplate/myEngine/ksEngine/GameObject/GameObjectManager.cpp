@@ -21,6 +21,7 @@ namespace ksEngine {
 
 	void GameObjectManager::Update()
 	{
+		g_graphicsEngine->GetShadowMap()->UpdateShadowMap();
 		for (GameObjectList GOList : m_GameObjectListArray)
 			for (IGameObject* GO : GOList) {
 				GO->UpdateWrapper();
@@ -30,7 +31,8 @@ namespace ksEngine {
 	void GameObjectManager::Draw()
 	{
 		//物理ワールドのデバッグ描画。
-		g_physics.DebubDrawWorld();
+		g_physics.DebubDrawWorld(); 
+		g_graphicsEngine->GetShadowMap()->RenderToShadowMap();
 		for (GameObjectList GOList : m_GameObjectListArray) {
 			for (IGameObject* GO : GOList) {
 				GO->DrawWrapper();

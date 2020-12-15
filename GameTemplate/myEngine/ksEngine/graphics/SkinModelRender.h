@@ -25,7 +25,7 @@ namespace ksEngine {
 		 }
 
 		 void SetRenderMode(int rm) {
-			 m_Skin.SetRenderMode(rm);
+			 m_RenderMode = rm;
 		 }
 	private:
 		void Update();
@@ -36,5 +36,6 @@ namespace ksEngine {
 		CQuaternion m_Rot = CQuaternion::Identity();
 		CVector3 m_Scale = CVector3::One();
 		bool m_IsDraw = true;
+		int m_RenderMode = 0;
 	};
 }

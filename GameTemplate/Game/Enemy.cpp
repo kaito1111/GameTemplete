@@ -26,10 +26,11 @@ bool Enemy::Start()
 {
 	m_Pos.y += 100.0f;
 	m_Skin = NewGO<SkinModelRender>(0);
-	m_Skin->Init(L"Assets/modelData/Boss.cmo");
+	m_Skin->Init(L"Assets/modelData/Enemy.cmo");
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetRotation(m_Rot);
 	m_Skin->SetScale(m_Scale);
+	m_Skin->SetRenderMode(1);
 	m_CharaCon.Init(20.0f, 30.0f, m_Pos);
 	//m_DownModel = NewGO<SkinModelRender>(0);
 	//m_DownModel->Init(L"")

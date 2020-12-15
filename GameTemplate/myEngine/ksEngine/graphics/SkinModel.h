@@ -12,6 +12,11 @@ enum EnFbxUpAxis {
 	enFbxUpAxisY,		//Y-up
 	enFbxUpAxisZ,		//Z-up
 };
+enum EnRenderMode {
+	enNormalDraw,
+	enSilhouetteDraw,
+	enShadowDraw
+};
 /*!
 *@brief	スキンモデルクラス。
 */

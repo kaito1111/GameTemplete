@@ -95,5 +95,7 @@
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Gray.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_LightGray.png" />
+    <ImageContentTask Include="Assets\sprite\reticle.png" />
+    <ImageContentTask Include="Assets\sprite\terget.png" />
   </ItemGroup>
 </Project>

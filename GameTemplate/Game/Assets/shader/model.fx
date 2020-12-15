@@ -28,6 +28,12 @@ cbuffer VSPSCb : register(b0) {
 	float4x4 mProj;
 };
 
+/// <summary>
+/// シャドウマップ用のピクセルシェーダへの入力構造体。
+/// </summary>
+struct PSInput_ShadowMap {
+	float4 Position 			: SV_POSITION;	//座標。
+};
 
 /////////////////////////////////////////////////////////////
 //各種構造体
@@ -163,19 +169,19 @@ float4 PSMain(PSInput In) : SV_Target0
 	for (int i = 0; i <4 ; i++) {
 		lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection[i])) * direction.dligColor[i];
 	
-	float3 R = reflect(direction.dligDirection[i], In.Normal);
+		float3 R = reflect(direction.dligDirection[i], In.Normal);
 
-	float3 toEye = eyePos - In.worldPos;
-	toEye = normalize(toEye);
+		float3 toEye = eyePos - In.worldPos;
+		toEye = normalize(toEye);
 
-	float t = dot(toEye, R);
-	if (t < 0.0f) {
-		t = 0.0f;
-	}
+		float t = dot(toEye, R);
+		if (t < 0.0f) {
+			t = 0.0f;
+		}
 
-	t = pow(t, specPow);
+		t = pow(t, specPow);
 
-	lig += direction.dligColor[i].xyz*t*10;
+		lig += direction.dligColor[i].xyz*t*2;
 	}
 
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -189,4 +195,42 @@ float4 PSMain(PSInput In) : SV_Target0
 float4 PSMain_Silhouette(PSInput In) : SV_Target0
 {
 	return float4(0.5f, 0.5f, 0.5f, 1.0f);
+}
+/// <summary>
+/// シャドウマップ生成用の頂点シェーダー。
+/// </summary>
+PSInput_ShadowMap VSMain_ShadowMap(VSInputNmTxWeights In)
+{
+	PSInput_ShadowMap psInput = (PSInput_ShadowMap)0;
+	float4x4 skinning = 0;
+	float4 pos = 0;
+	{
+
+		float w = 0.0f;
+		for (int i = 0; i < 3; i++)
+		{
+			//boneMatrixにボーン行列が設定されていて、
+			//In.indicesは頂点に埋め込まれた、関連しているボーンの番号。
+			//In.weightsは頂点に埋め込まれた、関連しているボーンのウェイト。
+			skinning += boneMatrix[In.Indices[i]] * In.Weights[i];
+			w += In.Weights[i];
+		}
+		//最後のボーンを計算する。
+		skinning += boneMatrix[In.Indices[3]] * (1.0f - w);
+		//頂点座標にスキン行列を乗算して、頂点をワールド空間に変換。
+		//mulは乗算命令。
+		pos = mul(skinning, In.Position);
+	}
+	pos = mul(mView, pos);
+	pos = mul(mProj, pos);
+	psInput.Position = pos;
+	return psInput;
+}
+/// <summary>
+/// ピクセルシェーダーのエントリ関数。
+/// </summary>
+float PSMain_ShadowMap(PSInput_ShadowMap In) : SV_Target0
+{
+	//射影空間でのZ値を返す。
+	return In.Position.z / In.Position.w;
 }

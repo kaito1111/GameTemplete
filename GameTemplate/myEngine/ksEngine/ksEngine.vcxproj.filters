@@ -35,6 +35,8 @@
     <ClCompile Include="graphics\animation\AnimationPlayController.cpp" />
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\SkinModelRender.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="graphics\2D\SampleSprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -75,5 +77,7 @@
     <ClInclude Include="graphics\animation\AnimationPlayController.h" />
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\SkinModelEffect.h" />
+    <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="graphics\2D\SampleSprite.h" />
   </ItemGroup>
 </Project>
