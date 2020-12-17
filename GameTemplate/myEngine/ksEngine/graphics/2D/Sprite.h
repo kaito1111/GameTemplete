@@ -35,8 +35,9 @@ namespace ksEngine {
 	
 	private:
 		void CreateVertexBuffer();
-		//void CreateIndexBuffer();
+		void CreateIndexBuffer();
 		void CreateConstantBuffer();
+		void InitSamplerState();
 		void InitShader();
 		void CreateFromDDSTextureFromFile(const wchar_t* fileName);
 		void SetVertexBuffer();
@@ -56,7 +57,8 @@ namespace ksEngine {
 		ID3D11DeviceContext* m_deviceContext = nullptr;
 		ID3D11Buffer* m_constantBuffer = nullptr;
 		ID3D11Buffer* m_vertexBuffer = nullptr;
-		//ID3D11Buffer* m_indexBuffer = nullptr;
+		ID3D11Buffer* m_indexBuffer = nullptr;
 		ID3D11ShaderResourceView* m_TextureSRV = nullptr;
+		ID3D11SamplerState* m_samplerState = NULL;
 	};
 }

@@ -10,6 +10,7 @@
 Texture2D<float4> albedoTexture : register(t0);
 //ボーン行列
 StructuredBuffer<float4x4> boneMatrix : register(t1);
+Texture2D<float4> g_shadowMap : register(t2);		//todo シャドウマップ。
 
 /////////////////////////////////////////////////////////////
 // SamplerState
@@ -26,6 +27,9 @@ cbuffer VSPSCb : register(b0) {
 	float4x4 mWorld;
 	float4x4 mView;
 	float4x4 mProj;
+	//todo ライトビュー行列を追加。
+	float4x4 mLightView;	//ライトビュー行列。
+	float4x4 mLightProj;	//ライトプロジェクション行列。
 };
 
 /// <summary>
@@ -70,6 +74,7 @@ struct PSInput {
 	float3 Tangent		: TANGENT;
 	float2 TexCoord 	: TEXCOORD0;
 	float3 worldPos		: TEXCOORD1;	//ワールド座標。
+	float4 posInLVP		: TEXCOORD2;	//ライトビュープロジェクション空間での座標。
 };
 
 struct DirectionLight {
@@ -107,6 +112,11 @@ PSInput VSMain(VSInputNmTxVcTangent In)
 	PSInput psInput = (PSInput)0;
 	float4 pos = mul(mWorld, In.Position);
 	psInput.worldPos = pos;
+	//ローカル座標系からワールド座標系に変換する。
+	float4 worldPos = mul(mWorld, In.Position);
+	//続いて、ライトビュープロジェクション空間に変換。
+	psInput.posInLVP = mul(mLightView, worldPos);
+	psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
 
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
@@ -151,6 +161,12 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 	psInput.Normal = normalize(mul(skinning, In.Normal));
 	psInput.Tangent = normalize(mul(skinning, In.Tangent));
 
+	//ローカル座標系からワールド座標系に変換する。
+	float4 worldPos = mul(mWorld, In.Position);
+	//続いて、ライトビュープロジェクション空間に変換。
+	psInput.posInLVP = mul(mLightView, worldPos);
+	psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
+
 	pos = mul(mView, pos);
 	pos = mul(mProj, pos);
 	psInput.Position = pos;
@@ -184,6 +200,25 @@ float4 PSMain(PSInput In) : SV_Target0
 		lig += direction.dligColor[i].xyz*t*2;
 	}
 
+	//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
+	float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
+	shadowMapUV *= float2(0.5f, -0.5f);
+	shadowMapUV += 0.5f;
+	//シャドウマップの範囲内かどうかを判定する。
+	if (shadowMapUV.x < 0.0f || shadowMapUV.y < 0.0f || shadowMapUV.x > 1.0f || shadowMapUV.y > 1.0f) {
+		float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		finalColor.xyz = albedoColor.xyz * lig;
+		return finalColor;
+	}
+	///LVP空間での深度値を計算。
+	float zInLVP = In.posInLVP.z / In.posInLVP.w;
+	//シャドウマップに書き込まれている深度値を取得。
+	float zInShadowMap = g_shadowMap.Sample(Sampler, shadowMapUV);
+
+	if (zInLVP > zInShadowMap + 0.01f) {
+		//影が落ちているので、光を弱くする
+		lig *= 0.5f;
+	}
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;
 	return finalColor;

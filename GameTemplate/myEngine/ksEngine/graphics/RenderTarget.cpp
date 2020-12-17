@@ -78,6 +78,14 @@ void RenderTarget::Create(UINT w, UINT h, DXGI_FORMAT format)
 			std::abort();
 		}
 	}
+	{
+		m_viewport.TopLeftX = 0;
+		m_viewport.TopLeftY = 0;
+		m_viewport.Width = w;
+		m_viewport.Height = h;
+		m_viewport.MinDepth = 0.0f;
+		m_viewport.MaxDepth = 1.0f;
+	}
 }
 
 void RenderTarget::SaveRenderTarget()

@@ -9,7 +9,7 @@ namespace ksEngine {
 	void Sprite::Init(const wchar_t* fileName/*, float w, float h*/)
 	{
 		CreateVertexBuffer();
-		//CreateIndexBuffer();
+		CreateIndexBuffer();
 		CreateConstantBuffer();
 		InitShader();
 		CreateFromDDSTextureFromFile(fileName);
@@ -43,15 +43,15 @@ namespace ksEngine {
 		UINT strid = sizeof(SSimpleVertex);
 		UINT offset = 0;
 		m_deviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &strid, &offset);
-		//m_deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R16_UINT, offset);
+		m_deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R16_UINT, offset);
 		m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-		//m_deviceContext->DrawIndexed(5, 0, 0);
+		m_deviceContext->DrawIndexed(6, 0, 0);
 
 
-		m_deviceContext->Draw(
-			4,
-			0
-		);
+		//m_deviceContext->Draw(
+		//	4,
+		//	0
+		//);
 
 	}
 	void Sprite::CreateVertexBuffer()
@@ -70,8 +70,8 @@ namespace ksEngine {
 		//頂点バッファの定義データを作成する。
 		D3D11_BUFFER_DESC desc = { 0 };	//0クリア。
 		desc.Usage = D3D11_USAGE_DEFAULT;
-		int a = sizeof(vertices);
-		desc.ByteWidth = a;	  //バッファの大きさ。
+		int verticesSize = sizeof(vertices);
+		desc.ByteWidth = verticesSize;	  //バッファの大きさ。
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;//どのバッファにバインドするかを指定する。
 		desc.CPUAccessFlags = 0;	//CPUからアクセスするか決める。0ならしない。
 		//頂点バッファのソースデータを指定する。
@@ -80,19 +80,23 @@ namespace ksEngine {
 		//頂点バッファをVRAM上に作成する。
 		g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, &InitData, &m_vertexBuffer);
 	}
-	//void Sprite::CreateIndexBuffer()
-	//{
-	//	D3D11_BUFFER_DESC bd = { 0 };
-	//	bd.Usage = D3D11_USAGE_DEFAULT;
-	//	bd.StructureByteStride = 2;
-	//	bd.ByteWidth = 2 * 5;
-	//	bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//	bd.CPUAccessFlags = 0;
-	//	D3D11_SUBRESOURCE_DATA InitData = { 0 };
-	//	short indices[] = { 0,1,2,3,4 };
-	//	InitData.pSysMem = indices;
-	//	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_indexBuffer);
-	//}
+	void Sprite::CreateIndexBuffer()
+	{
+		D3D11_SUBRESOURCE_DATA InitData = { 0 };
+		short index[6] = {
+			0,1,2,		//三角形一つ目
+			2,1,3, 		//三角形二つ目
+		};
+		InitData.pSysMem = index;
+
+		D3D11_BUFFER_DESC bd = { 0 };
+		bd.Usage = D3D11_USAGE_DEFAULT;
+		bd.StructureByteStride = sizeof(short);
+		bd.ByteWidth = sizeof(index);
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.CPUAccessFlags = 0;
+		g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_indexBuffer);
+	}
 	void Sprite::CreateConstantBuffer()
 	{
 		//定数バッファの定義データを作成する。

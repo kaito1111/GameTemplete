@@ -24,6 +24,7 @@ protected:
 	int m_albedoTextureStackPos = 0;
 	ID3D11DepthStencilView* m_depthStencilView;
 
+	ID3D11ShaderResourceView* m_ShadowMapTexture = nullptr;
 public:
 	ModelEffect()
 	{
@@ -48,7 +49,7 @@ public:
 	}
 	virtual ~ModelEffect()
 	{
-		if (m_albedoTexture) {
+		if (m_albedoTexture != nullptr) {
 			m_albedoTexture->Release();
 		}
 		if (m_silhouettoDepthStepsilState != nullptr) {

@@ -11,6 +11,15 @@ public:
 		m_shadowCasters.push_back(shadowCaster);
 	}
 
+	ID3D11ShaderResourceView* GetSRV() {
+		return m_shadowMapRT.GetRenderTargetSRV();
+	}
+	CMatrix GetLightViewMatrox() {
+		return m_lightViewMatrix;
+	}
+	CMatrix GetLightProjMatrix() {
+		return m_lightProjMatrix;
+	}
 	void Init();
 	void UpdateShadowMap();
 	void RenderToShadowMap();

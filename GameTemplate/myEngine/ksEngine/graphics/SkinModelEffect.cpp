@@ -9,11 +9,13 @@ void __cdecl ModelEffect::Apply(ID3D11DeviceContext* deviceContext)
 	//deviceContext->PSSetShader((ID3D11PixelShader*)m_psShader.GetBody(), NULL, 0);
 	//deviceContext->PSSetShaderResources(enSkinModelSRVReg_AlbedoTexture, 1, &m_albedoTexture);
 
+		ID3D11ShaderResourceView* ShadowMapSRV = g_graphicsEngine->GetShadowMap()->GetSRV();
 	switch (m_RenderMode) {
 	case enNormalDraw:
 		//通常描画。
 		deviceContext->PSSetShader((ID3D11PixelShader*)m_psShader.GetBody(), NULL, 0);
 		deviceContext->PSSetShaderResources(enSkinModelSRVReg_AlbedoTexture, 1, &m_albedoTexture);
+		deviceContext->PSSetShaderResources(enSkinModelSRVReg_ShadowTexture, 1,&ShadowMapSRV);
 		break;
 	case enSilhouetteDraw:
 		//シルエット描画。

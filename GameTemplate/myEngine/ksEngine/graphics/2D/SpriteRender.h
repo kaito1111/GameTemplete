@@ -24,7 +24,7 @@ namespace ksEngine {
 			m_Scale = scale;
 		}
 	private:
-		SampleSprite m_sprite;
+		Sprite m_sprite;
 		CVector3 m_Pos = CVector3::Zero();
 		CQuaternion m_Rot = CQuaternion::Identity();
 		CVector3 m_Scale = CVector3::One();

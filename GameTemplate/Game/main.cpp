@@ -21,8 +21,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CGameObjectManager()->Init();
 
 	SpriteRender* m_Sprite = NewGO<SpriteRender>(0);
-	m_Sprite->Init(L"Assets/sprite/reticle.dds");
-	//Game* game = NewGO<Game>(0);
+	m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
+	Game* game = NewGO<Game>(0);
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
