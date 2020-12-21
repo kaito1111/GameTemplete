@@ -24,6 +24,11 @@ public:
 	{
 		return m_pd3dDevice;
 	}
+
+	ID3D11RasterizerState* GetRS()
+	{
+		return m_rasterizerState;
+	}
 	/*!
 	 *@brief	D3D11デバイスコンテキストを取得。
 	 */

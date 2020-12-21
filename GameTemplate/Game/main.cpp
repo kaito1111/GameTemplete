@@ -2,6 +2,8 @@
 #include "system/system.h"
 #include "Game.h"
 #include "level/Level.h"
+#include "graphics/2D/Sprite.h"
+#include "graphics/2D/SampleSprite.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -17,11 +19,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	g_camera3D.SetFar(10000.0f);
 
 	g_camera2D.SetPosition({ 0.0f, 0.0f, 500.0f });
-
+	g_camera2D.Update();
 	CGameObjectManager()->Init();
-
-	SpriteRender* m_Sprite = NewGO<SpriteRender>(0);
-	m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
+	//Sprite sprite;
+	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
 	Game* game = NewGO<Game>(0);
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -35,10 +36,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_physics.GetDynamicWorld()->debugDrawWorld();
+		//CQuaternion Rot = CQuaternion::Identity();
+		//Rot.SetRotationDeg(CVector3::AxisY(), 180.0f);
+		//sprite.Update(/*CVector3::Zero(), CQuaternion::Identity(), CVector3::One()*/);
+		//sprite.Draw(g_camera2D.GetViewMatrix(),g_camera2D.GetProjectionMatrix());
 
 		CGameObjectManager()->ExcuteGame();
-
-
 
 		//描画終了。
 		g_graphicsEngine->EndRender();

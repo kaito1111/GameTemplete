@@ -37,6 +37,7 @@
     <ClCompile Include="graphics\SkinModelRender.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="graphics\2D\SampleSprite.cpp" />
+    <ClCompile Include="graphics\ForwardRender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -79,5 +80,6 @@
     <ClInclude Include="graphics\SkinModelEffect.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="graphics\2D\SampleSprite.h" />
+    <ClInclude Include="graphics\ForwardRender.h" />
   </ItemGroup>
 </Project>

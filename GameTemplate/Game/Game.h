@@ -20,4 +20,5 @@ private:
 	Stage* m_Stage = nullptr;
 	GameCamera* m_Camera = nullptr;
 	Enemy* m_Enemy = nullptr;
+	SpriteRender* m_Sprite;
 };

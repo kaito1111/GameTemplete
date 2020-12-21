@@ -237,6 +237,8 @@ void SampleSprite::Draw()
 	//プリミティブのトポロジーは
 	//トライアングルストリップを設定する。
 	d3dDeviceContext->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	auto* RS = g_graphicsEngine->GetRS();
+	d3dDeviceContext->RSSetState(RS);
 	d3dDeviceContext->DrawIndexed(	//描画命令。
 		6,				//インデックス数。
 		0,				//開始インデックス番号。0でいい。

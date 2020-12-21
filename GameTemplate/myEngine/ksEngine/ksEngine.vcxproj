@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="character\CharacterController.cpp" />
+    <ClCompile Include="graphics\ForwardRender.cpp" />
     <ClCompile Include="GameObject\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\IGameObject.cpp" />
     <ClCompile Include="graphics\2D\SpriteRender.cpp" />
@@ -60,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="character\CharacterController.h" />
+    <ClInclude Include="graphics\ForwardRender.h" />
     <ClInclude Include="GameObject\GameObjectManager.h" />
     <ClInclude Include="GameObject\IGameObject.h" />
     <ClInclude Include="graphics\2D\SpriteRender.h" />

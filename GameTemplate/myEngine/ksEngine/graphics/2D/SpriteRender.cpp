@@ -18,8 +18,8 @@ void SpriteRender::Draw()
 {
 	if (m_Is3DDraw) {
 		m_sprite.Draw(
-			g_camera2D.GetViewMatrix(),
-			g_camera2D.GetProjectionMatrix()
+			g_camera3D.GetViewMatrix(),
+			g_camera3D.GetProjectionMatrix()
 		);
 	}
 }

@@ -22,6 +22,8 @@ bool Game::Start()
 	m_Stage = NewGO<Stage>(0);
 	m_Enemy = NewGO<Enemy>(2);
 	m_Enemy->SetPlayer(m_Player);
+	m_Sprite = NewGO<SpriteRender>(0);
+	m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
 	return true;
 }
 

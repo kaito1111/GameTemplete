@@ -6,13 +6,19 @@ namespace ksEngine {
 		CMatrix mWorld;
 		CVector4 mulColor;
 	};
-	void Sprite::Init(const wchar_t* fileName/*, float w, float h*/)
+	void Sprite::Init(const wchar_t* fileName, float w, float h)
 	{
-		CreateVertexBuffer();
-		CreateIndexBuffer();
-		CreateConstantBuffer();
-		InitShader();
+		//共通の初期化処理を呼び出す。
+		InitCommon(w, h);
 		CreateFromDDSTextureFromFile(fileName);
+		IsCreated = true;
+	}
+	void Sprite::Init(ID3D11ShaderResourceView * srv, float w, float h)
+	{
+		//共通の初期化処理を呼び出す。
+		InitCommon(w, h);
+		m_TextureSRV = srv;
+		m_TextureSRV->AddRef();	//参照カウンタを増やす。
 		IsCreated = true;
 	}
 	void Sprite::Update()
@@ -23,7 +29,6 @@ namespace ksEngine {
 		m_deviceContext = g_graphicsEngine->GetD3DDeviceContext();
 		SetVertexBuffer();
 		SetWorld();
-		m_deviceContext->IASetInputLayout(m_vs.GetInputLayout());
 	}
 	void Sprite::Draw(const CMatrix & viewMatrix, const CMatrix & projMatrix)
 	{
@@ -35,35 +40,62 @@ namespace ksEngine {
 				MB_ICONWARNING);
 			return;
 		}
+		float blendFactor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+		//半透明合成のブレンドステートを設定する。
+		m_deviceContext->OMSetBlendState(
+			m_translucentBlendState, //設定するブレンディングステート
+			blendFactor, //ブレンディングファクター。気にしなくてよい
+			0xffffffff //サンプリングマスク。気にしなくてよい。
+		);
 		SetWVP(viewMatrix, projMatrix);
 		ConstantBuffer();
 		m_deviceContext->PSSetShaderResources(0, 1, &m_TextureSRV);
+		//サンプラステートを設定。
+		//m_deviceContext->PSSetSamplers(0, 1, &m_samplerState);
+		m_deviceContext->IASetInputLayout(m_vs.GetInputLayout());
 		SetShader();
+
 
 		UINT strid = sizeof(SSimpleVertex);
 		UINT offset = 0;
 		m_deviceContext->IASetVertexBuffers(0, 1, &m_vertexBuffer, &strid, &offset);
-		m_deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R16_UINT, offset);
+		m_deviceContext->IASetIndexBuffer(m_indexBuffer, DXGI_FORMAT_R32_UINT, offset);
 		m_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-		m_deviceContext->DrawIndexed(6, 0, 0);
+		auto* RS = g_graphicsEngine->GetRS();
+		m_deviceContext->RSSetState(RS);
+		//m_deviceContext->DrawIndexed(6, 0, 0);
 
-
-		//m_deviceContext->Draw(
-		//	4,
-		//	0
-		//);
+		m_deviceContext->Draw(
+			4,
+			0
+		);
 
 	}
-	void Sprite::CreateVertexBuffer()
+
+	void Sprite::InitCommon(float w, float h)
+	{
+		CreateVertexBuffer(w, h);
+		CreateIndexBuffer();
+		CreateConstantBuffer();
+		InitSamplerState();
+		InitShader();
+		InitTranslucentBlendState();
+	}
+
+	void Sprite::CreateVertexBuffer(float w, float h)
 	{
 		// 頂点バッファの初期化。
 		//頂点バッファのソースデータ。
+		m_Size.x = w;
+		m_Size.y = h;
+		float halfW = w * 0.5f;
+		float halfH = h * 0.5f;
 		SSimpleVertex vertices[] =
 		{
-			{CVector4(0.5, 0.5f, 0.5f, 1.0f),CVector2(1.0,0.0f)},
-			{CVector4(-0.5f, 0.5f, 0.5f, 1.0f),CVector2(0.0f,0.0f)},
-			{CVector4(0.5f, -0.5f, 0.5f, 1.0f),CVector2(1.0f,1.0f)},
-			{CVector4(-0.5, -0.5f, 0.5f, 1.0f),CVector2(0.0f,1.0f)},
+			{CVector4(halfW, halfH, 0.5f, 1.0f),CVector2(1.0,0.0f)},
+			{CVector4(-halfW, halfH, 0.5f, 1.0f),CVector2(0.0f,0.0f)},
+			{CVector4(halfW, -halfH, 0.5f, 1.0f),CVector2(1.0f,1.0f)},
+			{CVector4(-halfW, -halfH, 0.5f, 1.0f),CVector2(0.0f,1.0f)},
 			//{CVector4(-0.5f, 0.5f, 0.5f, 1.0f),CVector2(0.0f,0.0f)},
 		};
 
@@ -97,6 +129,7 @@ namespace ksEngine {
 		bd.CPUAccessFlags = 0;
 		g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitData, &m_indexBuffer);
 	}
+
 	void Sprite::CreateConstantBuffer()
 	{
 		//定数バッファの定義データを作成する。
@@ -109,6 +142,39 @@ namespace ksEngine {
 		//定数バッファをVRAM上に作成する。
 		g_graphicsEngine->GetD3DDevice()->CreateBuffer(&desc, nullptr, &m_constantBuffer);
 
+	}
+	void Sprite::InitTranslucentBlendState()
+	{
+		//例のごとく、作成するブレンドステートの情報を設定する。
+		CD3D11_DEFAULT defaultSettings;
+		//デフォルトセッティングで初期化する。
+		CD3D11_BLEND_DESC blendDesc(defaultSettings);
+		//αブレンディングを有効にする。
+		blendDesc.RenderTarget[0].BlendEnable = true;
+		//ソースカラーのブレンディング方法を指定している。
+		//ソースカラーとはピクセルシェーダ―からの出力を指している。
+		//この指定では、ソースカラーをSRC(rgba)とすると、
+		//最終的なソースカラーは下記のように計算される。
+		//最終的なソースカラー = SRC.rgb × SRC.a・・・・・・ ①
+		blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		//ディスティネーションカラーのブレンディング方法を指定している。
+		//ディスティネーションカラーとは、
+		//すでに描き込まれているレンダリングターゲットのカラーを指している。
+		//この指定では、ディスティネーションカラーをDEST(rgba)、
+		//ソースカラーをSRC(RGBA)とすると、最終的なディスティネーションカラーは
+		//下記のように計算される。
+		//最終的なディスティネーションカラー = DEST.rgb × (1.0f - SRC.a)・・・・・②
+		blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		//最終的にレンダリングターゲットに描き込まれるカラーの計算方法を指定している。
+		//この指定だと、①＋②のカラーが書き込まれる。
+		//つまり、最終的にレンダリングターゲットに描き込まれるカラーは
+		//SRC.rgb × SRC.a + DEST.rgb × (1.0f - SRC.a)
+		//となる。
+		blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		//この設定で、ブレンドステートを作成すると
+		//半透明合成を行えるブレンドステートが作成できる。
+		auto d3dDevice = g_graphicsEngine->GetD3DDevice();
+		d3dDevice->CreateBlendState(&blendDesc, &m_translucentBlendState);
 	}
 	void Sprite::InitShader()
 	{
@@ -153,6 +219,22 @@ namespace ksEngine {
 
 	void Sprite::SetWorld()
 	{
+		//ピボットを考慮に入れた平行移動行列を作成。
+		//ピボットは真ん中が0.0, 0.0、左上が-1.0f, -1.0、右下が1.0、1.0になるようにする。
+		CVector2 localPivot = m_pivot;
+		localPivot.x -= 0.5f;
+		localPivot.y -= 0.5f;
+		localPivot.x *= -2.0f;
+		localPivot.y *= -2.0f;
+		//画像のハーフサイズを求める。
+		CVector2 halfSize = m_Size;
+		halfSize.x *= 0.5f;
+		halfSize.y *= 0.5f;
+		CMatrix mPivotTrans;
+
+		mPivotTrans.MakeTranslation(
+			{ halfSize.x * localPivot.x, halfSize.y * localPivot.y, 0.0f }
+		);
 		CMatrix mTrans, mRot, mScale;
 		mTrans.MakeTranslation(m_position);
 		mRot.MakeRotationFromQuaternion(m_rotation);
@@ -173,6 +255,8 @@ namespace ksEngine {
 		cb.mWorld.Mul(cb.mWorld, projMatrix);
 
 		cb.mulColor = CVector4::White();
+		m_alpha += g_pad[0].GetLStickXF()*0.1f;
+		cb.mulColor.w = m_alpha;
 		//VRAM上の定数バッファの内容を更新。
 		m_deviceContext->UpdateSubresource(m_constantBuffer, 0, NULL, &cb, 0, 0);
 	}
@@ -204,5 +288,15 @@ namespace ksEngine {
 			0);
 	}
 
+	void Sprite::InitSamplerState()
+	{
+		D3D11_SAMPLER_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		g_graphicsEngine->GetD3DDevice()->CreateSamplerState(&desc, &m_samplerState);
+	}
 
 }
