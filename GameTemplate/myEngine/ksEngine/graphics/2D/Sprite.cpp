@@ -239,8 +239,9 @@ namespace ksEngine {
 		mTrans.MakeTranslation(m_position);
 		mRot.MakeRotationFromQuaternion(m_rotation);
 		mScale.MakeScaling(m_scale);
-		m_world.Mul(mScale, mRot);
-		m_world.Mul(mTrans, m_world);
+		m_world.Mul(mPivotTrans, mScale);
+		m_world.Mul(m_world, mRot);
+		m_world.Mul(m_world, mTrans);
 	}
 
 	void Sprite::SetWVP(const CMatrix & viewMatrix, const CMatrix & projMatrix)
@@ -255,7 +256,6 @@ namespace ksEngine {
 		cb.mWorld.Mul(cb.mWorld, projMatrix);
 
 		cb.mulColor = CVector4::White();
-		m_alpha += g_pad[0].GetLStickXF()*0.1f;
 		cb.mulColor.w = m_alpha;
 		//VRAM上の定数バッファの内容を更新。
 		m_deviceContext->UpdateSubresource(m_constantBuffer, 0, NULL, &cb, 0, 0);

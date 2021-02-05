@@ -42,7 +42,6 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Player\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
@@ -52,6 +51,11 @@
     <ClCompile Include="Player\State\PlayerStateRun.cpp" />
     <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
     <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
+    <ClCompile Include="Player\PlayerAttack.cpp" />
+    <ClCompile Include="Enemy\Enemy.cpp" />
+    <ClCompile Include="Enemy\State\IEnemyState.cpp" />
+    <ClCompile Include="Enemy\EnemyAttack.cpp" />
+    <ClCompile Include="Enemy\State\EnemyAttackState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -59,7 +63,6 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Player\Player.h">
       <Filter>Player</Filter>
     </ClInclude>
@@ -69,6 +72,11 @@
     <ClInclude Include="Player\State\PlayerStateRun.h" />
     <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />
     <ClInclude Include="Player\State\PlayerStateAttack.h" />
+    <ClInclude Include="Player\PlayerAttack.h" />
+    <ClInclude Include="Enemy\Enemy.h" />
+    <ClInclude Include="Enemy\State\IEnemyState.h" />
+    <ClInclude Include="Enemy\EnemyAttack.h" />
+    <ClInclude Include="Enemy\State\EnemyAttackState.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\unityChan.fbx">
@@ -81,6 +89,10 @@
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\yuka.FBX" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
+    <MeshContentTask Include="Assets\modelData\BigEnemy.fbx" />
+    <MeshContentTask Include="Assets\modelData\bbbbb.fbx" />
+    <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\keleton.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

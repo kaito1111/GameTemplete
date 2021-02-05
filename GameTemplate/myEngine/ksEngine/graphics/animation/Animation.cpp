@@ -178,6 +178,7 @@ CVector3 Animation::Update(float deltaTime)
 	if (m_numAnimationPlayController == 0) {
 		return CVector3::Zero();
 	}
+	m_skeleton->SetPlayAnimation();
 	//ローカルポーズの更新をやっていく。
 	UpdateLocalPose(deltaTime);
 		

@@ -30,6 +30,8 @@ RenderTarget::~RenderTarget()
 
 void RenderTarget::Create(UINT w, UINT h, DXGI_FORMAT format)
 {
+	m_width = (float)w;
+	m_height = (float)h;
 	auto d3dDevice = g_graphicsEngine->GetD3DDevice();
 	D3D11_TEXTURE2D_DESC texDesc = { 0 };
 	{

@@ -154,4 +154,5 @@ void GraphicsEngine::Init(HWND hWnd)
 	m_pd3dDeviceContext->RSSetState(m_rasterizerState);
 
 	m_ShadowMap.Init();
+	m_PostEffect.Init();
 }

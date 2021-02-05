@@ -96,16 +96,17 @@ void SkinModel::InitSilhouettoDepthStepsilState()
 void SkinModel::InitDirectionLight()
 {
 	m_dirLight.dir.Direction[0] = { 1.0f, 0.0f, 0.0f, 0.0f };
-	m_dirLight.dir.Color[0] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	m_dirLight.dir.Color[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
 
 	m_dirLight.dir.Direction[1] = { 0.0f, -1.0f, 0.0f, 0.0f };
-	m_dirLight.dir.Color[1] = { 0.0f, 1.0f, 0.0f, 1.0f };
+	m_dirLight.dir.Color[1] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	m_dirLight.dir.Direction[2] = { 0.0f, 0.0f, 1.0f, 0.0f };
-	m_dirLight.dir.Color[2] = { 1.0f, 0.0f, 1.0f, 1.0f };
+	m_dirLight.dir.Color[2] = { 1.0f, 1.0f, 1.0f, 1.0f };
 
-	m_dirLight.dir.Direction[3] = { 1.0f, 0.0f, -1.0f, 0.0f };
-	m_dirLight.dir.Color[3] = { 1.0f, 1.0f, 0.0f, 1.0f };
+	m_dirLight.dir.Direction[3] = { 1.0f, 1.0f, -1.0f, 0.0f };
+	m_dirLight.dir.Direction[3].Normalize();
+	m_dirLight.dir.Color[3] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	m_dirLight.eyePos = g_camera3D.GetPosition();
 	m_dirLight.pow = 5.0f;
 }

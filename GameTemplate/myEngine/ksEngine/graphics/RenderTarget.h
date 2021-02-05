@@ -49,6 +49,12 @@ public:
 	{
 		return &m_viewport;
 	}
+	float GetWidth() {
+		return m_width;
+	}
+	float GetHeight() {
+		return m_height;
+	}
 private:
 	ID3D11RenderTargetView*		m_oldRenderTargetView;
 	ID3D11DepthStencilView*		m_oldDepthStencilView;
@@ -58,5 +64,7 @@ private:
 	ID3D11Texture2D*			m_depthStencilTex = nullptr;		//!<デプスステンシルとなるテクスチャ。
 	ID3D11DepthStencilView*		m_depthStencilView = nullptr;		//!<デプスステンシルビュー。
 	D3D11_VIEWPORT				m_viewport;							//!<ビューポート。
+	float m_width = 0;
+	float m_height = 0;
 };
 

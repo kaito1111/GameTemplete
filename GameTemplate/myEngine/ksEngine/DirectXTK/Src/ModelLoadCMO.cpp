@@ -241,7 +241,7 @@ std::unique_ptr<Model> DirectX::Model::CreateFromCMO(
         if ( dataSize < usedSize )
             throw std::exception("End of file");
 
-        if ( !*nSubmesh )
+         if ( !*nSubmesh )
             throw std::exception("No submeshes found\n");
 
         auto subMesh = reinterpret_cast<const VSD3DStarter::SubMesh*>( meshData + usedSize );

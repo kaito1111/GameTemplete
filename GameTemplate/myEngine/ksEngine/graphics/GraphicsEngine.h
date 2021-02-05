@@ -3,6 +3,7 @@
  *@brief	グラフィックスエンジン。
  */
 #include "ShadowMap.h"
+#include "PostEffect.h"
 class GraphicsEngine
 {
 public:
@@ -48,6 +49,9 @@ public:
 	ShadowMap* GetShadowMap() {
 		return &m_ShadowMap;
 	}
+	PostEffect* GetPostEffect() {
+		return &m_PostEffect;
+	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
@@ -58,6 +62,7 @@ private:
 	ID3D11Texture2D*		m_depthStencil = NULL;		//デプスステンシル。
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	ShadowMap m_ShadowMap;
+	PostEffect m_PostEffect;
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

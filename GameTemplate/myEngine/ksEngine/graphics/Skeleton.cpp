@@ -198,14 +198,29 @@ void Skeleton::InitBoneMatrixArrayShaderResourceView()
 }
 void Skeleton::Update(CMatrix mWorld)
 {
-	//ここがワールド行列を計算しているところ！！！
-	for (int boneNo = 0; boneNo < m_bones.size(); boneNo++) {
-		Bone* bone = m_bones[boneNo];
-		CMatrix mBoneWorld;
-		CMatrix localMatrix = bone->GetLocalMatrix();
-		//親の行列とローカル行列を乗算して、ワールド行列を計算する。
-		mBoneWorld.Mul(localMatrix, mWorld);
-		bone->SetWorldMatrix(mBoneWorld);
+	if (m_isPlayAnimation) {
+		//ここがワールド行列を計算しているところ！！！
+		for (int boneNo = 0; boneNo < m_bones.size(); boneNo++) {
+			Bone* bone = m_bones[boneNo];
+			CMatrix mBoneWorld;
+			CMatrix localMatrix = bone->GetLocalMatrix();
+			//親の行列とローカル行列を乗算して、ワールド行列を計算する。
+			mBoneWorld.Mul(localMatrix, mWorld);
+			bone->SetWorldMatrix(mBoneWorld);
+		}
+		m_isPlayAnimation = false;
+	}
+	else {
+		//アニメーションが流し込まれていると、ボーン行列がルートボーン空間に
+		//変換されているが、流されていないと親の骨の座標系のままなので、
+		//ルートボーン空間→ワールド空間への変換を行う。
+		for (auto& bone : m_bones) {
+			if (bone->GetParentId() != -1) {
+				continue;
+			}
+			//ルート。
+			UpdateBoneWorldMatrix(*bone, mWorld);
+		}
 	}
 
 

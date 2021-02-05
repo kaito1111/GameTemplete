@@ -64,9 +64,16 @@ namespace ksEngine {
 			m_pivot = pivot;
 		}
 
+		void SetSize(const CVector2& size) {
+			m_Size = size;
+		}
+
+		void SetAlpha(float alpha) {
+			m_alpha = alpha;
+		}
 		void Update();
 		void Draw(const CMatrix& viewMatrix, const CMatrix& projMatrix);
-	
+
 	private:
 		/// <summary>
 		/// èâä˙âªÇÃã§í èàóùÅB
@@ -90,10 +97,10 @@ namespace ksEngine {
 		CVector3 m_position = CVector3::Zero();
 		CQuaternion m_rotation = CQuaternion::Identity();
 		CVector3 m_scale = CVector3::One();
-		CVector2 m_pivot = CVector2::Zero();
+		CVector2 m_pivot = { 0.5f,0.5f };
 		CMatrix m_world = CMatrix::Identity();
-		Shader m_ps;
-		Shader m_vs;
+		ksEngine::Shader m_ps;
+		ksEngine::Shader m_vs;
 		CVector4 m_mulColor = CVector4::White();
 		ID3D11DeviceContext* m_deviceContext = nullptr;
 		ID3D11Buffer* m_constantBuffer = nullptr;

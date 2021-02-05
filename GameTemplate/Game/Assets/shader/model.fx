@@ -179,12 +179,12 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
-	
+
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	for (int i = 0; i <4 ; i++) {
+	for (int i = 0; i < 4; i++) {
 		lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection[i])) * direction.dligColor[i];
-	
+
 		float3 R = reflect(direction.dligDirection[i], In.Normal);
 
 		float3 toEye = eyePos - In.worldPos;
@@ -197,7 +197,7 @@ float4 PSMain(PSInput In) : SV_Target0
 
 		t = pow(t, specPow);
 
-		lig += direction.dligColor[i].xyz*t*2;
+		lig += direction.dligColor[i].xyz*t * 2;
 	}
 
 	//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。

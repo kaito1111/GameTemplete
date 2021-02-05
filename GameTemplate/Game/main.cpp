@@ -24,6 +24,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
 	Game* game = NewGO<Game>(0);
+
+
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{

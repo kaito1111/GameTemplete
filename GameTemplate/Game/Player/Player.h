@@ -103,6 +103,10 @@ public:
 	bool IsPlayAnimation() {
 		return m_Animation.IsPlaying();
 	}
+
+	void HitDamage(float damege) {
+		m_Hp -= damege;
+	}
 private:
 	/// <summary>
 	/// 状態の更新。
@@ -136,9 +140,15 @@ private:
 	/// プレイヤーの旋回処理。
 	/// </summary>
 	void PlayerRotate();
+	/// <summary>
+	/// アニメーションイベントが発生した時に呼ばれる処理。
+	/// </summary>
+	/// <param name="eventName"></param>
+	void OnAnimEvent(const wchar_t* eventName);
 
+	void UpdateSprite();
 private:
-	
+	bool m_ComboAttack = false;
 	
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
@@ -153,5 +163,16 @@ private:
 	CVector3 m_AttackPos = CVector3::Zero();
 	Animation m_Animation;
 	AnimationClip m_AnimeClip[AnimePattern::AnimeNum];
+
+	SpriteRender* m_HpTopSprite = nullptr;
+	CVector3 m_HpPosition = CVector3::Zero();
+	float m_Hp = 62.5;
+	float m_SpriteSize = 0.025f;
+
+	SpriteRender* m_HpUnderSprite = nullptr;
+
+	float m_radius = 30.0f;
+	float m_height =  110.0f;
+	bool m_isInvokeAttackColli = false;	//攻撃判定が発生している？
 };
 

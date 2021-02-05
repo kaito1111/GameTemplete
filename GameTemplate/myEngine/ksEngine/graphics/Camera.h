@@ -125,8 +125,8 @@ private:
 	CVector3 m_Forward = CVector3::Front();			//カメラから見た前方向
 
 	CMatrix m_OrtProjMatrix = CMatrix::Identity();
-	float m_wide = 1280.0f;
-	float m_hight = 720.0f;
+	float m_wide = FRAME_BUFFER_W;
+	float m_hight = FRAME_BUFFER_H;
 };
 
 extern Camera g_camera3D;		//!<3Dカメラ。

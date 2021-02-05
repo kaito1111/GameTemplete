@@ -19,8 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="graphics\GPUBuffer\ConstantBufferGPU.cpp" />
+    <ClCompile Include="graphics\GaussianBlur.cpp" />
+    <ClCompile Include="graphics\Bloom.cpp" />
     <ClCompile Include="character\CharacterController.cpp" />
-    <ClCompile Include="graphics\ForwardRender.cpp" />
+    <ClCompile Include="graphics\ChangeRenderTarget.cpp" />
     <ClCompile Include="GameObject\GameObjectManager.cpp" />
     <ClCompile Include="GameObject\IGameObject.cpp" />
     <ClCompile Include="graphics\2D\SpriteRender.cpp" />
@@ -50,6 +53,7 @@
     <ClCompile Include="physics\PhysicsStaticObject.cpp" />
     <ClCompile Include="physics\RigidBody.cpp" />
     <ClCompile Include="graphics\2D\Sprite.cpp" />
+    <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\2D\SampleSprite.cpp" />
@@ -60,8 +64,11 @@
     <ClCompile Include="system\system.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphics\GPUBuffer\ConstantBufferGPU.h" />
+    <ClInclude Include="graphics\GaussianBlur.h" />
+    <ClInclude Include="graphics\Bloom.h" />
     <ClInclude Include="character\CharacterController.h" />
-    <ClInclude Include="graphics\ForwardRender.h" />
+    <ClInclude Include="graphics\ChangeRenderTarget.h" />
     <ClInclude Include="GameObject\GameObjectManager.h" />
     <ClInclude Include="GameObject\IGameObject.h" />
     <ClInclude Include="graphics\2D\SpriteRender.h" />
@@ -94,6 +101,7 @@
     <ClInclude Include="physics\PhysicsStaticObject.h" />
     <ClInclude Include="physics\RigidBody.h" />
     <ClInclude Include="graphics\2D\Sprite.h" />
+    <ClInclude Include="PostEffect.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\2D\SampleSprite.h" />
@@ -112,13 +120,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -155,6 +163,10 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LibraryPath>$(ProjectDir)\DirectXTK\Bin\Desktop_2015_Win10\x64\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir)/\effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

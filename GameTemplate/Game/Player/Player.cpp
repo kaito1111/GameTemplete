@@ -18,7 +18,7 @@ bool Player::Start()
 {
 	m_Model = NewGO<SkinModelRender>(0);
 	//cmoファイルの読み込み。
-	m_Model->Init(L"Assets/modelData/PlayerArmor.cmo");
+	m_Model->Init(L"Assets/modelData/Player.cmo");
 	m_Model->SetPosition(m_Pos);
 	m_Model->SetRotation(m_Rot);
 	m_Model->SetRenderMode(enSilhouetteDraw);
@@ -31,7 +31,7 @@ bool Player::Start()
 
 	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
 	m_AnimeClip[walk].SetLoopFlag(true);
-	
+
 	m_AnimeClip[Back].Load(L"Assets/animData/back.tka");
 
 	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
@@ -41,19 +41,69 @@ bool Player::Start()
 	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
 
 	m_Animation.Play(idle, 0.2f);
+	m_Animation.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) {
+
+		OnAnimEvent(eventName);
+	});
+
+	m_HpTopSprite = NewGO<SpriteRender>(2);
+	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, 10.0f,true);
+	m_HpPosition = m_Pos;
+	m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
+	m_HpTopSprite->SetPosition(m_HpPosition);
+	m_HpTopSprite->SetPivot({ 0.0f,0.0f });
+	m_HpUnderSprite = NewGO<SpriteRender>(1);
+	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, 10.0f,true);
+	m_HpUnderSprite->SetPosition(m_HpPosition);
 	return true;
 }
-
+void Player::OnAnimEvent(const wchar_t* eventName)
+{
+	if (wcscmp(eventName, L"AttackEnd1") == 0) {
+		if (m_ComboAttack) {
+			m_ComboAttack = false;
+		}
+		else {
+			ChangeState(State_Idle);
+		}
+	}
+	if (wcscmp(eventName, L"AttackEnd2") == 0) {
+		if (!m_ComboAttack) {
+			ChangeState(State_Idle);
+		}
+		m_ComboAttack = false;
+	}
+}
+void Player::UpdateSprite()
+{
+	m_HpPosition = m_Pos;
+	m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
+	//m_HpPosition.x -= 100.0f;
+	m_HpTopSprite->SetPosition(m_HpPosition);
+	m_HpUnderSprite->SetPivot({ 0.0f,0.0f });
+	m_HpUnderSprite->SetPosition(m_HpPosition);
+	m_HpTopSprite->SetPivot({ 0.0f,0.0f });
+	float sizeX = m_SpriteSize * m_Hp;
+	m_HpTopSprite->SetScale({ 2.0,1.0f,1.0f });
+}
 void Player::Update()
 {
+	if (m_state == State::State_Attack) {
+		if (g_pad[0].IsTrigger(enButtonX)) {
+			m_ComboAttack = true;
+		}
+	}
 	UpdateState();
 	m_MoveSpeed = m_Animation.Update(1.0f / 60.0f * m_mulAnimSpeed);
 	//3dsMaxの空間からゲーム空間に移動速度を変更。
 	float tmp = m_MoveSpeed.y;
 	m_MoveSpeed.y = m_MoveSpeed.z;
 	m_MoveSpeed.z = -tmp;
+
 	//モデル空間からワールド空間に変換。
 	m_Rot.Multiply(m_MoveSpeed);
+
+	UpdateSprite();
 
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
 	PlayerMove();
@@ -64,8 +114,11 @@ void Player::Update()
 void Player::PlayerRotate()
 {
 	if (m_currentState->IsPossibleRotate()) {
+		CVector3 MoveSpeed = g_camera3D.GetForward()*g_pad[0].GetLStickYF();
+		MoveSpeed -= g_camera3D.GetRight()*g_pad[0].GetLStickXF();
 		//走り状態のときのみ。
-		m_Rot.SetRotation(CVector3::AxisY(), atan2(-g_pad[0].GetLStickXF(), -g_pad[0].GetLStickYF()));
+		m_Rot.SetRotation(CVector3::AxisY(), atan2(MoveSpeed.x, MoveSpeed.z));
+		//m_Rot.Multiply(g_camera3D.getro)
 	}
 }
 void Player::PlayerMove()
@@ -88,7 +141,7 @@ bool Player::IsBackStep() const
 }
 
 bool Player::IsRollingAttack() {
-	return g_pad[0].IsPress(enButtonY);
+	return  g_pad[0].IsPress(enButtonY);
 }
 
 bool Player::IsAttack() {

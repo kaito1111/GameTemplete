@@ -16,14 +16,14 @@ Game::~Game()
 
 bool Game::Start()
 {
-	m_Player = NewGO<Player>(1);
+	m_Player = NewGO<Player>(1, "player");
 	m_Camera = NewGO<GameCamera>(0);
 	m_Camera->SetPlayer(m_Player);
 	m_Stage = NewGO<Stage>(0);
 	m_Enemy = NewGO<Enemy>(2);
 	m_Enemy->SetPlayer(m_Player);
-	m_Sprite = NewGO<SpriteRender>(0);
-	m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
+	//m_Sprite = NewGO<SpriteRender>(0);
+	//m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
 	return true;
 }
 

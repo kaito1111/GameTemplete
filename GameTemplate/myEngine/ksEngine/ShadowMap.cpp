@@ -65,12 +65,11 @@ void ShadowMap::RenderToShadowMap()
 	SaveRenderTarget();
 
 	//レンダリングターゲットを切り替える。
-	ID3D11RenderTargetView* rts[] = {
-		m_shadowMapRT.GetRenderTargetView()
-	};
-	d3dDeviceContext->OMSetRenderTargets(1, rts, m_shadowMapRT.GetDepthStensilView());
-	//ビューポートを設定。
-	d3dDeviceContext->RSSetViewports(1, m_shadowMapRT.GetViewport());
+	ChangeRenderTarget(
+		m_shadowMapRT.GetRenderTargetView(),
+		m_shadowMapRT.GetDepthStensilView(),
+		m_shadowMapRT.GetViewport()
+	);
 	//シャドウマップをクリア。
 	//一番奥のZは1.0なので、1.0で塗りつぶす。
 	float clearColor[4] = { 1.0f, 1.0f, 1.0f, 0.0f }; //red,green,blue,alpha

@@ -1,7 +1,5 @@
 #pragma once
-#include "graphics/2D/Sprite.h"
 #include "graphics/2D/SampleSprite.h"
-
 namespace ksEngine {
 	class SpriteRender :public IGameObject
 	{
@@ -9,7 +7,7 @@ namespace ksEngine {
 		SpriteRender() {};
 		~SpriteRender() {};
 
-		void Init(const wchar_t* fileName, bool is3DDraw = false);
+		void Init(const wchar_t* fileName, float w = 1280.0f, float h = 720.0f, bool is3DDraw = false);
 		void Update()override;
 		void Draw()override;
 		void PostRender()override;
@@ -23,11 +21,42 @@ namespace ksEngine {
 		void SetScale(const CVector3& scale) {
 			m_Scale = scale;
 		}
+
+		//サイズの設定
+		void SetSize(const CVector2 size) {
+			m_Size = size;
+		}
+
+		//サイズの設定
+		//xとyは同じ大きさになるよ
+		void SetSize(float size) {
+			m_Size = { size,size };
+		}
+
+		//サイズの設定
+		//横と縦の場所に気を付けて
+		void SetSize(float wide, float hight) {
+			m_Size = { wide,hight };
+		}
+
+		void SetAlpha(float alpha) {
+			m_alpha = alpha;
+		}
+
+		void SetPivot(float x,float y) {
+			m_pivot = { x,y };
+		}
+		void SetPivot(CVector2 pivot) {
+			m_pivot = pivot;
+		}
 	private:
 		Sprite m_sprite;
 		CVector3 m_Pos = CVector3::Zero();
 		CQuaternion m_Rot = CQuaternion::Identity();
 		CVector3 m_Scale = CVector3::One();
 		bool m_Is3DDraw = false;
+		CVector2 m_Size = { 1280.0f,720.0f };
+		float m_alpha = 1.0f;
+		CVector2 m_pivot = { 0.0f,0.0f };
 	};
 }

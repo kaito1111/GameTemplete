@@ -23,6 +23,14 @@
 #include "DirectXTK/Inc/SpriteFont.h"
 #include "DirectXTK/Inc/DDSTextureLoader.h"
 
+
+const float FRAME_BUFFER_W = 1920.0f;				//フレームバッファの幅。
+const float FRAME_BUFFER_H = 1080.0f;				//フレームバッファの高さ。
+
+//Effekseerのヘッダーファイルをインクルード。
+#include "Effekseer.h"
+#include "EffekseerRendererDX11.h"
+
 #include "math/Vector.h"
 #include "math/Matrix.h"
 #include "physics/Physics.h"
@@ -37,8 +45,7 @@
 #include "graphics/animation/AnimationClip.h"
 #include "graphics/Camera.h"
 
-const float FRAME_BUFFER_W = 1280.0f;				//フレームバッファの幅。
-const float FRAME_BUFFER_H = 720.0f;				//フレームバッファの高さ。
+
 
 static const int MAX_BONE = 512;	//!<ボーンの最大数。
 
@@ -48,5 +55,6 @@ static const int MAX_BONE = 512;	//!<ボーンの最大数。
 #include "graphics/SkinModelRender.h"
 #include "ShadowMap.h"
 #include "graphics/RenderTarget.h"
+#include "graphics/ChangeRenderTarget.h"
 
 using namespace ksEngine;
