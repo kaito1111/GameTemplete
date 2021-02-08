@@ -9,6 +9,6 @@ void PlayerStateRollingAttack::Update()
 	m_player->PlayAnimation(Player::RollingAttack);
 
 	if (m_player->IsPlayAnimation() == false) {
-		m_player->ChangeState(Player::State_Idle);
+		m_player->SetIdleState();
 	}
 }

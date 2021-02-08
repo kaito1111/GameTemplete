@@ -9,6 +9,6 @@ void PlayerStateAttack::Update()
 	m_player->PlayAnimation(Player::Attack);
 
 	if(m_player->IsPlayAnimation()==false){
-		m_player->ChangeState(Player::State::State_Idle);
+		m_player->SetIdleState();
 	}
 }

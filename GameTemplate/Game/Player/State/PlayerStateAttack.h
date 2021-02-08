@@ -9,6 +9,6 @@ public:
 
 	}
 private:
-	void	Update()override;
+	void Update()override;
 };
 

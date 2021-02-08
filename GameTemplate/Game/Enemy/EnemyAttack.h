@@ -5,10 +5,10 @@ class EnemyAttack : public IGameObject
 public:
 	EnemyAttack();
 	~EnemyAttack();
-	void Init(float Damege, float Aria,const CVector3& pos,float attackFrame) {
+	void Init(float Damege, float Aria,const CVector3& AttackPos,float attackFrame) {
 		m_Area = Aria;
 		m_Damege = Damege;
-		m_Position = pos;
+		m_Position = AttackPos;
 		m_AttackFrame = attackFrame;
 	}
 	bool Start();

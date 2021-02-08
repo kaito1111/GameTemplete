@@ -9,6 +9,6 @@ void PlayerStateBackStep::Update() {
 
 
 	if (m_player->IsPlayAnimation() == false) {
-		m_player->ChangeState(Player::State_Idle);
+		m_player->SetIdleState();
 	}
 }

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "PlayerAttack.h"
-#include "Enemy.h"
+#include "Enemy/Enemy.h"
 #include "Player/Player.h"
 
 PlayerAttack::PlayerAttack()
@@ -13,16 +13,18 @@ PlayerAttack::~PlayerAttack()
 
 bool PlayerAttack::Start()
 {
-	m_enemy = FindGO<Enemy>("enemy");
 	return true;
 }
 
 void PlayerAttack::Update()
 {
-	QueryGOs<Enemy>("Enemy", [&](Enemy* enemy)->bool {
-		CVector3 toEnemyPos = m_enemy->GetPosition() - m_Position;
+	QueryGOs<Enemy>("enemy", [&](Enemy* enemy)->bool {
+		CVector3 toEnemyPos = enemy->GetPosition() - m_Position;
+		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
-			m_enemy->Damege(m_damege);
+			if (!enemy->IsMuteki()) {
+				enemy->HitDamege(m_Attack);
+			}
 		}
 		if (m_AttackFrame < m_DeltaTime) {
 			DeleteGO(this);

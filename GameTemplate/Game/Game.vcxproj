@@ -105,12 +105,17 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Enemy\State\EnemyDamageState.cpp" />
+    <ClCompile Include="Enemy\State\EnemyWalkState.cpp" />
     <ClCompile Include="Enemy\State\EnemyAttackState.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\EnemyAttack.cpp" />
+    <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Enemy\State\IEnemyState.cpp" />
+    <ClCompile Include="PLAYERSTATEDAMAGE.CPP" />
+    <ClCompile Include="Player\State\PlayerStateDamage.cpp" />
     <ClCompile Include="Player\PlayerAttack.cpp" />
     <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
     <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
@@ -128,12 +133,16 @@
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Enemy\State\EnemyDamageState.h" />
+    <ClInclude Include="Enemy\State\EnemyWalkState.h" />
     <ClInclude Include="Enemy\State\EnemyAttackState.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\EnemyAttack.h" />
+    <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Enemy\State\IEnemyState.h" />
+    <ClInclude Include="Player\State\PlayerStateDamage.h" />
     <ClInclude Include="Player\PlayerAttack.h" />
     <ClInclude Include="Player\State\PlayerStateAttack.h" />
     <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />

@@ -1,13 +1,16 @@
 #pragma once
+class Enemy;
 class IEnemyState
 {
 public:
 	IEnemyState(Enemy* en) :
-		m_enemy(en) {};
+		m_enemy(en) 
+	{
+	};
 	~IEnemyState() {};
+	virtual void Update() = 0;
 private:
 	
-	virtual void Update() = 0;
 
 	virtual bool IsPossibleMove() const {
 		return true;

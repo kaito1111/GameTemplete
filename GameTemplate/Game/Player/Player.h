@@ -13,6 +13,7 @@ public:
 		State_Backstep,	//バックステップ中。
 		State_Attack,
 		State_RollingAttack,
+		State_Damage,
 		State_Num
 	};
 	enum AnimePattern {
@@ -22,6 +23,7 @@ public:
 		Back,
 		Attack,
 		RollingAttack,
+		Damage,
 		AnimeNum
 	};
 	Player();
@@ -36,15 +38,10 @@ public:
 	CVector3 AttackPos() {
 		return m_AttackPos;
 	}
-	/// <summary>
-	/// 状態を切り替える。
-	/// </summary>
-	/// <param name="state"></param>
-	void ChangeState(State state);
 
 	void TryChangIdleState() {
 		if (!IsMove()) {
-			ChangeState(State_Idle);
+			m_NextState =State_Idle;
 		}
 	}
 	/// <summary>
@@ -53,6 +50,7 @@ public:
 	void TryChangeMoveState()
 	{
 		if (IsMove()) {
+			m_NextState = State_Run;
 			ChangeState(State_Run);
 		}
 	}
@@ -62,7 +60,7 @@ public:
 	void TryChangeBackStepState()
 	{
 		if (IsBackStep()) {
-			ChangeState(State_Backstep);
+			m_NextState = State_Backstep;
 		}
 	}
 	/// <summary>
@@ -71,7 +69,7 @@ public:
 	void TryChangeAttackState()
 	{
 		if (IsAttack()) {
-			ChangeState(State_Attack);
+			m_NextState = State_Attack;
 		}
 	}
 	/// <summary>
@@ -80,8 +78,12 @@ public:
 	void TryChangeRollingAttackState()
 	{
 		if (IsRollingAttack()) {
-			ChangeState(State_RollingAttack);
+			m_NextState = State_RollingAttack;
 		}
+	}
+
+	void SetIdleState() {
+		m_NextState = State_Idle;
 	}
 	void PlayAnimation(AnimePattern anim)
 	{
@@ -147,12 +149,20 @@ private:
 	void OnAnimEvent(const wchar_t* eventName);
 
 	void UpdateSprite();
+
+	void CreateAttack();
+	/// <summary>
+	/// 状態を切り替える。
+	/// </summary>
+	/// <param name="state"></param>
+	void ChangeState(int state);
 private:
 	bool m_ComboAttack = false;
 	
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
-	State m_state = State_Idle;					//プレイヤーの現在の状態。
+	int m_state = State_Idle;					//プレイヤーの現在の状態。
+	int m_NextState = State::State_Idle;
 	SkinModelRender* m_Model = nullptr;			//スキンモデル。
 	CVector3 m_Pos = CVector3::Zero();
 	CQuaternion m_Rot = CQuaternion::Identity();
@@ -174,5 +184,9 @@ private:
 	float m_radius = 30.0f;
 	float m_height =  110.0f;
 	bool m_isInvokeAttackColli = false;	//攻撃判定が発生している？
+
+	int m_AttackFrame = 0;
+
+	CVector3 m_forward = CVector3::Front();
 };
 
