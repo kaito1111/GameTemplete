@@ -155,7 +155,8 @@ void Player::Update()
 
 	//モデル空間からワールド空間に変換。
 	m_Rot.Multiply(m_MoveSpeed);
-	m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
+	//m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
+	m_Pos = m_MoveSpeed;
 	UpdateSprite();
 
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());

@@ -56,7 +56,7 @@ void GameCamera::Update()
 	moveSpeed.y = max(LowerLimmit, min(UpperLimit, moveSpeed.y));
 	const float deltaTime = 1.0f;
 	//m_Pos = m_CharaCon.Execute(deltaTime, moveSpeed);
-	m_Pos = Target + PlayerCameraLeave;
+	m_Pos = Target + moveSpeed;
 	g_camera3D.SetPosition(m_Pos);
 	
 	//カメラの更新。
