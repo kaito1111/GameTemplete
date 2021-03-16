@@ -95,12 +95,12 @@ public:
 	{
 		return m_deltaValueFootstepBoneOneFrame;
 	}
-	
-private:
 	/// <summary>
 	/// アニメーションイベントを起動する。
 	/// </summary>
 	void InvokeAnimationEvent(Animation* animation);
+private:
+	
 	/*!
 	*@brief	ループ再生開始する時の処理。
 	*/

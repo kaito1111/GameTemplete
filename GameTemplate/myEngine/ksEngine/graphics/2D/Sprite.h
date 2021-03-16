@@ -51,7 +51,9 @@ namespace ksEngine {
 		void SetPosition(const CVector3& pos) {
 			m_position = pos;
 		}
-
+		
+		//回転の処理。
+		//カメラに向く方向＋srotの回転
 		void SetRotation(const CQuaternion& rot) {
 			m_rotation = rot;
 		}
@@ -74,6 +76,10 @@ namespace ksEngine {
 		void Update();
 		void Draw(const CMatrix& viewMatrix, const CMatrix& projMatrix);
 
+		//カメラに向くかどうか。
+		void SetIsFaceCamera(bool isFace) {
+			m_IsFaceCamera = isFace;
+		}
 	private:
 		/// <summary>
 		/// 初期化の共通処理。
@@ -111,5 +117,8 @@ namespace ksEngine {
 		float m_alpha = 1.0f;
 		ID3D11SamplerState*			m_samplerState = NULL;					//サンプラステート。
 		CVector2 m_Size = CVector2::Zero();
+		CVector3 m_Forward = CVector3::Front();
+		CVector3 m_Right = CVector3::Zero();
+		bool m_IsFaceCamera = false;
 	};
 }

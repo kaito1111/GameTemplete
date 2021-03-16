@@ -38,7 +38,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player2.cpp" />
-    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -61,10 +60,18 @@
     <ClCompile Include="Enemy\State\EnemyDamageState.cpp" />
     <ClCompile Include="Player\State\PlayerStateDamage.cpp" />
     <ClCompile Include="PLAYERSTATEDAMAGE.CPP" />
+    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Stage\Stage.cpp" />
+    <ClCompile Include="Stage\Floor.cpp" />
+    <ClCompile Include="Stage\Wall.cpp" />
+    <ClCompile Include="Stage\PhysicsStageObject.cpp" />
+    <ClCompile Include="Enemy\State\EnemyDown.cpp" />
+    <ClCompile Include="SceneChangeLocation.cpp" />
+    <ClCompile Include="ReturnLocation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
-    <ClInclude Include="Stage.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
@@ -86,22 +93,37 @@
     <ClInclude Include="Enemy\State\EnemyWalkState.h" />
     <ClInclude Include="Enemy\State\EnemyDamageState.h" />
     <ClInclude Include="Player\State\PlayerStateDamage.h" />
+    <ClInclude Include="Title.h" />
+    <ClInclude Include="Fade.h" />
+    <ClInclude Include="Stage\Stage.h" />
+    <ClInclude Include="Stage\Floor.h" />
+    <ClInclude Include="Stage\Wall.h" />
+    <ClInclude Include="Stage\PhysicsStageObject.h" />
+    <ClInclude Include="Enemy\State\EnemyDown.h" />
+    <ClInclude Include="SceneChangeLocation.h" />
+    <ClInclude Include="ReturnLocation.h" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\unityChan.fbx">
-      <Filter>Assets\modelData</Filter>
-    </MeshContentTask>
-    <MeshContentTask Include="Assets\modelData\Floor.FBX" />
-    <MeshContentTask Include="Assets\modelData\Player.FBX" />
-    <MeshContentTask Include="Assets\modelData\Enemy.FBX" />
-    <MeshContentTask Include="C:\Users\佐藤　賀郁\Desktop\就職作品\GameTemplate\Game\Assets\modelData\EnemyDown.FBX" />
-    <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
-    <MeshContentTask Include="Assets\modelData\yuka.FBX" />
-    <MeshContentTask Include="Assets\modelData\Boss.fbx" />
-    <MeshContentTask Include="Assets\modelData\BigEnemy.fbx" />
-    <MeshContentTask Include="Assets\modelData\bbbbb.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\candle.FBX" />
+    <MeshContentTask Include="Assets\modelData\Chair.FBX" />
+    <MeshContentTask Include="Assets\modelData\Door.FBX" />
+    <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
+    <MeshContentTask Include="Assets\modelData\Floor.FBX" />
     <MeshContentTask Include="Assets\modelData\keleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\Load.fbx" />
+    <MeshContentTask Include="Assets\modelData\Player.FBX" />
+    <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
+    <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
+    <MeshContentTask Include="Assets\modelData\Stage2Ceiling.fbx" />
+    <MeshContentTask Include="Assets\modelData\Stage2Floor.fbx" />
+    <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
+    <MeshContentTask Include="Assets\modelData\Stage2Wall.fbx" />
+    <MeshContentTask Include="Assets\modelData\Table.FBX" />
+    <MeshContentTask Include="Assets\modelData\Stege1.fbx" />
+    <MeshContentTask Include="Assets\modelData\wall.FBX" />
+    <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
+    <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />
@@ -118,5 +140,8 @@
     <ImageContentTask Include="Assets\sprite\HP_Under_LightGray.png" />
     <ImageContentTask Include="Assets\sprite\reticle.png" />
     <ImageContentTask Include="Assets\sprite\terget.png" />
+    <ImageContentTask Include="Assets\sprite\title.png" />
+    <ImageContentTask Include="Assets\sprite\Loading.png" />
+    <ImageContentTask Include="Assets\sprite\Brack.png" />
   </ItemGroup>
 </Project>

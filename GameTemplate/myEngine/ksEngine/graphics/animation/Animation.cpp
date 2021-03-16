@@ -66,6 +66,9 @@ void Animation::UpdateLocalPose(float deltaTime)
 		int index = GetAnimationControllerIndex(m_startAnimationPlayController, i );
 		m_animationPlayController[index].Update(deltaTime, this);
 	}
+	//カレントアニメーションのみアニメーションイベントを起動させる。
+	int index = GetLastAnimationControllerIndex();
+	m_animationPlayController[index].InvokeAnimationEvent(this);
 }
 
 CVector3 Animation::UpdateGlobalPose()

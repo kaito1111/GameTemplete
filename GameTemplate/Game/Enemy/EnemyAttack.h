@@ -5,20 +5,19 @@ class EnemyAttack : public IGameObject
 public:
 	EnemyAttack();
 	~EnemyAttack();
-	void Init(float Damege, float Aria,const CVector3& AttackPos,float attackFrame) {
+	void Init(float Damege, float Aria,const CVector3& AttackPos) {
 		m_Area = Aria;
 		m_Damege = Damege;
 		m_Position = AttackPos;
-		m_AttackFrame = attackFrame;
 	}
 	bool Start();
 	void Update();
+	void OnDestroy()override;
 private:
 	float m_Damege = 0.0f;
 	float m_Area = 0.0f;
 	Player* m_Player = nullptr;
 	CVector3 m_Position = CVector3::Zero();
-	float m_AttackFrame = 0.0f;
-	float m_deltaFrame = 0.0f;
+	SkinModelRender* m_AttackModel = nullptr;
 };
 

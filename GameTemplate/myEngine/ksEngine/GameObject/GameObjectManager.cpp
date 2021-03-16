@@ -101,6 +101,9 @@ namespace ksEngine {
 				auto it = std::find(goExecList.begin(), goExecList.end(), go);
 				if (it != goExecList.end()) {
 					(*it)->m_IsRegistDeadList = false;
+					if ((*it)->IsNewFromGameObjectManager()) {
+						delete (*it);
+					}
 					goExecList.erase(it);
 				}
 			}

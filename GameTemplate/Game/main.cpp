@@ -4,6 +4,7 @@
 #include "level/Level.h"
 #include "graphics/2D/Sprite.h"
 #include "graphics/2D/SampleSprite.h"
+#include "Fade.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -23,8 +24,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CGameObjectManager()->Init();
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
-	Game* game = NewGO<Game>(0);
-
+	Game* game = NewGO<Game>(0,"game");
+	game->SetLevelFilePath(L"Assets/level/StageLevel.tkl");
+	
+	//Fade* fade = NewGO<Fade>(0);
 
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)

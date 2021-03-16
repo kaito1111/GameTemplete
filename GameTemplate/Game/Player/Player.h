@@ -30,6 +30,7 @@ public:
 	~Player();
 	bool Start();
 	void Update();
+	void OnDestroy()override;
 
 	CVector3 GetPosition() {
 		return m_Pos;
@@ -37,6 +38,10 @@ public:
 
 	CVector3 AttackPos() {
 		return m_AttackPos;
+	}
+
+	int GetHp() {
+		return m_Hp;
 	}
 
 	void TryChangIdleState() {
@@ -108,6 +113,25 @@ public:
 
 	void HitDamage(float damege) {
 		m_Hp -= damege;
+		m_NextState = State_Damage;
+		m_mutekiflame = 60;
+	}
+
+	int GetMutekiFlame() {
+		return m_mutekiflame;
+	}
+
+	void SetSpownPos(CVector3 pos) {
+		m_SpownPosition = pos;
+	}
+
+	void SetSpwonHp(int hp) {
+		m_Hp = hp;
+	}
+
+	//プレイヤーの高さを取得
+	float GetHeight() const {
+		return m_height;
 	}
 private:
 	/// <summary>
@@ -150,7 +174,6 @@ private:
 
 	void UpdateSprite();
 
-	void CreateAttack();
 	/// <summary>
 	/// 状態を切り替える。
 	/// </summary>
@@ -177,16 +200,21 @@ private:
 	SpriteRender* m_HpTopSprite = nullptr;
 	CVector3 m_HpPosition = CVector3::Zero();
 	float m_Hp = 62.5;
+	const float m_MaxHp = 62.5;
 	float m_SpriteSize = 0.025f;
 
 	SpriteRender* m_HpUnderSprite = nullptr;
 
-	float m_radius = 30.0f;
+	float m_radius = 35.0f;
 	float m_height =  110.0f;
 	bool m_isInvokeAttackColli = false;	//攻撃判定が発生している？
 
-	int m_AttackFrame = 0;
-
 	CVector3 m_forward = CVector3::Front();
+
+	int m_mutekiflame = 0;
+
+	SkinModelRender* m_HitModel = nullptr;
+
+	CVector3 m_SpownPosition = CVector3::Zero();
 };
 

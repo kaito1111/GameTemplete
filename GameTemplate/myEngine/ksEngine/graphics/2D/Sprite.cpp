@@ -239,6 +239,35 @@ namespace ksEngine {
 		mTrans.MakeTranslation(m_position);
 		mRot.MakeRotationFromQuaternion(m_rotation);
 		mScale.MakeScaling(m_scale);
+		CMatrix mCameraRot = CMatrix::Identity();
+		if (m_IsFaceCamera) {
+			CMatrix mCamera = g_camera3D.GetViewMatrix();
+			mCameraRot.Inverse(mCamera);
+			mCameraRot.m[3][0] = 0.0f;
+			mCameraRot.m[3][1] = 0.0f;
+			mCameraRot.m[3][2] = 0.0f;
+			//CMatrix mRot = CMatrix::Identity();
+			//mRot.MakeRotationFromQuaternion(m_rotation);
+			//m_Forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
+			//m_Forward.Normalize();
+			//m_Forward *= -1.0f;
+			//CVector3 CameraDiff = m_position - g_camera3D.GetPosition();
+			//CameraDiff.Normalize();
+			//float angle = CameraDiff.Dot(m_Forward);
+			//float radian = acosf(angle);
+			//radian = max(0.0f, min(1.0f, radian));
+			//m_Right = { mRot.m[0][0],mRot.m[0][1],mRot.m[0][2] };
+			//m_Right.Normalize();
+			//angle = CameraDiff.Dot(m_Right);
+
+			//CQuaternion CameraRot = CQuaternion::Identity();
+			//CameraRot.SetRotation(CVector3::AxisY(), radian);
+			//m_rotation.Multiply(CameraRot);
+			////CMatrix mCameraRot = CMatrix::Identity();
+			////mCameraRot.MakeRotationFromQuaternion(CameraRot);
+			////m_rotation.SetRotation(mCameraRot);
+		}
+		mRot.Mul(mCameraRot, mRot);
 		m_world.Mul(mPivotTrans, mScale);
 		m_world.Mul(m_world, mRot);
 		m_world.Mul(m_world, mTrans);

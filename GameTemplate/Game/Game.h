@@ -1,6 +1,6 @@
 #pragma once
 
-class Player;
+#include "Player/Player.h"
 class Stage;
 class GameCamera;
 class Enemy;
@@ -11,6 +11,16 @@ public:
 	Game();
 	~Game();
 
+	void SetLevelFilePath(wchar_t* filePath) {
+		wcscpy(m_LevelFilePath, filePath);
+	}
+
+	int GetPlayerHp() {
+		return m_Player->GetHp();
+	}
+	void SetPlayerHp(int hp) {
+		m_SpownHp = hp;
+	}
 private:
 	bool Start()override;
 	void Update()override;
@@ -21,4 +31,6 @@ private:
 	GameCamera* m_Camera = nullptr;
 	Enemy* m_Enemy = nullptr;
 	SpriteRender* m_Sprite;
+	wchar_t m_LevelFilePath[256] = {};
+	int m_SpownHp = 62.5;
 };

@@ -7,7 +7,7 @@ namespace ksEngine {
 		SpriteRender() {};
 		~SpriteRender() {};
 
-		void Init(const wchar_t* fileName, float w = 1280.0f, float h = 720.0f, bool is3DDraw = false);
+		void Init(const wchar_t* fileName, float w = FRAME_BUFFER_W, float h = FRAME_BUFFER_H, bool is3DDraw = false);
 		void Update()override;
 		void Draw()override;
 		void PostRender()override;
@@ -46,8 +46,34 @@ namespace ksEngine {
 		void SetPivot(float x,float y) {
 			m_pivot = { x,y };
 		}
+		//äÓì_ç∂è„Ç™{0,0},âEâ∫Ç™{1,1}
 		void SetPivot(CVector2 pivot) {
 			m_pivot = pivot;
+		}
+		void SetIsFaceCamera(bool isFaceCamera) {
+			m_sprite.SetIsFaceCamera(isFaceCamera);
+		}
+		static CVector2 Center()
+		{
+			return CVector2(0.5f,0.5f);
+		}
+		static float YCenter() {
+			return 0.5f;
+		}
+		static float XCenter() {
+			return 0.5f;
+		}
+		static float Left() {
+			return 0.0f;
+		}
+		static float Right() {
+			return 1.0f;
+		}
+		static float Up(){
+			return 0.0f;
+		}
+		static float Down() {
+			return 1.0f;
 		}
 	private:
 		Sprite m_sprite;
@@ -57,6 +83,6 @@ namespace ksEngine {
 		bool m_Is3DDraw = false;
 		CVector2 m_Size = { 1280.0f,720.0f };
 		float m_alpha = 1.0f;
-		CVector2 m_pivot = { 0.0f,0.0f };
+		CVector2 m_pivot = { 0.5f,0.5f };
 	};
 }

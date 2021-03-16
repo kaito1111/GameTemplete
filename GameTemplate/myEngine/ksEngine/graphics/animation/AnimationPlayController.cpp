@@ -70,8 +70,6 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 	const auto& topBoneKeyFrameList = m_animationClip->GetTopBoneKeyFrameList();
 	m_time += deltaTime;
 
-	//アニメーションイベントの発生
-	InvokeAnimationEvent(animation);
 	//補完時間も進めていく。
 	m_interpolateTime = min(1.0f, m_interpolateTime + deltaTime);
 	while (true) {
@@ -137,7 +135,9 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 			m_deltaValueFootstepBone.x = mat.m[3][0];
 			m_deltaValueFootstepBone.y = mat.m[3][1];
 			m_deltaValueFootstepBone.z = mat.m[3][2];
-
+			//if (m_deltaValueFootstepBone.y < -100000.0f) {
+			//	printf("hoge");
+			//}
 			if (m_isFirst == true) {
 				m_deltaValueFootstepBoneOneFrame = CVector3::Zero();
 				m_isFirst = false;

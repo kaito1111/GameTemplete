@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "PlayerStateDamage.h"
-#include "Player/Palayer.h"
+#include "Player/Player.h"
 
 void PlayerStateDamage::Update() {
 	m_player->PlayAnimation(Player::Damage);
-	if (!m_palyer->IsPlayAnimation()) {
-		m_player->ChangeState(Player::State_Damage);
+	if (!m_player->IsPlayAnimation()) {
+		m_player->SetIdleState();
 	}
+	DeleteGOs("playerAttack");
 }

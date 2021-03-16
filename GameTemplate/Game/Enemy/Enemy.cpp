@@ -6,6 +6,7 @@
 #include "Enemy/State/EnemyWalkState.h"
 #include "Enemy/State/IEnemyState.h"
 #include "Enemy/State/EnemyDamageState.h"
+#include "State/EnemyDown.h"
 #include "EnemyAttack.h"
 
 Enemy::Enemy()
@@ -16,14 +17,35 @@ Enemy::~Enemy()
 {
 }
 
+void Enemy::OnDestroy()
+{
+	DeleteGO(m_Skin);
+	DeleteGO(m_HpTopSprite);
+	DeleteGO(m_HpUnderSprite);
+}
+
 void Enemy::Move(CVector3 move)
 {
 	EnemyRot();
 	m_Pos = m_CharaCon.Execute(1.0f / 60.0f, move);
 }
-
+void Enemy::HitDamege(float damege) {
+	if (m_ActiveState->IsPossibleHpDown()) {
+		m_Hp -= damege;
+	}
+	if (m_Hp > 0) {
+		m_NextState = State::Damege;
+	}
+	else {
+		m_Hp = 0;
+		m_NextState = State::Down;
+	}
+}
 bool Enemy::Start()
 {
+	m_Player = FindGO<Player>("player");
+	m_Pos = m_SpownPosition;
+
 	m_Skin = NewGO<SkinModelRender>(0);
 	m_Skin->Init(L"Assets/modelData/keleton.cmo");
 	m_Skin->SetPosition(m_Pos);
@@ -33,35 +55,47 @@ bool Enemy::Start()
 
 	m_CharaCon.Init(20.0f, m_height, m_Pos);
 
+	float sizeX = m_SpriteSize * m_Hp;
 	m_HpTopSprite = NewGO<SpriteRender>(2);
 	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, 10.0f, true);
 	m_HpPosition = m_Pos;
 	m_HpPosition.y += m_height + 10.0f;
+	CVector3 AddSpritePos = g_camera3D.GetRight()*55.0f;
+	m_HpPosition -= AddSpritePos;
 	m_HpTopSprite->SetPosition(m_HpPosition);
+	m_HpTopSprite->SetScale({ sizeX,1.0f,1.0f });
 	//m_HpTopSprite->SetPivot({ -1.0f,0.0f });
 	m_HpUnderSprite = NewGO<SpriteRender>(1);
 	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, 10.0f, true);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
+	m_HpUnderSprite->SetScale({ sizeX,1.0f,1.0f });
+	m_HpUnderSprite->SetIsFaceCamera(true);
+	m_HpTopSprite->SetIsFaceCamera(true);
 
 	m_AniClip[State::Walk].Load(L"Assets/AnimData/SkeltonWalk.tka");
 	m_AniClip[State::Walk].SetLoopFlag(true);
 	m_AniClip[State::Attack].Load(L"Assets/AnimData/SkeltonAttack.tka");
 	m_AniClip[State::Damege].Load(L"Assets/AnimData/SkeltonDamage.tka");
+	m_AniClip[State::Down].Load(L"Assets/AnimData/SkeltonDown.tka");
 	m_AniClip[State::Idle].Load(L"Assets/AnimData/SkeltonIdle.tka");
 	m_AniClip[State::Idle].SetLoopFlag(true);
 	m_Animation.Init(m_Skin->GetModel(), m_AniClip, State::Num);
+	m_Animation.AddAnimationEventListener([&](const wchar_t* ClipName, const wchar_t* eventName) {
+		OnAnimEvent(eventName);
+	});
 
 	m_ActiveState = new EnemyIdleState(this);
+
 	return true;
 }
 void Enemy::OnAnimEvent(const wchar_t* eventName)
 {
-	if (wcscmp(eventName, L"AttackEnd1") == 0) {
-		m_AttackPattarn = 1;
-
+	if (wcscmp(eventName, L"AttackStart") == 0) {
+		attack = NewGO< EnemyAttack>(0, "enemyAttack");
+		attack->Init(10.0f, 135.0f, m_AttackPos);
 	}
-	if (wcscmp(eventName, L"AttackEnd2") == 0) {
-		m_AttackPattarn = 0;
+	if (wcscmp(eventName, L"AttackEnd") == 0) {
+		DeleteGO("enemyAttack");
 	}
 }
 
@@ -82,20 +116,23 @@ void Enemy::ChangeState(int st)
 	case State::Attack:
 		delete m_ActiveState;
 		m_ActiveState = new EnemyAttackState(this);
-		CreateEnemyAttack();
+		//CreateEnemyAttack();
 		break;
 	case State::Damege:
 		delete m_ActiveState;
+		DeleteGOs("enemyAttack");
 		m_ActiveState = new EnemyDamageState(this);
 		break;
+	case State::Down:
+		delete m_ActiveState;
+		DeleteGOs("enemyAttack");
+		m_ActiveState = new EnemyDown(this);
 	}
-
 	m_State = st;
 }
 
 void Enemy::Update()
 {
-	m_Mutekiframe--;
 	UpdateSprite();
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetRotation(m_Rot);
@@ -116,6 +153,11 @@ void Enemy::Update()
 	if (m_NextState != m_State) {
 		ChangeState(m_NextState);
 	}
+	CMatrix mRot;
+	mRot.MakeRotationFromQuaternion(m_Rot);
+	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
+	m_forward.Normalize();
+	m_AttackPos = m_Pos + m_forward * 100.0f;
 	m_Animation.Update(1.0f / 60.0f);
 }
 
@@ -135,7 +177,8 @@ void Enemy::UpdateSprite()
 	m_HpPosition = m_Pos;
 	m_HpPosition.y += m_height + 10.0f;
 	float SizeX = m_Hp * m_SpriteSize;
-	m_HpPosition.x -= 50.0f;
+	CVector3 AddSpritePos = g_camera3D.GetRight()*55.0f;
+	m_HpPosition -= AddSpritePos;
 	m_HpTopSprite->SetScale({ SizeX,1.0f,1.0f });
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
@@ -164,10 +207,11 @@ bool Enemy::IsAttack() const
 
 bool Enemy::IsDamage() const
 {
-	return false;
+	if (m_State != State::Damege) {
+		return true;
+	}
 }
 
 void Enemy::CreateEnemyAttack() {
-	EnemyAttack* Attack = NewGO< EnemyAttack>(0);
-	Attack->Init(10.0f, 50.0f, m_Pos, 60);
+	//EnemyAttack* Attack = NewGO< EnemyAttack>(0);
 }

@@ -13,6 +13,10 @@ PlayerAttack::~PlayerAttack()
 
 bool PlayerAttack::Start()
 {
+	m_AttackModel = NewGO<SkinModelRender>(0);
+	m_AttackModel->Init(L"Assets/modelData/DebugShere.cmo");
+	m_AttackModel->SetPosition(m_Position);
+	m_AttackModel->SetScale({ m_Aria, m_Aria, 1.0f });
 	return true;
 }
 
@@ -22,14 +26,16 @@ void PlayerAttack::Update()
 		CVector3 toEnemyPos = enemy->GetPosition() - m_Position;
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
-			if (!enemy->IsMuteki()) {
+			if (enemy->IsDamage()&& !m_Hit) {
 				enemy->HitDamege(m_Attack);
+				m_Hit = true;
 			}
 		}
-		if (m_AttackFrame < m_DeltaTime) {
-			DeleteGO(this);
-		}
-		m_DeltaTime++;
 		return true;
 	});
+}
+
+void PlayerAttack::OnDestroy()
+{
+	DeleteGO(m_AttackModel);
 }

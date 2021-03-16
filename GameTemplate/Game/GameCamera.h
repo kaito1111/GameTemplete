@@ -7,9 +7,6 @@ public:
 	GameCamera();
 	~GameCamera();
 
-	void SetPlayer(Player* pl) {
-		m_player = pl;
-	}
 private:
 	bool Start();
 	void Update();

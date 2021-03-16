@@ -192,8 +192,8 @@ namespace ksEngine {
 	 *@brief	名前でヒットしたやつ消す
 	 *@param[in]	objectName	ゲームオブジェクトの名前。
 	 */
-	static inline void DeleteGO(const char* ObjectName) {
-		IGameObject* go = FindGO<IGameObject>(ObjectName);
+	static inline void DeleteGO(const char* ObjectName,bool enableErrorMessage=true) {
+		IGameObject* go = FindGO<IGameObject>(ObjectName, enableErrorMessage);
 		CGameObjectManager()->DeleteGameObject(go);
 	}
 	/*!

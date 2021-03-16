@@ -11,10 +11,12 @@ enum State {
 	Idle,
 	Walk,
 	Damege,
+	Down,
 	Num
 };
 	Enemy();
 	~Enemy();
+	void OnDestroy()override;
 public:
 	void SetPlayer(Player* pl) {
 		m_Player = pl;
@@ -24,11 +26,8 @@ public:
 		return m_Player->GetPosition();
 	}
 
-	void HitDamege(float damege) {
-		m_Hp -= damege;
-		m_Mutekiframe = 90;
-		m_NextState = State::Damege;
-	}
+	void HitDamege(float damege);
+
 	const CVector3& GetPosition() {
 		return m_Pos;
 	}
@@ -52,18 +51,20 @@ public:
 		}
 	}
 
+	bool IsDamage()const;
+
 	void SetIdleState() {
 		m_NextState = State::Idle;
 	}
 
-	bool IsMuteki() {
-		if (m_Mutekiframe > 0) {
-			return true;
-		}
-		return false;
-	}
-
 	void Move(CVector3 move);
+
+	void SetSpownPos(CVector3 pos) {
+		m_SpownPosition = pos;
+	}
+	void SetRotation(CQuaternion rot) {
+		m_Rot = rot;
+	}
 private:
 	bool Start()override;
 	void Update()override;
@@ -74,7 +75,6 @@ private:
 	
 	bool IsWalk()const;
 	bool IsAttack()const;
-	bool IsDamage()const;
 
 	void CreateEnemyAttack();
 
@@ -97,17 +97,19 @@ private:
 	SpriteRender* m_HpUnderSprite = nullptr;
 	float m_height = 150.0f;
 	int m_AttackPattarn = 0;	//çUåÇîªíËÇ™î≠ê∂ÇµÇƒÇ¢ÇÈÅH
-	EnemyAttack* m_EnemyAttack;
 
 	Animation m_Animation;
 	AnimationClip m_AniClip[Num];
 
 	int m_State = State::Idle;
 
-	int m_Mutekiframe = 0;
-
 	IEnemyState* m_ActiveState = nullptr;
 	int m_NextState = State::Idle;
 
 	CVector3 m_forward = CVector3::Front();
+	CVector3 m_AttackPos = CVector3::Zero();
+
+	EnemyAttack* attack = nullptr;
+
+	CVector3 m_SpownPosition = CVector3::Zero();
 };

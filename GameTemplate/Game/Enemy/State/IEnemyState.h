@@ -9,6 +9,9 @@ public:
 	};
 	~IEnemyState() {};
 	virtual void Update() = 0;
+	virtual bool IsPossibleHpDown() {
+		return true;
+	}
 private:
 	
 
@@ -19,6 +22,7 @@ private:
 	virtual bool IsPossibleRotate()const {
 		return true;
 	}
+
 protected:
 	Enemy* m_enemy = nullptr;
 };
