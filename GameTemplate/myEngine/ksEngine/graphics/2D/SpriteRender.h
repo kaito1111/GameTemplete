@@ -46,7 +46,7 @@ namespace ksEngine {
 		void SetPivot(float x,float y) {
 			m_pivot = { x,y };
 		}
-		//基点左上が{0,0},右下が{1,1}
+		//基点左上が{1,0},右下が{0,1}
 		void SetPivot(CVector2 pivot) {
 			m_pivot = pivot;
 		}
@@ -64,10 +64,10 @@ namespace ksEngine {
 			return 0.5f;
 		}
 		static float Left() {
-			return 0.0f;
+			return 1.0f;
 		}
 		static float Right() {
-			return 1.0f;
+			return 0.0f;
 		}
 		static float Up(){
 			return 0.0f;

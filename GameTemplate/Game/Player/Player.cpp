@@ -25,7 +25,7 @@ bool Player::Start()
 	m_Model->SetPosition(m_Pos);
 	m_Model->SetRotation(m_Rot);
 	m_Model->SetRenderMode(enSilhouetteDraw);
-	m_CharaCon.Init(20.0f, 80.0f, m_Pos);
+	m_CharaCon.Init(m_radius, m_height, m_Pos);
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
@@ -46,7 +46,8 @@ bool Player::Start()
 
 	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
 
-	m_Animation.Play(idle, 0.2f);
+	const float InterpolateTime = 0.2f;
+	m_Animation.Play(idle, InterpolateTime);
 	m_Animation.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) {
 
 		OnAnimEvent(eventName);
@@ -65,13 +66,17 @@ bool Player::Start()
 	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
 	float sizeX = m_SpriteSize * m_MaxHp;
-	m_HpUnderSprite->SetScale({ sizeX,1.0f,1.0f });
-	m_HpTopSprite->SetScale({ sizeX,1.0f,1.0f });
+	CVector3 SpriteScale = CVector3::One();
+	SpriteScale.x = sizeX;
+	m_HpUnderSprite->SetScale(SpriteScale);
+	m_HpTopSprite->SetScale(SpriteScale);
 	m_HpUnderSprite->SetIsFaceCamera(true);
 	m_HpTopSprite->SetIsFaceCamera(true);
 
 	m_HitModel = NewGO<SkinModelRender>(0);
 	m_HitModel->Init(L"Assets/modelData/DebugShere.cmo");
+	//zはワールド空間でのｙにあたる
+	//yは考慮しない
 	m_HitModel->SetScale({ m_radius, m_radius, 1.0f });
 	return true;
 }
@@ -122,17 +127,19 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 void Player::UpdateSprite()
 {
 	m_HpPosition = m_Pos;
-	m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
-	//m_HpPosition.x -= 100.0f;
-	//Hpをプレイヤーの真ん中に置く
-	float sizeX = m_SpriteSize * m_Hp;
-	CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
-	m_HpPosition += AddSpritePos;
+	//m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
+	////m_HpPosition.x -= 100.0f;
+	////Hpをプレイヤーの真ん中に置く
+	//CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
+	//m_HpPosition += AddSpritePos;
 	m_HpTopSprite->SetPosition(m_HpPosition);
-	m_HpUnderSprite->SetPivot({ 1.0f,0.0f });
+	m_HpUnderSprite->SetPivot({SpriteRender::Left(),SpriteRender::Up() });
 	m_HpUnderSprite->SetPosition(m_HpPosition);
-	m_HpTopSprite->SetPivot({ 1.0f,0.0f });
-	m_HpTopSprite->SetScale({ sizeX,1.0f,1.0f });
+	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
+	CVector3 SpriteSize = CVector3::One();
+	float sizeX = m_SpriteSize * m_Hp;
+	SpriteSize.x = sizeX;
+	m_HpTopSprite->SetScale(SpriteSize);
 }
 void Player::Update()
 {
@@ -155,12 +162,13 @@ void Player::Update()
 
 	//モデル空間からワールド空間に変換。
 	m_Rot.Multiply(m_MoveSpeed);
-	//m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
-	m_Pos = m_MoveSpeed;
-	UpdateSprite();
 
+	//HPのスプライトを更新
+	UpdateSprite();
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
+	//移動処理
 	PlayerMove();
+	//回転処理
 	PlayerRotate();
 	m_Model->SetPosition(m_Pos);
 	m_Model->SetRotation(m_Rot);
@@ -183,6 +191,7 @@ void Player::OnDestroy()
 void Player::PlayerRotate()
 {
 	if (m_currentState->IsPossibleRotate()) {
+		//カメラの方向に合わせて向かせる
 		CVector3 MoveSpeed = g_camera3D.GetForward()*g_pad[0].GetLStickYF();
 		MoveSpeed -= g_camera3D.GetRight()*g_pad[0].GetLStickXF();
 		//走り状態のときのみ。
@@ -193,7 +202,11 @@ void Player::PlayerMove()
 {
 	if (m_currentState->IsPossibleMove()) {
 		//プレイヤーの移動量はアニメーションの再生から引っ張ってくる。
-		m_Pos += m_MoveSpeed;
+		//m_Pos += m_MoveSpeed;
+		if (m_MoveSpeed.Length() < 1.0f) {
+			m_MoveSpeed = CVector3::Zero();
+		}
+		m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
 
 	}
 }

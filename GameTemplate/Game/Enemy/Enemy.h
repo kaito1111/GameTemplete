@@ -95,7 +95,7 @@ private:
 	float m_SpriteSize = 0.025f;
 
 	SpriteRender* m_HpUnderSprite = nullptr;
-	float m_height = 150.0f;
+	const float m_height = 150.0f;
 	int m_AttackPattarn = 0;	//UŒ‚”»’è‚ª”­¶‚µ‚Ä‚¢‚éH
 
 	Animation m_Animation;

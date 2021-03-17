@@ -122,6 +122,11 @@ void CharacterController::Init(float radius, float height, const CVector3& posit
 }
 const CVector3& CharacterController::Execute(float deltaTime, CVector3& moveSpeed)
 {
+	//“®‚¢‚Ä‚¢‚È‚¢‚Ì‚Å‚»‚Ì‚Ü‚Ü•Ô‚·
+	const float NoMove=0.0001f;
+	if (moveSpeed.Length() < NoMove) {
+		return m_position;
+	}
 	if (moveSpeed.y > 0.0f) {
 		//‚Á”ò‚Ñ’†‚É‚·‚éB
 		m_isJump = true;

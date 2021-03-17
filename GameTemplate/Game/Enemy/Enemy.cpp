@@ -53,23 +53,32 @@ bool Enemy::Start()
 	m_Skin->SetScale(m_Scale);
 	m_Skin->SetRenderMode(1);
 
-	m_CharaCon.Init(20.0f, m_height, m_Pos);
+	const float radius = 20.0f;
+	m_CharaCon.Init(radius, m_height, m_Pos);
 
+	const float hpSpriteSizeY = 10.0f;
 	float sizeX = m_SpriteSize * m_Hp;
 	m_HpTopSprite = NewGO<SpriteRender>(2);
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, 10.0f, true);
+	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, hpSpriteSizeY, true);
 	m_HpPosition = m_Pos;
-	m_HpPosition.y += m_height + 10.0f;
-	CVector3 AddSpritePos = g_camera3D.GetRight()*55.0f;
+	//HP‚ð‚¿‚å‚Á‚Æã‚É’u‚­
+	const float HpPosUp = 10.0f;
+	m_HpPosition.y += m_height + HpPosUp;
+	//Šî“_‚ð‚¸‚ç‚µ‚Ä‚¢‚é‚Ì‚Å
+	//‚»‚ÌƒYƒŒ‚ðC³
+	CVector3 AddSpritePos = g_camera3D.GetRight()*-50.0f;
 	m_HpPosition -= AddSpritePos;
 	m_HpTopSprite->SetPosition(m_HpPosition);
-	m_HpTopSprite->SetScale({ sizeX,1.0f,1.0f });
-	//m_HpTopSprite->SetPivot({ -1.0f,0.0f });
+	CVector3 SpriteSize = CVector3::One();
+	SpriteSize.x = sizeX;
+	m_HpTopSprite->SetScale(SpriteSize);
+	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
 	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, 10.0f, true);
+	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, hpSpriteSizeY, true);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
-	m_HpUnderSprite->SetScale({ sizeX,1.0f,1.0f });
-	m_HpUnderSprite->SetIsFaceCamera(true);
+	m_HpUnderSprite->SetScale(SpriteSize);
+	m_HpUnderSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
+	m_HpUnderSprite->SetIsFaceCamera(true); 
 	m_HpTopSprite->SetIsFaceCamera(true);
 
 	m_AniClip[State::Walk].Load(L"Assets/AnimData/SkeltonWalk.tka");
@@ -92,7 +101,9 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 {
 	if (wcscmp(eventName, L"AttackStart") == 0) {
 		attack = NewGO< EnemyAttack>(0, "enemyAttack");
-		attack->Init(10.0f, 135.0f, m_AttackPos);
+		const float AttackDamage = 10.0f;
+		const float AttackEria = 135.0f;
+		attack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
 	if (wcscmp(eventName, L"AttackEnd") == 0) {
 		DeleteGO("enemyAttack");
@@ -157,7 +168,9 @@ void Enemy::Update()
 	mRot.MakeRotationFromQuaternion(m_Rot);
 	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
 	m_forward.Normalize();
-	m_AttackPos = m_Pos + m_forward * 100.0f;
+	//UŒ‚‚ÌŒ¨‚©‚ç˜r‚Ü‚Å‚Ì‹——£
+	const float AttackReach = 100.0f;
+	m_AttackPos = m_Pos + m_forward * AttackReach;
 	m_Animation.Update(1.0f / 60.0f);
 }
 
@@ -175,11 +188,16 @@ void Enemy::EnemyRot()
 void Enemy::UpdateSprite()
 {
 	m_HpPosition = m_Pos;
+	//HP‚ð‚¿‚å‚Á‚Æã‚É’u‚­
 	m_HpPosition.y += m_height + 10.0f;
 	float SizeX = m_Hp * m_SpriteSize;
-	CVector3 AddSpritePos = g_camera3D.GetRight()*55.0f;
+	//Šî“_‚ð‚¸‚ç‚µ‚Ä‚¢‚é‚Ì‚Å
+	//‚»‚ÌƒYƒŒ‚ðC³
+	CVector3 AddSpritePos = g_camera3D.GetRight()*-50.0f;
 	m_HpPosition -= AddSpritePos;
-	m_HpTopSprite->SetScale({ SizeX,1.0f,1.0f });
+	CVector3 SpriteSize = CVector3::One();
+	SpriteSize.x = SizeX;
+	m_HpTopSprite->SetScale(SpriteSize);
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
 }
@@ -187,10 +205,13 @@ void Enemy::UpdateSprite()
 bool Enemy::IsWalk() const
 {
 	CVector3 Diff = m_Player->GetPosition() - m_Pos;
-	if (Diff.Length() < 500.0f) {
+	//Ž‹ŠE
+	const float visility = 500.0f;
+	if (Diff.Length() < visility) {
 		Diff.Normalize();
 		float ViewAngle = m_forward.Dot(Diff);
-		if (ViewAngle > 0.7f) {
+		const float fieldView = 0.7f;
+		if (ViewAngle > fieldView) {
 			return true;
 		}
 	}
@@ -199,8 +220,13 @@ bool Enemy::IsWalk() const
 bool Enemy::IsAttack() const
 {
 	CVector3 Diff = m_Player->GetPosition() - m_Pos;
-	if (Diff.Length() < 100.0f) {
-		return true;
+	const float AttackRenge = 100.0f;
+	if (Diff.Length() < AttackRenge) {
+		float ViewAngle = m_forward.Dot(Diff);
+		const float fieldView = 0.7f;
+		if (ViewAngle > fieldView) {
+			return true;
+		}
 	}
 	return false;
 }

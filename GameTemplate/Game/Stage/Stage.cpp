@@ -54,7 +54,10 @@ void Stage::Update()
 
 void Stage::OnDestroy()
 {
-	for (PhysicsStageObject* it : PSOList) {
+	for (PhysicsStageObject* it : m_PSOList) {
+		DeleteGO(it);
+	}
+	for (Enemy* it : m_EnemyVector) {
 		DeleteGO(it);
 	}
 }
@@ -69,9 +72,10 @@ void Stage::Load(wchar_t * filePath)
 		if (wcscmp(funclevel.name, L"keleton") == 0) {
 			//いったんここでエネミーを出す
 			//あとからレベルごと分けて処理を分解する
-			Enemy* enemy = NewGO<Enemy>(0);
+			Enemy* enemy = NewGO<Enemy>(0,"enemy");
 			enemy->SetSpownPos(funclevel.position);
 			enemy->SetRotation( funclevel.rotation);
+			m_EnemyVector.push_back(enemy);
 			return true;
 		}
 		if (wcscmp(funclevel.name, L"Player") == 0) {
@@ -97,7 +101,7 @@ void Stage::Load(wchar_t * filePath)
 		PSO->SetObjectName(funclevel.name);
 		PSO->SetPosition(funclevel.position);
 		PSO->SetRotation(funclevel.rotation);
-		PSOList.push_back(PSO);
+		m_PSOList.push_back(PSO);
 		return true;
 	});
 }
