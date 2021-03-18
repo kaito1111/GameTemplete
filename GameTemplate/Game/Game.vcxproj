@@ -51,7 +51,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)/bulletPhysics/src;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(SolutionDir)myEngine\ksEngine\bulletPhysics\src;$(SolutionDir)myEngine\ksEngine;$(SolutionDir)myEngine/ksEngine/EffekseerRuntime130/src/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -114,6 +114,7 @@
     <ClCompile Include="Enemy\EnemyAttack.cpp" />
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Player\PlayerSpowner.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Enemy\EnemyAttack.h" />
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="Player\PlayerSpowner.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Stage\Floor.h" />
     <ClInclude Include="Game.h" />

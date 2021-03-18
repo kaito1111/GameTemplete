@@ -69,6 +69,7 @@
     <ClCompile Include="Stage\ReturnLocation.cpp" />
     <ClCompile Include="Stage\SceneChangeLocation.cpp" />
     <ClCompile Include="Enemy\EnemySpawner.cpp" />
+    <ClCompile Include="Player\PlayerSpowner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Stage\ReturnLocation.h" />
     <ClInclude Include="Stage\SceneChangeLocation.h" />
     <ClInclude Include="Enemy\EnemySpawner.h" />
+    <ClInclude Include="Player\PlayerSpowner.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
