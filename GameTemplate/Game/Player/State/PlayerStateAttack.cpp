@@ -4,7 +4,7 @@
 
 void PlayerStateAttack::Update()
 {
-	m_player->SetMulAnimSpeed(1.0f);
+	m_player->SetMulAnimSpeed(2.0f);
 
 	m_player->PlayAnimation(Player::Attack);
 

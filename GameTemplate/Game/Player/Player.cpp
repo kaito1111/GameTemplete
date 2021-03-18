@@ -95,7 +95,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	}
 	if (wcscmp(eventName, L"AttackJubgmentStart1") == 0) {
 		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
-		const float AttackDamage = 10.0f;
+		const float AttackDamage = 32.0f;
 		const float AttackEria = 105.0f;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
@@ -106,7 +106,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		if (m_ComboAttack) {
 			m_ComboAttack = false;
 			PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
-			const float AttackDamage = 5.0f;
+			const float AttackDamage =32.0f;
 			const float AttackEria = 90.0f;
 			PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 		}
@@ -115,8 +115,8 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		DeleteGO("playerAttack");
 	}
 	if (wcscmp(eventName, L"AttackJubgmentStart3") == 0) {
-		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");;
-		const float AttackDamage = 20.0f;
+		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
+		const float AttackDamage = 100.0f;
 		const float AttackEria = 135.0f;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}

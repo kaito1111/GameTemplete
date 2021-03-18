@@ -26,7 +26,7 @@ void PlayerAttack::Update()
 		CVector3 toEnemyPos = enemy->GetPosition() - m_Position;
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
-			if (enemy->IsDamage()&& !m_Hit) {
+			if (!m_Hit) {
 				enemy->HitDamege(m_Attack);
 				m_Hit = true;
 			}
