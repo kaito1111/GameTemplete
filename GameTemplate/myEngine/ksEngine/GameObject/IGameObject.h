@@ -7,7 +7,7 @@ namespace ksEngine {
 		IGameObject()
 		{
 		}
-		~IGameObject() {
+		virtual ~IGameObject() {
 
 		}
 	public:
