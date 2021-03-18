@@ -1,12 +1,21 @@
 #pragma once
 #include "Player/Player.h"
-class PlayerSpowner :public IGameObject
+#include "level/Level.h"
+class PlayerSpowner : public IGameObject
 {
 public:
 	~PlayerSpowner() {};
 	 
+	//レベルでロードするファイルパスをGameクラスで設定
+	void SetFilePath(wchar_t* fileName) {
+		wcscpy_s(m_filePath, fileName);
+	}
+
+	bool Start()override;
+
 private:
-	Player* m_player = nullptr;
-	//wchat_t file
+	Player* m_player = nullptr;		//プレイヤー
+	Level m_level;					//レベル
+	wchar_t m_filePath[256] = {};	//レベルでロードするファイルパス
 };
 

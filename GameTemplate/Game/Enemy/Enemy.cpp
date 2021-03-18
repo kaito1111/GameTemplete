@@ -19,7 +19,8 @@ Enemy::~Enemy()
 
 void Enemy::OnDestroy()
 {
-	//DeleteGO(m_Skin);
+	//この敵に関係するインスタンスを削除
+	DeleteGO(m_Skin);
 	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HpUnderSprite);
 }
@@ -46,6 +47,7 @@ void Enemy::EnemyRot()
 	float angle = atan2(diff.x, diff.z);
 	//回転量を保存
 	m_Rot.SetRotation(CVector3::AxisY(), angle);
+	//前方向を更新
 	CMatrix mRot = CMatrix::Identity();
 	mRot.MakeRotationFromQuaternion(m_Rot);
 	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
@@ -121,9 +123,8 @@ void Enemy::HpSpriteInit()
 	//hpスプライトを設定
 	const float hpSpriteSizeY = 10.0f;
 	m_HpPosition = m_Pos;
-
-	CVector3 SpriteSize = CVector3::One();
 	//スプライトのサイズを設定
+	CVector3 SpriteSize = CVector3::One();
 	float sizeX = m_SpriteSize * m_Hp;
 	SpriteSize.x = sizeX;
 	//TopSpriteを初期化
@@ -179,11 +180,13 @@ void Enemy::AnimetionInit()
 {
 	//アニメーションをロード
 	m_AniClip[State::Walk].Load(L"Assets/AnimData/SkeltonWalk.tka");
+	//ループフラグを有効
 	m_AniClip[State::Walk].SetLoopFlag(true);
 	m_AniClip[State::Attack].Load(L"Assets/AnimData/SkeltonAttack.tka");
 	m_AniClip[State::Damege].Load(L"Assets/AnimData/SkeltonDamage.tka");
 	m_AniClip[State::Down].Load(L"Assets/AnimData/SkeltonDown.tka");
 	m_AniClip[State::Idle].Load(L"Assets/AnimData/SkeltonIdle.tka");
+	//ループフラグを有効
 	m_AniClip[State::Idle].SetLoopFlag(true);
 	//アニメーションを設定
 	m_Animation.Init(m_Skin->GetModel(), m_AniClip, State::Num);
@@ -240,6 +243,7 @@ void Enemy::ChangeState(int st)
 	case State::Down:		//死んだ
 		delete m_ActiveState;
 		DeleteGOs("enemyAttack");
+		m_CharaCon.RemoveRigidBoby();
 		m_ActiveState = new EnemyDown(this);
 	}
 	m_State = st;
@@ -251,11 +255,8 @@ void Enemy::Update()
 	UpdateSprite();
 	//ステートを更新
 	m_ActiveState->Update();
-	//今のステートと次のステートが違うなら
-	if (m_NextState != m_State) {
 		//ステートを変更する
 		ChangeState(m_NextState);
-	}
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
 }
