@@ -119,7 +119,6 @@ private:
 	//enumのstateを利用すると切り替えやすい。ていうか推奨
 	void ChangeState(int st);
 
-	//
 private:
 	SkinModelRender* m_Skin = nullptr;			//敵のモデル
 	CVector3 m_Pos = CVector3::Zero();			//敵の位置

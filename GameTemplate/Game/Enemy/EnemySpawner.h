@@ -8,15 +8,17 @@ public:
 	~EnemySpawner() {};
 
 	//敵の出てくるファイルパスをロード
-	void SetFilePath(wchar_t* fileName) {
+	void SetFilePath(const wchar_t* fileName) {
 		wcscpy_s(m_filePath, fileName);
 	}
 
+	//初期化
 	bool Start();
+	//消された瞬間に走る
 	void OnDestroy();
 private:
-	Level m_Level;
-	std::vector<Enemy*> m_EnemyList;
-	wchar_t m_filePath[256] = {};
+	Level m_Level;						//レベル
+	std::vector<Enemy*> m_EnemyList;	//敵のリスト
+	wchar_t m_filePath[256] = {};		//レベルをロードする用のファイルパス
 };
 
