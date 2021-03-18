@@ -3,7 +3,7 @@
 #include "Player/Player.h"
 class Stage;
 class GameCamera;
-class Enemy;
+#include "Enemy/EnemySpawner.h"
 
 class Game : public IGameObject
 {
@@ -29,8 +29,8 @@ private:
 	Player* m_Player = nullptr;
 	Stage* m_Stage = nullptr;
 	GameCamera* m_Camera = nullptr;
-	Enemy* m_Enemy = nullptr;
 	SpriteRender* m_Sprite;
 	wchar_t m_LevelFilePath[256] = {};
 	int m_SpownHp = 62.5;
+	EnemySpawner* m_EnemySpawner = nullptr;
 };

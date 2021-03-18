@@ -127,11 +127,11 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 void Player::UpdateSprite()
 {
 	m_HpPosition = m_Pos;
-	//m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
-	////m_HpPosition.x -= 100.0f;
-	////Hpをプレイヤーの真ん中に置く
-	//CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
-	//m_HpPosition += AddSpritePos;
+	m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
+	//m_HpPosition.x -= 100.0f;
+	//Hpをプレイヤーの真ん中に置く
+	CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
+	m_HpPosition += AddSpritePos;
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	m_HpUnderSprite->SetPivot({SpriteRender::Left(),SpriteRender::Up() });
 	m_HpUnderSprite->SetPosition(m_HpPosition);
@@ -150,8 +150,7 @@ void Player::Update()
 		}
 	}
 	UpdateState();
-	const float deltaTime = 1.0f / 60.0f;
-	m_MoveSpeed = m_Animation.Update(deltaTime * m_mulAnimSpeed);
+	m_MoveSpeed = m_Animation.Update(gameTime().GetFrameDeltaTime() * m_mulAnimSpeed);
 	//if (m_MoveSpeed.y < -10000.0f) {
 	//	printf("hoge");
 	//}

@@ -3,7 +3,6 @@
 #include "level/Level.h"
 class PhysicsStageObject;
 class Player;
-class Enemy;
 class Stage :public IGameObject
 {
 	//敵のポジションとローテーションを記憶
@@ -35,6 +34,5 @@ private:
 	wchar_t m_LevelFilePath[256] = {};
 	CVector3 m_SpownPlayerPosition = CVector3::Zero();
 	CVector3 m_SpownEnemyPosition = CVector3::Zero();
-	std::vector< Enemy*> m_EnemyVector;
 };
 

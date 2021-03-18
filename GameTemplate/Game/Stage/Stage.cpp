@@ -4,7 +4,6 @@
 #include "PhysicsStageObject.h"
 #include "SceneChangeLocation.h"
 #include "ReturnLocation.h"
-#include "Enemy/Enemy.h"
 
 Stage::Stage()
 {
@@ -57,9 +56,6 @@ void Stage::OnDestroy()
 	for (PhysicsStageObject* it : m_PSOList) {
 		DeleteGO(it);
 	}
-	for (Enemy* it : m_EnemyVector) {
-		DeleteGO(it);
-	}
 }
 
 void Stage::Load(wchar_t * filePath)
@@ -70,12 +66,6 @@ void Stage::Load(wchar_t * filePath)
 		//wall->SetPosition(funclevel.position);
 
 		if (wcscmp(funclevel.name, L"keleton") == 0) {
-			//いったんここでエネミーを出す
-			//あとからレベルごと分けて処理を分解する
-			Enemy* enemy = NewGO<Enemy>(0,"enemy");
-			enemy->SetSpownPos(funclevel.position);
-			enemy->SetRotation( funclevel.rotation);
-			m_EnemyVector.push_back(enemy);
 			return true;
 		}
 		if (wcscmp(funclevel.name, L"Player") == 0) {

@@ -3,8 +3,8 @@
 class PhysicsStageObject : public IGameObject
 {
 public:
-	PhysicsStageObject() {};
-	~PhysicsStageObject() {};
+	PhysicsStageObject();
+	~PhysicsStageObject();
 
 	bool Start();
 	void OnDestroy()override;

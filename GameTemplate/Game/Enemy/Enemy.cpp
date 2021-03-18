@@ -171,7 +171,7 @@ void Enemy::Update()
 	//UŒ‚‚ÌŒ¨‚©‚ç˜r‚Ü‚Å‚Ì‹——£
 	const float AttackReach = 100.0f;
 	m_AttackPos = m_Pos + m_forward * AttackReach;
-	m_Animation.Update(1.0f / 60.0f);
+	m_Animation.Update(gameTime().GetFrameDeltaTime());
 }
 
 void Enemy::EnemyRot()

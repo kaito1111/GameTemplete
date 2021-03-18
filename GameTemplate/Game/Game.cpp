@@ -22,9 +22,8 @@ bool Game::Start()
 	m_Player->SetSpownPos(m_Stage->GetPlayerPos());
 	m_Player->SetSpwonHp(m_SpownHp);
 	m_Camera = NewGO<GameCamera>(0);
-	//m_Enemy->SetPlayer(m_Player);
-	//m_Sprite = NewGO<SpriteRender>(0);
-	//m_Sprite->Init(L"Assets/sprite/discode_icon.dds");
+	m_EnemySpawner = NewGO<EnemySpawner>(0);
+	m_EnemySpawner->SetFilePath(m_LevelFilePath);
 	return true;
 }
 
@@ -37,5 +36,5 @@ void Game::OnDestroy()
 	DeleteGO(m_Player);
 	DeleteGO(m_Stage);
 	DeleteGO(m_Camera);
-	DeleteGO(m_Enemy);
+	DeleteGO(m_EnemySpawner);
 }
