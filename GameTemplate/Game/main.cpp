@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "system/system.h"
 #include "Game.h"
-#include "level/Level.h"
-#include "graphics/2D/Sprite.h"
-#include "graphics/2D/SampleSprite.h"
-#include "Fade.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -28,10 +24,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	game->SetLevelFilePath(L"Assets/level/StageLevel.tkl");
 	
 	//Fade* fade = NewGO<Fade>(0);
-
+	Stopwatch m_sw;
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
 	{
+		m_sw.Start();
 		//描画開始。
 		g_graphicsEngine->BegineRender();
 		//ゲームパッドの更新。	
@@ -50,5 +47,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//描画終了。
 		g_graphicsEngine->EndRender();
+
+		m_sw.Stop();
+		gameTime().PushDeltaFrameTime((float)m_sw.GetElased());
 	}
 }

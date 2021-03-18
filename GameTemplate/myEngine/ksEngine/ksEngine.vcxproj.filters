@@ -42,6 +42,8 @@
     <ClCompile Include="graphics\ChangeRenderTarget.cpp" />
     <ClCompile Include="graphics\GPUBuffer\ConstantBufferGPU.cpp" />
     <ClCompile Include="graphics\GaussianBlur.cpp" />
+    <ClCompile Include="Timer\GameTime.cpp" />
+    <ClCompile Include="Timer\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -89,5 +91,7 @@
     <ClInclude Include="graphics\ChangeRenderTarget.h" />
     <ClInclude Include="graphics\GPUBuffer\ConstantBufferGPU.h" />
     <ClInclude Include="graphics\GaussianBlur.h" />
+    <ClInclude Include="Timer\GameTime.h" />
+    <ClInclude Include="Timer\Stopwatch.h" />
   </ItemGroup>
 </Project>

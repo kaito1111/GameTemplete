@@ -56,5 +56,7 @@ static const int MAX_BONE = 512;	//!<ƒ{[ƒ“‚ÌÅ‘å”B
 #include "ShadowMap.h"
 #include "graphics/RenderTarget.h"
 #include "graphics/ChangeRenderTarget.h"
+#include "Timer/GameTime.h"
+#include "Timer/Stopwatch.h"
 
 using namespace ksEngine;

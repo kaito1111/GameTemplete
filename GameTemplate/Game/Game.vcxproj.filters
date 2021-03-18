@@ -59,7 +59,6 @@
     <ClCompile Include="Enemy\State\EnemyWalkState.cpp" />
     <ClCompile Include="Enemy\State\EnemyDamageState.cpp" />
     <ClCompile Include="Player\State\PlayerStateDamage.cpp" />
-    <ClCompile Include="PLAYERSTATEDAMAGE.CPP" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
@@ -67,8 +66,9 @@
     <ClCompile Include="Stage\Wall.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Enemy\State\EnemyDown.cpp" />
-    <ClCompile Include="SceneChangeLocation.cpp" />
-    <ClCompile Include="ReturnLocation.cpp" />
+    <ClCompile Include="Stage\ReturnLocation.cpp" />
+    <ClCompile Include="Stage\SceneChangeLocation.cpp" />
+    <ClCompile Include="Enemy\EnemySpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -100,8 +100,9 @@
     <ClInclude Include="Stage\Wall.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Enemy\State\EnemyDown.h" />
-    <ClInclude Include="SceneChangeLocation.h" />
-    <ClInclude Include="ReturnLocation.h" />
+    <ClInclude Include="Stage\ReturnLocation.h" />
+    <ClInclude Include="Stage\SceneChangeLocation.h" />
+    <ClInclude Include="Enemy\EnemySpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />

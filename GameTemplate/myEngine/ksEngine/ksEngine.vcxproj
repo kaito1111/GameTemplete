@@ -62,6 +62,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
+    <ClCompile Include="Timer\GameTime.cpp" />
+    <ClCompile Include="Timer\Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphics\GPUBuffer\ConstantBufferGPU.h" />
@@ -108,6 +110,8 @@
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
+    <ClInclude Include="Timer\GameTime.h" />
+    <ClInclude Include="Timer\Stopwatch.h" />
     <ClInclude Include="util\Util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
