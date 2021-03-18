@@ -11,45 +11,53 @@ public:
 		State_Idle,		//待機中
 		State_Run,		//走り中
 		State_Backstep,	//バックステップ中。
-		State_Attack,
-		State_RollingAttack,
-		State_Damage,
+		State_Attack,	//攻撃中
+		State_RollingAttack,//ローリングアタック中
+		State_Damage,	//ダメージ中
 		State_Num
 	};
+	//アニメーションの数
+	//ステートと同じ場所ににしないとバグります
 	enum AnimePattern {
-		idle,
-		walk,
-		Cloase,
-		Back,
-		Attack,
-		RollingAttack,
-		Damage,
+		idle,			//待機
+		walk,			//走り
+		Back,			//バックステップ
+		Attack,			//攻撃
+		RollingAttack,	//ローリングアタック
+		Damage,			//ダメージ
 		AnimeNum
 	};
 	Player();
 	~Player();
-	bool Start();
-	void Update();
+	//初期化
+	bool Start()override;
+	//更新
+	void Update()override;
+	//削除された瞬間に呼ばれる
 	void OnDestroy()override;
 
+	//位置を取得
 	CVector3 GetPosition() {
 		return m_Pos;
 	}
-
+	//攻撃位置を取得
 	CVector3 AttackPos() {
 		return m_AttackPos;
 	}
-
+	//hpを取得
 	int GetHp() {
 		return m_Hp;
 	}
-
-	void TryChangIdleState() {
+	/// <summary>
+	/// 待機ステートに切り替えることができたら切り替える。
+	/// </summary>
+	void TryChangeIdleState() {
 		if (!IsMove()) {
-			m_NextState =State_Idle;
+			m_NextState = State_Idle;
+			ChangeState(State_Idle);
 		}
 	}
-	/// <summary>
+	/// /// <summary>
 	/// 移動ステートに切り替えることができたら切り替える。
 	/// </summary>
 	void TryChangeMoveState()
@@ -86,20 +94,21 @@ public:
 			m_NextState = State_RollingAttack;
 		}
 	}
-
+	//待機状態へ遷移
 	void SetIdleState() {
 		m_NextState = State_Idle;
 	}
-	void PlayAnimation(AnimePattern anim)
+	//アニメーションを再生
+	void PlayAnimation()
 	{
 		//待機状態の処理
-		m_Animation.Play(anim, 0.2f);
+		m_Animation.Play(m_state, 0.2f);
 	}
 	/// <summary>
 	/// アニメーションの再生速度に乗算される値を設定。
 	/// </summary>
 	/// <param name="mulSpeed"></param>
-	void SetMulAnimSpeed(float mulSpeed) 
+	void SetMulAnimSpeed(const float mulSpeed) 
 	{
 		m_mulAnimSpeed = mulSpeed;
 	}
@@ -107,25 +116,34 @@ public:
 	/// プレイヤーのアニメーション再生中？
 	/// </summary>
 	/// <returns></returns>
-	bool IsPlayAnimation() {
+	bool IsPlayAnimation() const {
 		return m_Animation.IsPlaying();
 	}
-
-	void HitDamage(float damege) {
+	//ダメージを受けた
+	void HitDamage(const float damege) {
+		//hpを減らす
 		m_Hp -= damege;
+		//ダメージ状態へ遷移
 		m_NextState = State_Damage;
+		//無敵時間を設定
 		m_mutekiflame = 60;
 	}
-
-	int GetMutekiFlame() {
+	//無敵時間を取得
+	int GetMutekiFlame() const {
 		return m_mutekiflame;
 	}
 
-	void SetSpownPos(CVector3 pos) {
+	//初期位置を設定
+	void SetSpownPos(const CVector3& pos) {
 		m_SpownPosition = pos;
 	}
-
-	void SetSpwonHp(int hp) {
+	//回転率を設定
+	void SetRotation(const CQuaternion& rot) {
+		m_Rot = rot;
+	}
+	//Hpを設定
+	//エリアチェンジで使う
+	void SetSpwonHp(const int hp) {
 		m_Hp = hp;
 	}
 
@@ -172,6 +190,7 @@ private:
 	/// <param name="eventName"></param>
 	void OnAnimEvent(const wchar_t* eventName);
 
+	//スプライトを更新
 	void UpdateSprite();
 
 	/// <summary>
