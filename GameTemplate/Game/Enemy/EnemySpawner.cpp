@@ -18,7 +18,6 @@ bool EnemySpawner::Start()
 }
 void EnemySpawner::OnDestroy()
 {
-	for (Enemy* it : m_EnemyList) {
-		DeleteGO(it);
-	}
+	DeleteGOs("enemy");
+	DeleteGOs("enemySkin");
 }
