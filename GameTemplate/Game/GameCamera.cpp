@@ -17,7 +17,8 @@ bool GameCamera::Start()
 	m_player = FindGO<Player>("player");
 	g_camera3D.SetFar(m_GameFar);
 	g_camera3D.SetNear(m_GameNear);
-	m_CharaCon.Init(10.0f, 10.0f, m_Pos);
+	const float CharaConScele = 10.0f;
+	m_CharaCon.Init(CharaConScele, CharaConScele, m_Pos);
 	return true;
 }
 
@@ -52,7 +53,7 @@ void GameCamera::Update()
 	//çÇÇ≥ÇÃâ∫å¿
 	const float LowerLimmit = -50.0f;
 	//m_AngleY = max(LowerLimmit, min(UpperLimit, m_AngleY));
-	//moveSpeed.y += m_AngleY;
+	moveSpeed.y += m_AngleY;
 	moveSpeed.y = max(LowerLimmit, min(UpperLimit, moveSpeed.y));
 	const float deltaTime = 1.0f;
 	m_Pos = m_CharaCon.Execute(deltaTime, moveSpeed);
