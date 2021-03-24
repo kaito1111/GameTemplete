@@ -3,7 +3,7 @@
 #include "Player/Player.h"
 
 void PlayerStateDamage::Update() {
-	m_player->PlayAnimation(Player::Damage);
+	m_player->PlayAnimation();
 	if (!m_player->IsPlayAnimation()) {
 		m_player->SetIdleState();
 	}

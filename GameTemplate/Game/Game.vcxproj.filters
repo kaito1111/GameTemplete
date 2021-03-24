@@ -70,6 +70,12 @@
     <ClCompile Include="Stage\SceneChangeLocation.cpp" />
     <ClCompile Include="Enemy\EnemySpawner.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
+    <ClCompile Include="Archer\Archer.cpp" />
+    <ClCompile Include="Archer\State\IArcherState.cpp" />
+    <ClCompile Include="Archer\State\ArcherIdleState.cpp" />
+    <ClCompile Include="Archer\State\ArcherAttackState.cpp" />
+    <ClCompile Include="Archer\Arrow.cpp" />
+    <ClCompile Include="Archer\ArcherAttack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -105,6 +111,12 @@
     <ClInclude Include="Stage\SceneChangeLocation.h" />
     <ClInclude Include="Enemy\EnemySpawner.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
+    <ClInclude Include="Archer\Archer.h" />
+    <ClInclude Include="Archer\State\IArcherState.h" />
+    <ClInclude Include="Archer\State\ArcherIdleState.h" />
+    <ClInclude Include="Archer\State\ArcherAttackState.h" />
+    <ClInclude Include="Archer\Arrow.h" />
+    <ClInclude Include="Archer\ArcherAttack.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
@@ -127,6 +139,8 @@
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
     <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
+    <MeshContentTask Include="Assets\modelData\Archer.FBX" />
+    <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

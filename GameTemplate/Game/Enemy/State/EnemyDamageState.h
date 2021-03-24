@@ -7,7 +7,7 @@ public:
 	EnemyDamageState(Enemy* en) :
 		IEnemyState(en) {};
 	~EnemyDamageState() {};
-private:
+
 	void Update()override;
 };
 

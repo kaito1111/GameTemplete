@@ -136,7 +136,7 @@ private:
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
 	const float m_height = 150.0f;				//敵の身長
-	int m_AttackPattarn = 0;					//攻撃判定が発生している？
+	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
 	Animation m_Animation;						//アニメーション
 	AnimationClip m_AniClip[Num];				//アニメーションの種類

@@ -44,7 +44,7 @@ void Fade::Update()
 	}
 	//フェード中はゲームカメラも消す可能性があるから
 	//こっちでもアップデートさせる
-	//g_camera3D.Update();
+	g_camera3D.Update();
 }
 
 void Fade::OnDestroy()

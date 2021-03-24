@@ -10,6 +10,5 @@ public:
 	};
 	~EnemyIdleState() {};
 
-private:
 	void Update()override;
 };

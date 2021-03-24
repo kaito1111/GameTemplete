@@ -4,7 +4,7 @@
 
 void PlayerStateRun::Update() {
 	m_player->SetMulAnimSpeed(1.0f);
-	m_player->PlayAnimation(Player::walk);
+	m_player->PlayAnimation();
 	
 	m_player->TryChangeIdleState();
 	m_player->TryChangeBackStepState();

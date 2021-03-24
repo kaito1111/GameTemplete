@@ -133,18 +133,8 @@ void Enemy::HpSpriteInit()
 	HpUnderSprite(hpSpriteSizeY, SpriteSize);
 }
 
-void Enemy::HpPosAdjustment()
-{
-	//HPをちょっと上に置く
-	const float HpPosUp = 10.0f;
-	m_HpPosition.y += m_height + HpPosUp;
-	//基点をずらしているので
-	//そのズレを修正
-	CVector3 AddSpritePos = g_camera3D.GetRight()*-50.0f;
-	m_HpPosition -= AddSpritePos;
-}
 
-void Enemy::HpTopSpriteInit(const float SizeY,const CVector3& Scale)
+void Enemy::HpTopSpriteInit(const float SizeY, const CVector3& Scale)
 {
 	//HpをNew
 	m_HpTopSprite = NewGO<SpriteRender>(2);
@@ -186,6 +176,7 @@ void Enemy::AnimetionInit()
 	m_AniClip[State::Damege].Load(L"Assets/AnimData/SkeltonDamage.tka");
 	m_AniClip[State::Down].Load(L"Assets/AnimData/SkeltonDown.tka");
 	m_AniClip[State::Idle].Load(L"Assets/AnimData/SkeltonIdle.tka");
+
 	//ループフラグを有効
 	m_AniClip[State::Idle].SetLoopFlag(true);
 	//アニメーションを設定
@@ -201,7 +192,7 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 	//AttackStartの名前を見つけたら
 	if (wcscmp(eventName, L"AttackStart") == 0) {
 		//攻撃判定をNew
-		attack = NewGO< EnemyAttack>(0, "enemyAttack");
+		attack = NewGO<EnemyAttack>(0, "enemyAttack");
 		//攻撃力
 		const float AttackDamage = 10.0f;
 		//攻撃範囲
@@ -244,6 +235,7 @@ void Enemy::ChangeState(int st)
 		delete m_ActiveState;
 		DeleteGOs("enemyAttack");
 		m_CharaCon.RemoveRigidBoby();
+		m_HpUnderSprite->SetAlpha(0.0f);
 		m_ActiveState = new EnemyDown(this);
 	}
 	m_State = st;
@@ -255,12 +247,11 @@ void Enemy::Update()
 	UpdateSprite();
 	//ステートを更新
 	m_ActiveState->Update();
-		//ステートを変更する
-		ChangeState(m_NextState);
+	//ステートを変更する
+	ChangeState(m_NextState);
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
 }
-
 
 void Enemy::UpdateSprite()
 {
@@ -277,6 +268,17 @@ void Enemy::UpdateSprite()
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定
 	m_HpUnderSprite->SetPosition(m_HpPosition);
+}
+
+void Enemy::HpPosAdjustment()
+{
+	//HPをちょっと上に置く
+	const float HpPosUp = 10.0f;
+	m_HpPosition.y += m_height + HpPosUp;
+	//基点をずらしているので
+	//そのズレを修正
+	CVector3 AddSpritePos = g_camera3D.GetRight()*-50.0f;
+	m_HpPosition -= AddSpritePos;
 }
 
 bool Enemy::IsWalk() const

@@ -105,6 +105,11 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Archer\ArcherAttack.cpp" />
+    <ClCompile Include="Archer\State\ArcherAttackState.cpp" />
+    <ClCompile Include="Archer\State\ArcherIdleState.cpp" />
+    <ClCompile Include="Archer\Archer.cpp" />
+    <ClCompile Include="Archer\Arrow.cpp" />
     <ClCompile Include="Enemy\EnemySpawner.cpp" />
     <ClCompile Include="Enemy\State\EnemyDown.cpp" />
     <ClCompile Include="Enemy\State\EnemyDamageState.cpp" />
@@ -114,6 +119,7 @@
     <ClCompile Include="Enemy\EnemyAttack.cpp" />
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Archer\State\IArcherState.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
@@ -142,6 +148,11 @@
     <ClCompile Include="Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer\ArcherAttack.h" />
+    <ClInclude Include="Archer\State\ArcherAttackState.h" />
+    <ClInclude Include="Archer\State\ArcherIdleState.h" />
+    <ClInclude Include="Archer\Archer.h" />
+    <ClInclude Include="Archer\Arrow.h" />
     <ClInclude Include="Enemy\EnemySpawner.h" />
     <ClInclude Include="Enemy\State\EnemyDown.h" />
     <ClInclude Include="Enemy\State\EnemyDamageState.h" />
@@ -151,6 +162,7 @@
     <ClInclude Include="Enemy\EnemyAttack.h" />
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="Archer\State\IArcherState.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Stage\Floor.h" />
@@ -175,6 +187,8 @@
     <ClInclude Include="Stage\Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <MeshContentTask Include="Assets\modelData\Archer.FBX" />
+    <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
     <MeshContentTask Include="Assets\modelData\candle.FBX" />
     <MeshContentTask Include="Assets\modelData\Chair.FBX" />

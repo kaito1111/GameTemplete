@@ -8,7 +8,6 @@ public:
 		IEnemyState(en) {};
 	~EnemyWalkState() {};
 	
-private:
 	void Update() override;
 };
 

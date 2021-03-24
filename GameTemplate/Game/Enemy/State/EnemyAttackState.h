@@ -5,10 +5,8 @@ class EnemyAttackState : public IEnemyState
 {
 public:
 	EnemyAttackState(Enemy* en) :
-		IEnemyState(en) {
+		IEnemyState(en) {	}
 
-	}
-private:
 	void Update()override;
 };
 
