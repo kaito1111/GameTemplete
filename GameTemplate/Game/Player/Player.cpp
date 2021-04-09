@@ -7,6 +7,9 @@
 #include "State/PlayerStateDamage.h"
 #include "PlayerAttack.h"
 
+namespace {
+	const CVector3 PlayerScale = { 0.8f,0.8f,0.8f };
+}
 Player::Player()
 {
 }
@@ -25,6 +28,7 @@ bool Player::Start()
 	m_Model->SetPosition(m_Pos);
 	m_Model->SetRotation(m_Rot);
 	m_Model->SetRenderMode(enSilhouetteDraw);
+	m_Model->SetScale(PlayerScale);
 	m_CharaCon.Init(m_radius, m_height, m_Pos);
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
@@ -35,7 +39,7 @@ bool Player::Start()
 	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
 	m_AnimeClip[walk].SetLoopFlag(true);
 
-	m_AnimeClip[Back].Load(L"Assets/animData/back.tka");
+	m_AnimeClip[Back].Load(L"Assets/animData/Rolling.tka");
 
 	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
 	m_AnimeClip[Attack].SetLoopFlag(false);
@@ -94,7 +98,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		m_ComboAttack = false;
 	}
 	if (wcscmp(eventName, L"AttackJubgmentStart1") == 0) {
-		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
+		PlayerAttack* PlAttack = NewGO<PlayerAttack>(0, "playerAttack");
 		const float AttackDamage = 32.0f;
 		const float AttackEria = 105.0f;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
@@ -106,7 +110,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		if (m_ComboAttack) {
 			m_ComboAttack = false;
 			PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
-			const float AttackDamage =32.0f;
+			const float AttackDamage = 32.0f;
 			const float AttackEria = 90.0f;
 			PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 		}
@@ -161,7 +165,6 @@ void Player::Update()
 
 	//モデル空間からワールド空間に変換。
 	m_Rot.Multiply(m_MoveSpeed);
-
 	//HPのスプライトを更新
 	UpdateSprite();
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
@@ -193,7 +196,7 @@ void Player::PlayerRotate()
 		//カメラの方向に合わせて向かせる
 		CVector3 MoveSpeed = g_camera3D.GetForward()*g_pad[0].GetLStickYF();
 		MoveSpeed -= g_camera3D.GetRight()*g_pad[0].GetLStickXF();
-		//走り状態のときのみ。
+		//走り状態時。
 		m_Rot.SetRotation(CVector3::AxisY(), atan2(MoveSpeed.x, MoveSpeed.z));
 	}
 }
@@ -205,6 +208,7 @@ void Player::PlayerMove()
 		if (m_MoveSpeed.Length() < 1.0f) {
 			m_MoveSpeed = CVector3::Zero();
 		}
+		m_MoveSpeed.y -= 5.0f;
 		m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
 
 	}
@@ -271,5 +275,3 @@ void Player::UpdateState()
 		ChangeState(m_NextState);
 	}
 }
-
-

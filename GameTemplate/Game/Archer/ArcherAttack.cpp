@@ -2,6 +2,11 @@
 #include "ArcherAttack.h"
 #include "Player/Player.h"
 
+namespace {
+	const float Aria = 50.0f;
+	const float Damage = 10.0f;
+}
+
 ArcherAttack::~ArcherAttack()
 {
 	DeleteGO(m_Model);
@@ -12,7 +17,7 @@ bool ArcherAttack::Start()
 	m_Model = NewGO<SkinModelRender>(0); 
 	m_Model->Init(L"Assets/modelData/DebugShere.cmo");
 	m_Model->SetPosition(m_Position);
-	CVector3 scale = { 1.0f,1.0f,0.0f };
+	CVector3 scale = { Aria,Aria,1.0f };
 	m_Model->SetScale(scale);
 
 	m_Player = FindGO<Player>("player");
@@ -21,8 +26,12 @@ bool ArcherAttack::Start()
 
 void ArcherAttack::Update()
 {
+	m_Position.y = 0;
 	CVector3 Diff = m_Position - m_Player->GetPosition();
-	if (Diff.Length() < 100.0f) {
-		m_Player->HitDamage(30.0f);
+	if (Diff.Length() < Aria) {
+		if (m_Player->GetMutekiFlame() < 0) {
+			m_Player->HitDamage(Damage);
+		}
 	}
+	m_Model->SetPosition(m_Position);
 }

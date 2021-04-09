@@ -52,9 +52,21 @@ void GameCamera::Update()
 	const float UpperLimit = 300.0f;
 	//çÇÇ≥ÇÃâ∫å¿
 	const float LowerLimmit = -50.0f;
+	if (m_AngleY < LowerLimmit) {
+		m_AngleY = LowerLimmit;
+	}
+	if (m_AngleY > UpperLimit) {
+		m_AngleY = UpperLimit;
+	}
 	//m_AngleY = max(LowerLimmit, min(UpperLimit, m_AngleY));
 	moveSpeed.y += m_AngleY;
-	moveSpeed.y = max(LowerLimmit, min(UpperLimit, moveSpeed.y));
+	//moveSpeed.y = max(LowerLimmit, min(UpperLimit, moveSpeed.y));
+	if (moveSpeed.y < LowerLimmit) {
+		moveSpeed.y = LowerLimmit;
+	}
+	if (moveSpeed.y > UpperLimit) {
+		moveSpeed.y = UpperLimit;
+	}
 	const float deltaTime = 1.0f;
 	m_Pos = m_CharaCon.Execute(deltaTime, moveSpeed);
 	//m_Pos = Target + moveSpeed;

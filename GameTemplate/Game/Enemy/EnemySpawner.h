@@ -13,9 +13,9 @@ public:
 	}
 
 	//‰Šú‰»
-	bool Start();
+	bool Start()override;
 	//Á‚³‚ê‚½uŠÔ‚É‘–‚é
-	void OnDestroy();
+	void OnDestroy()override;
 private:
 	Level m_Level;						//ƒŒƒxƒ‹
 	std::vector<Enemy*> m_EnemyList;	//“G‚ÌƒŠƒXƒg

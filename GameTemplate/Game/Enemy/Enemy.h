@@ -7,6 +7,7 @@ class IEnemyState;
 class Enemy : public IGameObject
 {
 public:
+	//ó‘Ô‚Ìí—Ş‚ğenum‰»
 enum State {
 	Attack,
 	Idle,

@@ -9,6 +9,20 @@
 #include "State/EnemyDown.h"
 #include "EnemyAttack.h"
 
+namespace {
+	//視界
+	const float visility = 500.0f;
+	//キャラコンの幅
+	const float radius = 20.0f;
+	//スプライトの縦幅
+	const float hpSpriteSizeY = 10.0f;
+	//攻撃力
+	const float AttackDamage = 10.0f;
+	//攻撃範囲
+	const float AttackEria = 135.0f;
+	//スプライトを透明にする
+	const float  SpriteClear = 0.0f;
+}
 Enemy::Enemy()
 {
 }
@@ -114,14 +128,12 @@ void Enemy::SkinModelInit()
 void Enemy::CharaConInit()
 {
 	//キャラコンを設定
-	const float radius = 20.0f;
 	m_CharaCon.Init(radius, m_height, m_Pos);
 }
 
 void Enemy::HpSpriteInit()
 {
 	//hpスプライトを設定
-	const float hpSpriteSizeY = 10.0f;
 	m_HpPosition = m_Pos;
 	//スプライトのサイズを設定
 	CVector3 SpriteSize = CVector3::One();
@@ -193,10 +205,6 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 	if (wcscmp(eventName, L"AttackStart") == 0) {
 		//攻撃判定をNew
 		attack = NewGO<EnemyAttack>(0, "enemyAttack");
-		//攻撃力
-		const float AttackDamage = 10.0f;
-		//攻撃範囲
-		const float AttackEria = 135.0f;
 		//攻撃を設定
 		attack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
@@ -235,7 +243,7 @@ void Enemy::ChangeState(int st)
 		delete m_ActiveState;
 		DeleteGOs("enemyAttack");
 		m_CharaCon.RemoveRigidBoby();
-		m_HpUnderSprite->SetAlpha(0.0f);
+		m_HpUnderSprite->SetAlpha(SpriteClear);
 		m_ActiveState = new EnemyDown(this);
 	}
 	m_State = st;
@@ -285,8 +293,6 @@ bool Enemy::IsWalk() const
 {
 	//プレイヤーとの距離を判定
 	CVector3 Diff = m_Player->GetPosition() - m_Pos;
-	//視界
-	const float visility = 500.0f;
 	//もしプレイヤーが視界内なら
 	if (Diff.Length() < visility) {
 		Diff.Normalize();

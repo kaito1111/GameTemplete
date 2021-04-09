@@ -76,6 +76,9 @@
     <ClCompile Include="Archer\State\ArcherAttackState.cpp" />
     <ClCompile Include="Archer\Arrow.cpp" />
     <ClCompile Include="Archer\ArcherAttack.cpp" />
+    <ClCompile Include="Archer\ArcherSpowner.cpp" />
+    <ClCompile Include="Boss\BossSpawn.cpp" />
+    <ClCompile Include="Boss\Boss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -117,6 +120,9 @@
     <ClInclude Include="Archer\State\ArcherAttackState.h" />
     <ClInclude Include="Archer\Arrow.h" />
     <ClInclude Include="Archer\ArcherAttack.h" />
+    <ClInclude Include="Archer\ArcherSpowner.h" />
+    <ClInclude Include="Boss\Boss.h" />
+    <ClInclude Include="Boss\BossSpawn.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
@@ -141,6 +147,8 @@
     <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
     <MeshContentTask Include="Assets\modelData\Archer.FBX" />
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
+    <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
+    <MeshContentTask Include="Assets\modelData\Boss.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

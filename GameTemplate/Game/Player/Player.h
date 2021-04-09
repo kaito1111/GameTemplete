@@ -6,7 +6,7 @@ class IPlayerState;
 class Player : public IGameObject
 {
 public:
-	//プレイヤーのステート
+	////状態の種類をenum化
 	enum State {
 		State_Idle,		//待機中
 		State_Run,		//走り中
@@ -54,7 +54,6 @@ public:
 	void TryChangeIdleState() {
 		if (!IsMove()) {
 			m_NextState = State_Idle;
-			ChangeState(State_Idle);
 		}
 	}
 	/// /// <summary>
@@ -64,7 +63,6 @@ public:
 	{
 		if (IsMove()) {
 			m_NextState = State_Run;
-			ChangeState(State_Run);
 		}
 	}
 	/// <summary>
@@ -204,36 +202,36 @@ private:
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
 	int m_state = State_Idle;					//プレイヤーの現在の状態。
-	int m_NextState = State::State_Idle;
+	int m_NextState = State::State_Idle;		//次の状態。
 	SkinModelRender* m_Model = nullptr;			//スキンモデル。
-	CVector3 m_Pos = CVector3::Zero();
-	CQuaternion m_Rot = CQuaternion::Identity();
-	CVector3 m_MoveSpeed = CVector3::Zero();
-	CharacterController m_CharaCon;
+	CVector3 m_Pos = CVector3::Zero();			//位置
+	CQuaternion m_Rot = CQuaternion::Identity();//回転量
+	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
+	CharacterController m_CharaCon;				//キャラコン
 	
-	float m_mulAnimSpeed = 1.0f;	//アニメーション速度に乗算する
-	CVector3 m_AttackPos = CVector3::Zero();
-	Animation m_Animation;
-	AnimationClip m_AnimeClip[AnimePattern::AnimeNum];
+	float m_mulAnimSpeed = 1.0f;				//アニメーション速度に乗算する
+	CVector3 m_AttackPos = CVector3::Zero();	//攻撃場所
+	Animation m_Animation;						//アニメーション
+	AnimationClip m_AnimeClip[AnimePattern::AnimeNum];//アニメーションクリップ
 
-	SpriteRender* m_HpTopSprite = nullptr;
-	CVector3 m_HpPosition = CVector3::Zero();
-	float m_Hp = 62.5;
-	const float m_MaxHp = 62.5;
-	float m_SpriteSize = 0.025f;
+	SpriteRender* m_HpTopSprite = nullptr;		//上の絵
+	CVector3 m_HpPosition = CVector3::Zero();	//絵の位置
+	float m_Hp = 62.5;							//体力
+	const float m_MaxHp = 62.5;					//最大体力
+	const float m_SpriteSize = 0.025f;			//hpの絵を調整する定数
 
-	SpriteRender* m_HpUnderSprite = nullptr;
+	SpriteRender* m_HpUnderSprite = nullptr;	//下の絵
 
-	float m_radius = 35.0f;
-	float m_height =  110.0f;
-	bool m_isInvokeAttackColli = false;	//攻撃判定が発生している？
+	const float m_radius = 35.0f;				//キャラコンの横幅
+	const float m_height =  110.0f;				//キャラコンの縦幅
+	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
 
-	CVector3 m_forward = CVector3::Front();
+	CVector3 m_forward = CVector3::Front();		//前方向
 
-	int m_mutekiflame = 0;
+	int m_mutekiflame = 0;						//無敵時間
 
-	SkinModelRender* m_HitModel = nullptr;
+	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 
-	CVector3 m_SpownPosition = CVector3::Zero();
+	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
 };
 

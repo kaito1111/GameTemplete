@@ -1,33 +1,58 @@
 #include "pch.h"
 #include "Arrow.h"
+#include "Archer.h"
+#include "ArcherAttack.h"
 
 namespace {
-	const float MoveSpeed = 1.0f;
+	const float MoveSpeed = 20.0f;
+	const float DeleteTime = 10.0f;
 }
 
-void Arrow::Init(CVector3 pos, CQuaternion rot)
+void Arrow::Init(Archer* acr)
 {
-	m_Position = pos;
-	//弓の打つ高さに調整
-	m_Rotation = rot;
 	m_Model = NewGO<SkinModelRender>(0);
 	m_Model->Init(L"Assets/modelData/Arrow.cmo");
-	m_Model->SetPosition(m_Position);
-	m_Model->SetRotation(m_Rotation);
-	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rotation);
-	m_Forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_Forward.Normalize();
-
-	m_AnimationClip[0].Load(L"Assets/animData/Arrow.tka");
-	m_AnimationClip[0].SetLoopFlag(true);
-	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, 1);
-
+	m_Archer = acr;
+	m_ArcherAttack = NewGO<ArcherAttack>(0);
+	m_ArcherAttack->SetPosition(m_Pos);
 }
 
 void Arrow::Update()
 {
-	//m_Position += m_Forward * MoveSpeed;
-	m_Model->SetPosition(m_Position);
-	m_Animation.Update(gameTime().GetFrameDeltaTime());
+	//もしまだ発射していないなら
+	if (!IsShot) {
+		//もし弓にアタッチしないなら
+		if (!m_Archer->IsAttachArrow()) {
+			//指先をアタッチ方向にする
+			m_Archer->CalcArrowPosAndRotationFromAttachBone(m_Pos, m_Rot, L"arrow_attach", L"arrow_attach_2");
+		}
+		else {
+			//しないなら弓にアタッチする
+			m_Archer->CalcArrowPosAndRotationFromAttachBone(m_Pos, m_Rot, L"arrow_attach", L"arrow_attach_3");
+		}
+	}
+	else {
+		//しないなら前方向を更新する
+		CMatrix mRot;
+		mRot.MakeRotationFromQuaternion(m_Rot);
+		CVector3 Forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
+		Forward.Normalize();
+		//前方方向に飛ばす
+		m_Pos += Forward * MoveSpeed;
+	}
+	m_ArcherAttack->SetPosition(m_Pos);
+	//モデルの位置を更新
+	m_Model->SetPosition(m_Pos);
+	//モデルの回転を更新
+	m_Model->SetRotation(m_Rot);
+	m_ElapsedTime += gameTime().GetFrameDeltaTime();
+	if (m_ElapsedTime > DeleteTime) {
+		DeleteGO(this);
+	}
+}
+
+void Arrow::OnDestroy()
+{
+	DeleteGO(m_Model);
+	m_Archer->ArrowListPop();
 }
