@@ -76,6 +76,10 @@ void Stage::Load(wchar_t * filePath)
 			return true;
 		}
 
+		if (wcscmp(funclevel.name, L"Boss") == 0) {
+			return true;
+		}
+
 		if (wcscmp(funclevel.name, L"DebugShere")==0) {
 			SceneChangeLocation* SCLoc = NewGO<SceneChangeLocation>(0);
 			SCLoc->SetPosition(funclevel.position);

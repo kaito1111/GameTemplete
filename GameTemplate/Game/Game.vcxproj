@@ -123,6 +123,7 @@
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Archer\State\IArcherState.cpp" />
+    <ClCompile Include="Boss\State\IBossState.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Archer\State\IArcherState.h" />
+    <ClInclude Include="Boss\State\IBossState.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Stage\Floor.h" />

@@ -79,6 +79,7 @@
     <ClCompile Include="Archer\ArcherSpowner.cpp" />
     <ClCompile Include="Boss\BossSpawn.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
+    <ClCompile Include="Boss\State\IBossState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Archer\ArcherSpowner.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Boss\BossSpawn.h" />
+    <ClInclude Include="Boss\State\IBossState.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
