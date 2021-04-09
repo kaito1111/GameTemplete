@@ -4,6 +4,7 @@
 class Stage;
 class GameCamera;
 #include "Enemy/EnemySpawner.h"
+#include "Archer/ArcherSpowner.h"
 
 class Game : public IGameObject
 {
@@ -33,4 +34,5 @@ private:
 	wchar_t m_LevelFilePath[256] = {};
 	int m_SpownHp = 62.5;
 	EnemySpawner* m_EnemySpawner = nullptr;
+	ArcherSpowner* m_ArcherSpawner = nullptr;
 };

@@ -4,7 +4,6 @@
 #include "Player/Player.h"
 #include "Stage/Stage.h"
 #include "GameCamera.h"
-#include "Enemy/Enemy.h"
 
 Game::Game()
 {
@@ -24,6 +23,8 @@ bool Game::Start()
 	m_Camera = NewGO<GameCamera>(0);
 	m_EnemySpawner = NewGO<EnemySpawner>(0);
 	m_EnemySpawner->SetFilePath(m_LevelFilePath);
+	m_ArcherSpawner = NewGO<ArcherSpowner>(0);
+	m_ArcherSpawner->SetFilePath(m_LevelFilePath);
 	return true;
 }
 
@@ -37,4 +38,5 @@ void Game::OnDestroy()
 	DeleteGO(m_Stage);
 	DeleteGO(m_Camera);
 	DeleteGO(m_EnemySpawner);
+	DeleteGO(m_ArcherSpawner);
 }

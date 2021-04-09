@@ -68,6 +68,9 @@ void Stage::Load(wchar_t * filePath)
 		if (wcscmp(funclevel.name, L"keleton") == 0) {
 			return true;
 		}
+		if (wcscmp(funclevel.name, L"Archer") == 0) {
+			return true;
+		}
 		if (wcscmp(funclevel.name, L"Player") == 0) {
 			m_SpownPlayerPosition = funclevel.position;
 			return true;
