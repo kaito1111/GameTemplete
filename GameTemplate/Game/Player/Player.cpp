@@ -208,7 +208,7 @@ void Player::PlayerMove()
 		if (m_MoveSpeed.Length() < 1.0f) {
 			m_MoveSpeed = CVector3::Zero();
 		}
-		m_MoveSpeed.y -= 5.0f;
+		//m_MoveSpeed.y -= 5.0f;
 		m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
 
 	}

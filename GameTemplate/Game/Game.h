@@ -5,6 +5,7 @@ class Stage;
 class GameCamera;
 #include "Enemy/EnemySpawner.h"
 #include "Archer/ArcherSpowner.h"
+#include "Boss/BossSpawn.h"
 
 class Game : public IGameObject
 {
@@ -35,4 +36,6 @@ private:
 	int m_SpownHp = 62.5;
 	EnemySpawner* m_EnemySpawner = nullptr;
 	ArcherSpowner* m_ArcherSpawner = nullptr;
+	BossSpawn* m_BossSpawner = nullptr;
+	SkinModel model;
 };

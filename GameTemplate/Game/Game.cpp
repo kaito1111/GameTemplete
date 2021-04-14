@@ -18,13 +18,15 @@ bool Game::Start()
 	m_Stage = NewGO<Stage>(0);
 	m_Stage->Load(m_LevelFilePath);
 	m_Player = NewGO<Player>(1, "player");
-	m_Player->SetSpownPos(m_Stage->GetPlayerPos());
+	m_Player->SetSpownPos(CVector3::Zero());
 	m_Player->SetSpwonHp(m_SpownHp);
 	m_Camera = NewGO<GameCamera>(0);
 	m_EnemySpawner = NewGO<EnemySpawner>(0);
 	m_EnemySpawner->SetFilePath(m_LevelFilePath);
 	m_ArcherSpawner = NewGO<ArcherSpowner>(0);
 	m_ArcherSpawner->SetFilePath(m_LevelFilePath);
+	m_BossSpawner = NewGO<BossSpawn>(0);
+	m_BossSpawner->SetFilePath(m_LevelFilePath);
 	return true;
 }
 
