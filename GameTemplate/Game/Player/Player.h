@@ -10,7 +10,7 @@ public:
 	enum State {
 		State_Idle,		//待機中
 		State_Run,		//走り中
-		State_Backstep,	//バックステップ中。
+		State_Roling,	//ローリング中。
 		State_Attack,	//攻撃中
 		State_RollingAttack,//ローリングアタック中
 		State_Damage,	//ダメージ中
@@ -21,7 +21,7 @@ public:
 	enum AnimePattern {
 		idle,			//待機
 		walk,			//走り
-		Back,			//バックステップ
+		Roling,			//ローリング
 		Attack,			//攻撃
 		RollingAttack,	//ローリングアタック
 		Damage,			//ダメージ
@@ -71,7 +71,7 @@ public:
 	void TryChangeBackStepState()
 	{
 		if (IsBackStep()) {
-			m_NextState = State_Backstep;
+			m_NextState = State_Roling;
 		}
 	}
 	/// <summary>

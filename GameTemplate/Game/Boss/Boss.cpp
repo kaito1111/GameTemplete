@@ -13,6 +13,5 @@ bool Boss::Start() {
 
 void Boss::Update()
 {
-
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
 }

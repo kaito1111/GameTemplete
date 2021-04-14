@@ -39,7 +39,7 @@ bool Player::Start()
 	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
 	m_AnimeClip[walk].SetLoopFlag(true);
 
-	m_AnimeClip[Back].Load(L"Assets/animData/Rolling.tka");
+	m_AnimeClip[Roling].Load(L"Assets/animData/Rolling.tka");
 
 	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
 	m_AnimeClip[Attack].SetLoopFlag(false);
@@ -246,7 +246,7 @@ void Player::ChangeState(int state)
 		delete m_currentState;
 		m_currentState = new PlayerStateRun(this);
 		break;
-	case State_Backstep:	//バックステップ中。
+	case State_Roling:	//バックステップ中。
 		delete m_currentState;
 		m_currentState = new PlayerStateBackStep(this);
 		break;
