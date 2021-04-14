@@ -7,7 +7,7 @@ bool Boss::Start() {
 	m_Model->SetRotation(m_Rot);
 	m_Model->SetScale(CVector3::One()*1.8f);
 
-	m_AnimationClip[Walk].Load(L"Assets/animData/BossWalk.tka");
+	m_AnimationClip[Walk].Load(L"Assets/animData/BossDy.tka");
 	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, StateNum);
 	return true;
 }
