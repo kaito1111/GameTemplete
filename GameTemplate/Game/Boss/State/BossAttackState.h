@@ -2,7 +2,7 @@
 #include "IBossState.h"
 class BossAttackState : public IBossState
 {
-private:
+public:
 	BossAttackState(Boss* boss) :
 		IBossState(boss) {};
 	void Update()override;
