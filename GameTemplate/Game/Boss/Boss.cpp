@@ -7,7 +7,12 @@ bool Boss::Start() {
 	m_Model->SetRotation(m_Rot);
 	m_Model->SetScale(CVector3::One()*1.8f);
 
-	m_AnimationClip[Walk].Load(L"Assets/animData/BossDy.tka");
+	m_AnimationClip[State::Walk].Load(L"Assets/animData/BossWalk.tka");
+	m_AnimationClip[State::Walk].SetLoopFlag(true);
+	m_AnimationClip[State::Attack].Load(L"Assets/animData/BossAttack.cmo");
+	m_AnimationClip[State::AppearanceRoar].Load(L"Assets/animData/BossAppearanceRoar.tka");
+	m_AnimationClip[State::NormalRoar].Load(L"Assets/animData/BossNormalRoar.tka");
+	m_AnimationClip[State::Die].Load(L"Assets/animData/BossDie.tka");
 	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, StateNum);
 	return true;
 }

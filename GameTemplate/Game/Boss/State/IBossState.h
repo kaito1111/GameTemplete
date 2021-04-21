@@ -2,6 +2,7 @@
 #include "Boss/Boss.h"
 class IBossState
 {
+public:
 	IBossState(Boss* boss)
 		: m_Boss(boss) 
 	{};
@@ -11,7 +12,7 @@ class IBossState
 	virtual void Update() = 0;
 
 
-private:
+protected:
 	Boss* m_Boss = nullptr;
 };
 

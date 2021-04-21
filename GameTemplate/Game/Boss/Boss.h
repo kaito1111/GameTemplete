@@ -4,8 +4,9 @@ class Boss : public IGameObject
 	enum State {
 		Walk,
 		Attack,
-		JumpAttack,
-		Scream,
+		NormalRoar,
+		AppearanceRoar,
+		Die,
 		StateNum,
 	};
 public:
@@ -20,6 +21,10 @@ public:
 
 	void SetRotation(const CQuaternion& rot) {
 		m_Rot = rot;
+	}
+
+	void PlayAnimation() {
+		m_Animation.Update(gameTime().GetFrameDeltaTime());
 	}
 private:
 	SkinModelRender* m_Model = nullptr;

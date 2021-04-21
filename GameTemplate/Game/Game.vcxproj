@@ -111,6 +111,11 @@
     <ClCompile Include="Archer\State\ArcherIdleState.cpp" />
     <ClCompile Include="Archer\Archer.cpp" />
     <ClCompile Include="Archer\Arrow.cpp" />
+    <ClCompile Include="Boss\State\BossAppearanceRoarState.cpp" />
+    <ClCompile Include="Boss\State\BossDieState.cpp" />
+    <ClCompile Include="Boss\State\BossNormalRoar.cpp" />
+    <ClCompile Include="Boss\State\BossAttackState.cpp" />
+    <ClCompile Include="Boss\State\BossWalkState.cpp" />
     <ClCompile Include="Boss\Boss.cpp" />
     <ClCompile Include="Boss\BossSpawn.cpp" />
     <ClCompile Include="Enemy\EnemySpawner.cpp" />
@@ -158,6 +163,11 @@
     <ClInclude Include="Archer\State\ArcherIdleState.h" />
     <ClInclude Include="Archer\Archer.h" />
     <ClInclude Include="Archer\Arrow.h" />
+    <ClInclude Include="Boss\State\BossAppearanceRoarState.h" />
+    <ClInclude Include="Boss\State\BossDieState.h" />
+    <ClInclude Include="Boss\State\BossNormalRoar.h" />
+    <ClInclude Include="Boss\State\BossAttackState.h" />
+    <ClInclude Include="Boss\State\BossWalkState.h" />
     <ClInclude Include="Boss\BossSpawn.h" />
     <ClInclude Include="Boss\Boss.h" />
     <ClInclude Include="Enemy\EnemySpawner.h" />
