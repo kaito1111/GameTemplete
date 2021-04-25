@@ -9,6 +9,8 @@
 
 namespace {
 	const CVector3 PlayerScale = { 0.8f,0.8f,0.8f };
+	//Hpをプレイヤーのちょっと上に足す
+	const float HpPosUp = 40.0f;
 }
 Player::Player()
 {
@@ -22,33 +24,12 @@ Player::~Player()
 bool Player::Start()
 {
 	m_Pos = m_SpownPosition;
-	m_Model = NewGO<SkinModelRender>(0);
-	//cmoファイルの読み込み。
-	m_Model->Init(L"Assets/modelData/Player.cmo");
-	m_Model->SetPosition(m_Pos);
-	m_Model->SetRotation(m_Rot);
-	m_Model->SetRenderMode(enSilhouetteDraw);
-	m_Model->SetScale(PlayerScale);
+	ModelInit();
 	m_CharaCon.Init(m_radius, m_height, m_Pos);
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
-	m_AnimeClip[idle].Load(L"Assets/animData/idol.tka");
-	m_AnimeClip[idle].SetLoopFlag(true);
-
-	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
-	m_AnimeClip[walk].SetLoopFlag(true);
-
-	m_AnimeClip[Roling].Load(L"Assets/animData/Rolling.tka");
-
-	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
-	m_AnimeClip[Attack].SetLoopFlag(false);
-
-	m_AnimeClip[RollingAttack].Load(L"Assets/animData/RollingAttack.tka");
-
-	m_AnimeClip[Damage].Load(L"Assets/animData/damage.tka");
-
-	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
+	AnimetionInit();
 
 	const float InterpolateTime = 0.2f;
 	m_Animation.Play(idle, InterpolateTime);
@@ -57,25 +38,7 @@ bool Player::Start()
 		OnAnimEvent(eventName);
 	});
 
-	const float HpHeight = 10.0f;
-	m_HpTopSprite = NewGO<SpriteRender>(2);
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_MaxHp, HpHeight, true);
-	m_HpPosition = m_Pos;
-	//Hpをプレイヤーのちょっと上に足す
-	const float HpPosUp = 20.0f;
-	m_HpPosition.y += m_height + (m_radius * 2) + HpPosUp;
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	m_HpTopSprite->SetPivot({ SpriteRender::XCenter(),SpriteRender::Up() });
-	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-	float sizeX = m_SpriteSize * m_MaxHp;
-	CVector3 SpriteScale = CVector3::One();
-	SpriteScale.x = sizeX;
-	m_HpUnderSprite->SetScale(SpriteScale);
-	m_HpTopSprite->SetScale(SpriteScale);
-	m_HpUnderSprite->SetIsFaceCamera(true);
-	m_HpTopSprite->SetIsFaceCamera(true);
+	SpriteInit();
 
 	m_HitModel = NewGO<SkinModelRender>(0);
 	m_HitModel->Init(L"Assets/modelData/DebugShere.cmo");
@@ -128,10 +91,62 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		DeleteGO("playerAttack");
 	}
 }
+
+void Player::ModelInit()
+{
+	m_Model = NewGO<SkinModelRender>(0);
+	//cmoファイルの読み込み。
+	m_Model->Init(L"Assets/modelData/Player.cmo");
+	m_Model->SetPosition(m_Pos);
+	m_Model->SetRotation(m_Rot);
+	m_Model->SetRenderMode(enSilhouetteDraw);
+	m_Model->SetScale(PlayerScale);
+}
+
+void Player::AnimetionInit()
+{
+	m_AnimeClip[idle].Load(L"Assets/animData/idol.tka");
+	m_AnimeClip[idle].SetLoopFlag(true);
+
+	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
+	m_AnimeClip[walk].SetLoopFlag(true);
+
+	m_AnimeClip[Roling].Load(L"Assets/animData/Rolling.tka");
+
+	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
+	m_AnimeClip[Attack].SetLoopFlag(false);
+
+	m_AnimeClip[RollingAttack].Load(L"Assets/animData/RollingAttack.tka");
+
+	m_AnimeClip[Damage].Load(L"Assets/animData/damage.tka");
+
+	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
+}
+
+void Player::SpriteInit()
+{
+	const float HpHeight = 10.0f;
+	m_HpTopSprite = NewGO<SpriteRender>(2);
+	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_MaxHp, HpHeight, true);
+	m_HpPosition = m_Pos;
+	m_HpPosition.y += m_height + HpPosUp;
+	m_HpTopSprite->SetPosition(m_HpPosition);
+	m_HpTopSprite->SetPivot({ SpriteRender::XCenter(),SpriteRender::Up() });
+	m_HpUnderSprite = NewGO<SpriteRender>(1);
+	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
+	m_HpUnderSprite->SetPosition(m_HpPosition);
+	float sizeX = m_SpriteSize * m_MaxHp;
+	CVector3 SpriteScale = CVector3::One();
+	SpriteScale.x = sizeX;
+	m_HpUnderSprite->SetScale(SpriteScale);
+	m_HpTopSprite->SetScale(SpriteScale);
+	m_HpUnderSprite->SetIsFaceCamera(true);
+	m_HpTopSprite->SetIsFaceCamera(true);
+}
 void Player::UpdateSprite()
 {
 	m_HpPosition = m_Pos;
-	m_HpPosition.y += m_height + (m_radius * 2) + 20.0f;
+	m_HpPosition.y += m_height + HpPosUp;
 	//m_HpPosition.x -= 100.0f;
 	//Hpをプレイヤーの真ん中に置く
 	CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
@@ -210,7 +225,6 @@ void Player::PlayerMove()
 		}
 		//m_MoveSpeed.y -= 5.0f;
 		m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
-
 	}
 }
 bool Player::IsMove() const
@@ -266,8 +280,8 @@ void Player::ChangeState(int state)
 	}
 
 	m_state = state;
-
 }
+
 void Player::UpdateState()
 {
 	m_currentState->Update();
