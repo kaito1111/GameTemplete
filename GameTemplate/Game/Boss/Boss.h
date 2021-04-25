@@ -1,8 +1,9 @@
 #pragma once
-class Player;
 class IBossState;
+class Player;
+#include "GameSceneFunction/AIProcesing.h"
 #include "character/CharacterController.h"
-class Boss : public IGameObject
+class Boss : public AIProcesing
 {
 	enum State {
 		Walk,
@@ -22,6 +23,14 @@ public:
 		m_Pos = pos;
 	}
 
+	CVector3 GetPosition() const {
+		return m_Pos;
+	}
+
+	CVector3 GetPlayerPos()const {
+		return m_player->GetPosition();
+	}
+
 	void SetRotation(const CQuaternion& rot) {
 		m_Rot = rot;
 	}
@@ -38,14 +47,9 @@ public:
 	void SetWalkState() {
 		m_NextState = State::Walk;
 	}
-	void WalkMove() {
-		m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), m_Forward*m_moveSpeed);
-	}
-private:
-	SkinModelRender* m_Model = nullptr;
-	CVector3 m_Pos = CVector3::Zero();
-	CQuaternion m_Rot = CQuaternion::Identity();
-	
+
+	void Move(CVector3& move);
+private:	
 	Animation m_Animation;
 	AnimationClip m_AnimationClip[StateNum];
 
@@ -53,19 +57,19 @@ private:
 
 	State m_CurrentState = State::AppearanceRoar;
 	State m_NextState = State::Walk;
-	
-	Player* m_player = nullptr;
-	
-	CVector3 m_Forward = CVector3::Front();
-
-	CharacterController m_CharaCon;
-
-	const float m_moveSpeed = 10.0f;
 
 	const float m_CoolTimeRoar = 500;
 	float m_RoarTime = 0;
+
+	CVector3 m_AttackPos = CVector3::Zero();
+
+	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 private:
-	void ChengeState(State state);
+	//モデルの初期化
+	void ModelInit();
+ 
+	void ChengeState(const State& state);
+	void Rotate()override;
 
 };
 

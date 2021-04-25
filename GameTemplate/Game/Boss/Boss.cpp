@@ -7,12 +7,14 @@
 #include "State/BossNormalRoar.h"
 #include "State/IBossState.h"
 
+namespace {
+	const float radius = 60.0f;
+	const float hight = 60.0f;
+	const float modelScale = 1.8f;
+	const float InPlayer = 50.0f;
+}
+
 bool Boss::Start() {
-	m_Model = NewGO<SkinModelRender>(0);
-	m_Model->Init(L"Assets/modelData/Boss.cmo");
-	m_Model->SetPosition(m_Pos);
-	m_Model->SetRotation(m_Rot);
-	m_Model->SetScale(CVector3::One()*1.8f);
 
 	m_AnimationClip[State::Walk].Load(L"Assets/animData/BossWalk.tka");
 	m_AnimationClip[State::Walk].SetLoopFlag(true);
@@ -23,7 +25,24 @@ bool Boss::Start() {
 	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, StateNum);
 	
 	m_player = FindGO<Player>("player");
+
+	m_CharaCon.Init(radius, hight, m_Pos);
+
+	m_HitModel = NewGO<SkinModelRender>(0);
+	m_HitModel->Init(L"Assets/modelData/DebugShere.cmo");
+	//zはワールド空間でのｙにあたる
+	//yは考慮しない
+	m_HitModel->SetScale({ radius, radius, 1.0f });
 	return true;
+}
+
+void Boss::ModelInit()
+{
+	m_Model = NewGO<SkinModelRender>(0);
+	m_Model->Init(L"Assets/modelData/Boss.cmo");
+	m_Model->SetPosition(m_Pos);
+	m_Model->SetRotation(m_Rot);
+	m_Model->SetScale(CVector3::One()*modelScale);
 }
 
 void Boss::Update()
@@ -35,11 +54,22 @@ void Boss::Update()
 void Boss::IsChengeAttackState()
 {
 	CVector3 Diff = m_player->GetPosition() - m_Pos;
-	if (Diff.Length() < 50.0f) {
+	if (Diff.Length() < InPlayer) {
 		m_NextState = State::Attack;
 	}
 }
 
+void Boss::Move(CVector3& move)
+{
+	//回転の更新
+	Rotate();
+	//当たり判定を実行
+	m_Pos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), move);
+	//モデルの位置を設定
+	m_Model->SetPosition(m_Pos);
+	//モデルの回転を設定
+	m_Model->SetRotation(m_Rot);
+}
 void Boss::IsChengeNormalRoar()
 {
 	m_RoarTime += gameTime().GetFrameDeltaTime();
@@ -48,7 +78,7 @@ void Boss::IsChengeNormalRoar()
 	}
 }
 
-void Boss::ChengeState(State state)
+void Boss::ChengeState(const State& state)
 {
 	switch (state) {
 	case State::Walk:
@@ -70,4 +100,19 @@ void Boss::ChengeState(State state)
 	default:
 		break;
 	}
+}
+
+void Boss::Rotate()
+{
+	//プレイヤーとの距離を測る
+	CVector3 diff = m_player->GetPosition() - m_Pos;
+	//距離の方向を使って回転量を求める
+	float angle = atan2(diff.x, diff.z);
+	//回転量を保存
+	m_Rot.SetRotation(CVector3::AxisY(), angle);
+	//前方向を更新
+	CMatrix mRot = CMatrix::Identity();
+	mRot.MakeRotationFromQuaternion(m_Rot);
+	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
+	m_forward.Normalize();
 }
