@@ -3,14 +3,11 @@
 #include"Enemy/Enemy.h"
 
 void EnemyWalkState::Update() {
-	//m_enemy->PlayAnimation(Enemy::State::Walk);
-	//CVector3 MoveSpeed = m_enemy->GetPlayerPos() - m_enemy->GetPosition();
-	//if (MoveSpeed.Length() >500.0f) {
-	//	m_enemy->SetIdleState();
-	//	return;
-	//}
-	//MoveSpeed.Normalize();
-	//MoveSpeed *= 100.0f;
-	//m_enemy->Move(MoveSpeed);
-	//m_enemy->TryChangeAttackState();
+	m_enemy->PlayAnimation(Enemy::State::Walk);
+	m_enemy->EnemyWalk();
+	if (m_enemy->GetMoveSpeed().Length() >500.0f) {
+		m_enemy->SetIdleState();
+		return;
+	}
+	m_enemy->TryChangeAttackState();
 }
