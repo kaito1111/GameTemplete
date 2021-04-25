@@ -88,6 +88,7 @@
     <ClCompile Include="GameSceneFunction\Attack.cpp" />
     <ClCompile Include="GameSceneFunction\Character.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
+    <ClCompile Include="Anime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -141,6 +142,7 @@
     <ClInclude Include="GameSceneFunction\Attack.h" />
     <ClInclude Include="GameSceneFunction\Character.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
+    <ClInclude Include="Anime.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
@@ -149,7 +151,6 @@
     <MeshContentTask Include="Assets\modelData\Door.FBX" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Floor.FBX" />
-    <MeshContentTask Include="Assets\modelData\keleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
@@ -167,6 +168,7 @@
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
+    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

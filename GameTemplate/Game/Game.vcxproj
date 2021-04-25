@@ -105,6 +105,7 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Anime.cpp" />
     <ClCompile Include="Archer\ArcherSpowner.cpp" />
     <ClCompile Include="Archer\ArcherAttack.cpp" />
     <ClCompile Include="Archer\State\ArcherAttackState.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anime.h" />
     <ClInclude Include="Archer\ArcherSpowner.h" />
     <ClInclude Include="Archer\ArcherAttack.h" />
     <ClInclude Include="Archer\State\ArcherAttackState.h" />
@@ -220,7 +222,7 @@
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Door.FBX" />
     <MeshContentTask Include="Assets\modelData\Floor.FBX" />
-    <MeshContentTask Include="Assets\modelData\keleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
