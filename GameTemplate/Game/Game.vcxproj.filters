@@ -85,6 +85,9 @@
     <ClCompile Include="Boss\State\BossNormalRoar.cpp" />
     <ClCompile Include="Boss\State\BossDieState.cpp" />
     <ClCompile Include="Boss\State\BossAppearanceRoarState.cpp" />
+    <ClCompile Include="GameSceneFunction\Attack.cpp" />
+    <ClCompile Include="GameSceneFunction\Character.cpp" />
+    <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -135,6 +138,9 @@
     <ClInclude Include="Boss\State\BossNormalRoar.h" />
     <ClInclude Include="Boss\State\BossDieState.h" />
     <ClInclude Include="Boss\State\BossAppearanceRoarState.h" />
+    <ClInclude Include="GameSceneFunction\Attack.h" />
+    <ClInclude Include="GameSceneFunction\Character.h" />
+    <ClInclude Include="GameSceneFunction\AIProcesing.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
