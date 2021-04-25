@@ -3,8 +3,9 @@
 #include "EnemyAttack.h"
 class IEnemyState;
 #include "Player/Player.h"
+#include "GameSceneFunction/AIProcesing.h"
 //敵
-class Enemy : public IGameObject
+class Enemy :public AIProcesing
 {
 public:
 	//状態の種類をenum化
@@ -21,18 +22,6 @@ enum State {
 	//敵が消えた瞬間に呼ばれる
 	void OnDestroy()override;
 public:
-	//位置を取得
-	CVector3 GetPlayerPos() {
-		return m_Player->GetPosition();
-	}
-
-	//プレイヤーからの攻撃が当たったら呼ばれる
-	void HitDamege(const float damege);
-
-	//位置を取得
-	const CVector3& GetPosition() {
-		return m_Pos;
-	}
 	//アニメーションを再生
 	//enumのStateを使うと便利。推奨
 	void PlayAnimation(State st) {
@@ -65,17 +54,8 @@ public:
 		m_NextState = State::Idle;
 	}
 
-	//ここで動く
-	void Move(CVector3 move);
-
-	//初期位置を設定
-	void SetSpownPos(const CVector3& pos) {
-		m_SpownPosition = pos;
-	}
-	//回転量を設定
-	void SetRotation(const CQuaternion& rot) {
-		m_Rot = rot;
-	}
+	//プレイヤーからの攻撃が当たったら呼ばれる
+	void HitDamege(const float damege);
 private:
 	//初期化場所
 	bool Start()override;
@@ -102,8 +82,6 @@ private:
 	//更新
 	void Update()override;
 
-	//敵の回転の更新
-	void EnemyRot();
 	//アニメーションイベント
 	//EnemyAttackを作っている
 	void OnAnimEvent(const wchar_t* eventName);
@@ -115,25 +93,18 @@ private:
 	//攻撃するかを判定
 	bool IsAttack()const;
 
+	void Rotate()override;
 
 	//ステートを切り替えるときに使用する
 	//enumのstateを利用すると切り替えやすい。ていうか推奨
 	void ChangeState(int st);
 
 private:
-	SkinModelRender* m_Skin = nullptr;			//敵のモデル
-	CVector3 m_Pos = CVector3::Zero();			//敵の位置
-	CQuaternion m_Rot = CQuaternion::Identity();//敵の回転
-	CVector3 m_Scale = CVector3::One()*10.0f;	//敵の大きさ
-	CharacterController m_CharaCon;				//キャラコン
-	Player* m_Player = nullptr;					//プレイヤー
-
-	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
 
 	SpriteRender* m_HpTopSprite = nullptr;		//hpのスプライト
 	CVector3 m_HpPosition = CVector3::Zero();	//hpのスプライト位置
 	float m_Hp = 62.5f;							//hp
-	const float m_SpriteSize = 0.025f;			//hpのサイズを調整
+	//const float m_SpriteSize = 0.025f;			//hpのサイズを調整
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
 	const float m_height = 150.0f;				//敵の身長
@@ -147,10 +118,9 @@ private:
 	IEnemyState* m_ActiveState = nullptr;		//現在のステート
 	int m_NextState = State::Idle;				//次のステート
 
-	CVector3 m_forward = CVector3::Front();		//前方向
 	CVector3 m_AttackPos = CVector3::Zero();	//攻撃の場所
 
 	EnemyAttack* attack = nullptr;				//攻撃判定
+	Player* m_Player = nullptr;
 
-	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
 };

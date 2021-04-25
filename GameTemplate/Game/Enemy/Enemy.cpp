@@ -34,39 +34,11 @@ Enemy::~Enemy()
 void Enemy::OnDestroy()
 {
 	//この敵に関係するインスタンスを削除
-	DeleteGO(m_Skin);
+	DeleteGO(m_Model);
 	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HpUnderSprite);
 }
 
-void Enemy::Move(CVector3 move)
-{
-	//回転の更新
-	EnemyRot();
-	//当たり判定を実行
-	m_Pos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), move);
-	//モデルの位置を設定
-	m_Skin->SetPosition(m_Pos);
-	//モデルの回転を設定
-	m_Skin->SetRotation(m_Rot);
-	//攻撃の肩から腕までの距離
-	const float AttackReach = 100.0f;
-	m_AttackPos = m_Pos + m_forward * AttackReach;
-}
-void Enemy::EnemyRot()
-{
-	//プレイヤーとの距離を測る
-	CVector3 diff = m_Player->GetPosition() - m_Pos;
-	//距離の方向を使って回転量を求める
-	float angle = atan2(diff.x, diff.z);
-	//回転量を保存
-	m_Rot.SetRotation(CVector3::AxisY(), angle);
-	//前方向を更新
-	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rot);
-	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_forward.Normalize();
-}
 
 void Enemy::HitDamege(const float damege) {
 	//死んでないならHpを減らす
@@ -112,17 +84,17 @@ bool Enemy::Start()
 void Enemy::SkinModelInit()
 {
 	//モデルをNew
-	m_Skin = NewGO<SkinModelRender>(0, "EnemySkin");
+	m_Model = NewGO<SkinModelRender>(0, "EnemySkin");
 	//モデルをロード
-	m_Skin->Init(L"Assets/modelData/keleton.cmo");
+	m_Model->Init(L"Assets/modelData/keleton.cmo");
 	//位置を設定
-	m_Skin->SetPosition(m_Pos);
+	m_Model->SetPosition(m_Pos);
 	//回転を設定
-	m_Skin->SetRotation(m_Rot);
+	m_Model->SetRotation(m_Rot);
 	//大きさを設定
-	m_Skin->SetScale(m_Scale);
+	m_Model->SetScale(m_Scale);
 	//レンダーモードを設定
-	m_Skin->SetRenderMode(1);
+	m_Model->SetRenderMode(1);
 }
 
 void Enemy::CharaConInit()
@@ -137,8 +109,8 @@ void Enemy::HpSpriteInit()
 	m_HpPosition = m_Pos;
 	//スプライトのサイズを設定
 	CVector3 SpriteSize = CVector3::One();
-	float sizeX = m_SpriteSize * m_Hp;
-	SpriteSize.x = sizeX;
+	//float sizeX = m_SpriteSize * m_Hp;
+	//SpriteSize.x = sizeX;
 	//TopSpriteを初期化
 	HpTopSpriteInit(hpSpriteSizeY, SpriteSize);
 	//UnderSpriteを初期化
@@ -151,7 +123,7 @@ void Enemy::HpTopSpriteInit(const float SizeY, const CVector3& Scale)
 	//HpをNew
 	m_HpTopSprite = NewGO<SpriteRender>(2);
 	//Hpをロード、画像の大きさも設定
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, SizeY, true);
+	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", 86.0f , SizeY, true);
 	//位置を更新
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//大きさを更新
@@ -192,7 +164,7 @@ void Enemy::AnimetionInit()
 	//ループフラグを有効
 	m_AniClip[State::Idle].SetLoopFlag(true);
 	//アニメーションを設定
-	m_Animation.Init(m_Skin->GetModel(), m_AniClip, State::Num);
+	m_Animation.Init(m_Model->GetModel(), m_AniClip, State::Num);
 	//イベントリスナーを設定
 	m_Animation.AddAnimationEventListener([&](const wchar_t* ClipName, const wchar_t* eventName) {
 		OnAnimEvent(eventName);
@@ -203,10 +175,8 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 {
 	//AttackStartの名前を見つけたら
 	if (wcscmp(eventName, L"AttackStart") == 0) {
-		//攻撃判定をNew
-		attack = NewGO<EnemyAttack>(0, "enemyAttack");
-		//攻撃を設定
-		attack->Init(AttackDamage, AttackEria, m_AttackPos);
+		//攻撃判定を作る
+		AIAttack(AttackDamage, AttackEria, "enemyAttack");
 	}
 	//AttackEndの名前を見つけたら
 	if (wcscmp(eventName, L"AttackEnd") == 0) {
@@ -266,12 +236,12 @@ void Enemy::UpdateSprite()
 	//Hpの位置を敵の位置に合わせる
 	m_HpPosition = m_Pos;
 	HpPosAdjustment();
-	//Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * m_SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	//大きさを設定
-	m_HpTopSprite->SetScale(SpriteSize);
+	////Hpの大きさをhpの残量に合わせる
+	//float SizeX = m_Hp * m_SpriteSize;
+	//CVector3 SpriteSize = CVector3::One();
+	//SpriteSize.x = SizeX;
+	////大きさを設定
+	//m_HpTopSprite->SetScale(SpriteSize);
 	//Topの位置を設定
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定
@@ -327,4 +297,19 @@ bool Enemy::IsAttack() const
 	}
 	//見つからなかった
 	return false;
+}
+
+void Enemy::Rotate()
+{
+	//向く位置との距離を測る
+	CVector3 diff = m_Player->GetPosition() - m_Pos;
+	//距離の方向を使って回転量を求める
+	float angle = atan2(diff.x, diff.z);
+	//回転量を保存
+	m_Rot.SetRotation(CVector3::AxisY(), angle);
+	//前方向を更新
+	CMatrix mRot = CMatrix::Identity();
+	mRot.MakeRotationFromQuaternion(m_Rot);
+	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
+	m_forward.Normalize();
 }
