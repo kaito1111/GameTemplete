@@ -14,7 +14,7 @@ PlayerAttack::~PlayerAttack()
 bool PlayerAttack::Start()
 {
 	m_AttackModel = NewGO<SkinModelRender>(0);
-	m_AttackModel->Init(L"Assets/modelData/DebugShere.cmo");
+	m_AttackModel->Init(L"DebugShere.cmo");
 	m_AttackModel->SetPosition(m_Position);
 	m_AttackModel->SetScale({ m_Aria, m_Aria, 1.0f });
 	return true;

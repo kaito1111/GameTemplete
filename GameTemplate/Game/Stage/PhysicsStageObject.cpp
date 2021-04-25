@@ -15,7 +15,7 @@ PhysicsStageObject::~PhysicsStageObject()
 
 bool PhysicsStageObject::Start() {
 	m_Model = NewGO<SkinModelRender>(0);
-	wchar_t filePath[256] = L"Assets/modelData/";
+	wchar_t filePath[256] = {};
 	wcscat(filePath, m_ObjectName);
 	wcscat(filePath, L".cmo");
 	m_Model->Init(filePath);

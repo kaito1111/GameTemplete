@@ -8,7 +8,7 @@ bool SceneChangeLocation::Start()
 {
 	m_player = FindGO<Player>("player");
 	m_Skin = NewGO<SkinModelRender>(0);
-	m_Skin->Init(L"Assets/modelData/DebugShere.cmo");
+	m_Skin->Init(L"DebugShere.cmo");
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetScale({ m_Eria,m_Eria,0.0f });
 	return true;

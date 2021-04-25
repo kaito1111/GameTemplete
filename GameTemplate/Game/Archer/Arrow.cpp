@@ -11,7 +11,7 @@ namespace {
 void Arrow::Init(Archer* acr)
 {
 	m_Model = NewGO<SkinModelRender>(0);
-	m_Model->Init(L"Assets/modelData/Arrow.cmo");
+	m_Model->Init(L"Arrow.cmo");
 	m_Archer = acr;
 	m_ArcherAttack = NewGO<ArcherAttack>(0);
 	m_ArcherAttack->SetPosition(m_Pos);

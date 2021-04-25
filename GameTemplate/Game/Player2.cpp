@@ -3,7 +3,7 @@
 Player2::Player2()
 {
 	//cmoファイルの読み込み。
-	m_skin.Init(L"Assets/modelData/unityChan.cmo");
+	m_skin.Init(L"unityChan.cmo");
 }
 
 Player2::~Player2()

@@ -4,7 +4,7 @@
 bool Floor::Start()
 {
 	m_Model = NewGO<SkinModelRender>(0);
-	m_Model->Init(L"Assets/modelData/StageBoss.cmo");
+	m_Model->Init(L"StageBoss.cmo");
 	return true;
 }
 

@@ -5,7 +5,7 @@
 void ArcherAttackState::Update()
 {
 	if (m_Archer->IsFacingFlag()) {
-		m_Archer->PlayerFacing();
+		m_Archer->Rotate();
 	}
 	if (!m_Archer->IsPlayAnimation()) {
 		m_Archer->SetFacingFlag();

@@ -18,7 +18,7 @@ namespace ksEngine {
 			m_Scale = scale;
 		}
 		SkinModel& GetModel() {
-			return m_Skin;
+			return m_SkinModel;
 		}
 		 void SetDraw(bool isDraw) {
 			 m_IsDraw = isDraw;
@@ -31,7 +31,7 @@ namespace ksEngine {
 		void Update();
 		void Draw();
 	private:
-		SkinModel m_Skin;
+		SkinModel m_SkinModel;
 		CVector3 m_Pos = CVector3::Zero();
 		CQuaternion m_Rot = CQuaternion::Identity();
 		CVector3 m_Scale = CVector3::One();

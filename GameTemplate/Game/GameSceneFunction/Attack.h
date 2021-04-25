@@ -12,7 +12,7 @@ public:
 		m_Position = pos;
 		m_Player = FindGO<Player>("player");
 		m_AttackModel = NewGO<SkinModelRender>(0);
-		m_AttackModel->Init(L"Assets/modelData/DebugShere.cmo");
+		m_AttackModel->Init(L"DebugShere.cmo");
 		m_AttackModel->SetPosition(m_Position);
 		CVector3 ModelScale = { m_Area,m_Area,1.0f };
 		m_AttackModel->SetScale(ModelScale);
