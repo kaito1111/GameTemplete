@@ -1,9 +1,9 @@
 #pragma once
 #include "character/CharacterController.h"
-
+#include "GameSceneFunction/Character.h"
 class IPlayerState;
 
-class Player : public IGameObject
+class Player : public Character
 {
 public:
 	////状態の種類をenum化
@@ -38,7 +38,7 @@ public:
 
 	//位置を取得
 	CVector3 GetPosition() {
-		return m_Pos;
+		return m_ModelPos;
 	}
 	//攻撃位置を取得
 	CVector3 AttackPos() {
@@ -138,7 +138,7 @@ public:
 	}
 	//回転率を設定
 	void SetRotation(const CQuaternion& rot) {
-		m_Rot = rot;
+		m_ModelRot = rot;
 	}
 	//Hpを設定
 	//エリアチェンジで使う
@@ -182,7 +182,7 @@ private:
 	/// <summary>
 	/// プレイヤーの旋回処理。
 	/// </summary>
-	void PlayerRotate();
+	void Rotate();
 	/// <summary>
 	/// アニメーションイベントが発生した時に呼ばれる処理。
 	/// </summary>
@@ -198,9 +198,6 @@ private:
 	/// <param name="state"></param>
 	void ChangeState(int state);
 
-	//モデルの初期化
-	void ModelInit();
-
 	//アニメーションの初期化
 	void AnimetionInit();
 	
@@ -213,11 +210,7 @@ private:
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
 	int m_state = State_Idle;					//プレイヤーの現在の状態。
 	int m_NextState = State::State_Idle;		//次の状態。
-	SkinModelRender* m_Model = nullptr;			//スキンモデル。
-	CVector3 m_Pos = CVector3::Zero();			//位置
-	CQuaternion m_Rot = CQuaternion::Identity();//回転量
 	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
-	CharacterController m_CharaCon;				//キャラコン
 	
 	float m_mulAnimSpeed = 1.0f;				//アニメーション速度に乗算する
 	CVector3 m_AttackPos = CVector3::Zero();	//攻撃場所
@@ -231,8 +224,7 @@ private:
 	const float m_SpriteSize = 0.025f;			//hpの絵を調整する定数
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//下の絵
-
-	const float m_radius = 35.0f;				//キャラコンの横幅
+			
 	const float m_height =  110.0f;				//キャラコンの縦幅
 	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
 

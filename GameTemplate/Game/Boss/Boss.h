@@ -20,11 +20,11 @@ public:
 	void Update()override;
 
 	void SetPosition(const CVector3& pos) {
-		m_Pos = pos;
+		m_ModelPos = pos;
 	}
 
 	CVector3 GetPosition() const {
-		return m_Pos;
+		return m_ModelPos;
 	}
 
 	CVector3 GetPlayerPos()const {
@@ -32,7 +32,7 @@ public:
 	}
 
 	void SetRotation(const CQuaternion& rot) {
-		m_Rot = rot;
+		m_ModelRot = rot;
 	}
 
 	void PlayAnimation() {
@@ -65,8 +65,6 @@ private:
 
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 private:
-	//モデルの初期化
-	void ModelInit();
  
 	void ChengeState(const State& state);
 	void Rotate()override;

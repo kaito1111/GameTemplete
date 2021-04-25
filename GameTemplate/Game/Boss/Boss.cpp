@@ -9,12 +9,13 @@
 
 namespace {
 	const float radius = 60.0f;
-	const float hight = 60.0f;
+	const float height = 60.0f;
 	const float modelScale = 1.8f;
 	const float InPlayer = 50.0f;
 }
 
 bool Boss::Start() {
+	CharacterInit(L"Boss.cmo", radius, height, m_ModelPos);
 
 	m_AnimationClip[State::Walk].Load(L"Assets/animData/BossWalk.tka");
 	m_AnimationClip[State::Walk].SetLoopFlag(true);
@@ -26,23 +27,12 @@ bool Boss::Start() {
 	
 	m_player = FindGO<Player>("player");
 
-	m_CharaCon.Init(radius, hight, m_Pos);
-
 	m_HitModel = NewGO<SkinModelRender>(0);
-	m_HitModel->Init(L"Assets/modelData/DebugShere.cmo");
+	m_HitModel->Init(L"DebugShere.cmo");
 	//zはワールド空間でのｙにあたる
 	//yは考慮しない
 	m_HitModel->SetScale({ radius, radius, 1.0f });
 	return true;
-}
-
-void Boss::ModelInit()
-{
-	m_Model = NewGO<SkinModelRender>(0);
-	m_Model->Init(L"Assets/modelData/Boss.cmo");
-	m_Model->SetPosition(m_Pos);
-	m_Model->SetRotation(m_Rot);
-	m_Model->SetScale(CVector3::One()*modelScale);
 }
 
 void Boss::Update()
@@ -53,7 +43,7 @@ void Boss::Update()
 
 void Boss::IsChengeAttackState()
 {
-	CVector3 Diff = m_player->GetPosition() - m_Pos;
+	CVector3 Diff = m_player->GetPosition() - m_ModelPos;
 	if (Diff.Length() < InPlayer) {
 		m_NextState = State::Attack;
 	}
@@ -64,11 +54,11 @@ void Boss::Move(CVector3& move)
 	//回転の更新
 	Rotate();
 	//当たり判定を実行
-	m_Pos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), move);
+	m_ModelPos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), move);
 	//モデルの位置を設定
-	m_Model->SetPosition(m_Pos);
+	m_Model->SetPosition(m_ModelPos);
 	//モデルの回転を設定
-	m_Model->SetRotation(m_Rot);
+	m_Model->SetRotation(m_ModelRot);
 }
 void Boss::IsChengeNormalRoar()
 {
@@ -105,14 +95,12 @@ void Boss::ChengeState(const State& state)
 void Boss::Rotate()
 {
 	//プレイヤーとの距離を測る
-	CVector3 diff = m_player->GetPosition() - m_Pos;
+	CVector3 diff = m_player->GetPosition() - m_ModelPos;
 	//距離の方向を使って回転量を求める
 	float angle = atan2(diff.x, diff.z);
 	//回転量を保存
-	m_Rot.SetRotation(CVector3::AxisY(), angle);
+	m_ModelRot.SetRotation(CVector3::AxisY(), angle);
 	//前方向を更新
 	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rot);
-	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_forward.Normalize();
+	ForwardUpdate();
 }

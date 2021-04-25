@@ -10,18 +10,14 @@
 #include "EnemyAttack.h"
 
 namespace {
-	//視界
-	const float visility = 500.0f;
-	//キャラコンの幅
-	const float radius = 20.0f;
-	//スプライトの縦幅
-	const float hpSpriteSizeY = 10.0f;
-	//攻撃力
-	const float AttackDamage = 10.0f;
-	//攻撃範囲
-	const float AttackEria = 135.0f;
-	//スプライトを透明にする
-	const float  SpriteClear = 0.0f;
+	
+	const float visility = 500.0f;//視界	
+	const float radius = 20.0f;//キャラコンの幅
+	const float m_height = 150.0f;				//敵の身長
+	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
+	const float AttackDamage = 10.0f;	//攻撃力
+	const float AttackEria = 135.0f;	//攻撃範囲
+	const float  SpriteClear = 0.0f;	//スプライトを透明にする	
 }
 Enemy::Enemy()
 {
@@ -34,7 +30,6 @@ Enemy::~Enemy()
 void Enemy::OnDestroy()
 {
 	//この敵に関係するインスタンスを削除
-	DeleteGO(m_Model);
 	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HpUnderSprite);
 }
@@ -58,16 +53,15 @@ void Enemy::HitDamege(const float damege) {
 
 bool Enemy::Start()
 {
+	//モデルの大きさを調整
+	m_ModelScale *= 10.0f;
 	//プレイヤーのポインタを見つける
 	m_Player = FindGO<Player>("player");
 	//初期位置を設定
-	m_Pos = m_SpownPosition;
+	m_ModelPos = m_SpownPosition;
 
-	//モデルを初期化
-	SkinModelInit();
-
-	//キャラコンを初期化
-	CharaConInit();
+	//モデルとキャラコンを初期化
+	CharacterInit(L"Skeleton.cmo", radius, m_height, m_ModelPos);
 
 	//HPのスプライトを初期化
 	HpSpriteInit();
@@ -81,32 +75,10 @@ bool Enemy::Start()
 	return true;
 }
 
-void Enemy::SkinModelInit()
-{
-	//モデルをNew
-	m_Model = NewGO<SkinModelRender>(0, "EnemySkin");
-	//モデルをロード
-	m_Model->Init(L"Assets/modelData/keleton.cmo");
-	//位置を設定
-	m_Model->SetPosition(m_Pos);
-	//回転を設定
-	m_Model->SetRotation(m_Rot);
-	//大きさを設定
-	m_Model->SetScale(m_Scale);
-	//レンダーモードを設定
-	m_Model->SetRenderMode(1);
-}
-
-void Enemy::CharaConInit()
-{
-	//キャラコンを設定
-	m_CharaCon.Init(radius, m_height, m_Pos);
-}
-
 void Enemy::HpSpriteInit()
 {
 	//hpスプライトを設定
-	m_HpPosition = m_Pos;
+	m_HpPosition = m_ModelPos;
 	//スプライトのサイズを設定
 	CVector3 SpriteSize = CVector3::One();
 	//float sizeX = m_SpriteSize * m_Hp;
@@ -229,12 +201,13 @@ void Enemy::Update()
 	ChangeState(m_NextState);
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
+	CharacterModelUpdate();
 }
 
 void Enemy::UpdateSprite()
 {
 	//Hpの位置を敵の位置に合わせる
-	m_HpPosition = m_Pos;
+	m_HpPosition = m_ModelPos;
 	HpPosAdjustment();
 	////Hpの大きさをhpの残量に合わせる
 	//float SizeX = m_Hp * m_SpriteSize;
@@ -262,7 +235,7 @@ void Enemy::HpPosAdjustment()
 bool Enemy::IsWalk() const
 {
 	//プレイヤーとの距離を判定
-	CVector3 Diff = m_Player->GetPosition() - m_Pos;
+	CVector3 Diff = m_Player->GetPosition() - m_ModelPos;
 	//もしプレイヤーが視界内なら
 	if (Diff.Length() < visility) {
 		Diff.Normalize();
@@ -280,7 +253,7 @@ bool Enemy::IsWalk() const
 bool Enemy::IsAttack() const
 {
 	//プレイヤーとの距離を比較
-	CVector3 Diff = m_Player->GetPosition() - m_Pos;
+	CVector3 Diff = m_Player->GetPosition() - m_ModelPos;
 	//攻撃をすると判断する範囲
 	//攻撃の範囲ではない
 	const float AttackRenge = 100.0f;
@@ -302,14 +275,11 @@ bool Enemy::IsAttack() const
 void Enemy::Rotate()
 {
 	//向く位置との距離を測る
-	CVector3 diff = m_Player->GetPosition() - m_Pos;
+	CVector3 diff = m_Player->GetPosition() - m_ModelPos;
 	//距離の方向を使って回転量を求める
 	float angle = atan2(diff.x, diff.z);
 	//回転量を保存
-	m_Rot.SetRotation(CVector3::AxisY(), angle);
+	m_ModelRot.SetRotation(CVector3::AxisY(), angle);
 	//前方向を更新
-	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rot);
-	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_forward.Normalize();
+	ForwardUpdate();
 }

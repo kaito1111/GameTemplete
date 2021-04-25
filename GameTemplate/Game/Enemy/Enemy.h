@@ -56,16 +56,14 @@ public:
 
 	//プレイヤーからの攻撃が当たったら呼ばれる
 	void HitDamege(const float damege);
+
+	//プレイヤー方向に歩く
+	void EnemyWalk() {
+		AIWalk();
+	}
 private:
 	//初期化場所
 	bool Start()override;
-
-	//モデルを初期化
-	void SkinModelInit();
-
-	//キャラコンを初期化
-	//1行で終わるから無駄だけどわかりやすくするため　
-	void CharaConInit();
 
 	//HPスプライトを初期化
 	void HpSpriteInit();
@@ -93,6 +91,7 @@ private:
 	//攻撃するかを判定
 	bool IsAttack()const;
 
+	//回転処理
 	void Rotate()override;
 
 	//ステートを切り替えるときに使用する
@@ -107,7 +106,6 @@ private:
 	//const float m_SpriteSize = 0.025f;			//hpのサイズを調整
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
-	const float m_height = 150.0f;				//敵の身長
 	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
 	Animation m_Animation;						//アニメーション

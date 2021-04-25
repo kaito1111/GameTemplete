@@ -8,9 +8,8 @@
 #include "PlayerAttack.h"
 
 namespace {
-	const CVector3 PlayerScale = { 0.8f,0.8f,0.8f };
-	//Hpをプレイヤーのちょっと上に足す
-	const float HpPosUp = 40.0f;
+	const float HpPosUp = 40.0f;//Hpをプレイヤーのちょっと上に足す
+	const float radius = 35.0f;//キャラコンの横幅
 }
 Player::Player()
 {
@@ -23,9 +22,10 @@ Player::~Player()
 
 bool Player::Start()
 {
-	m_Pos = m_SpownPosition;
-	ModelInit();
-	m_CharaCon.Init(m_radius, m_height, m_Pos);
+	m_ModelScale = { 0.8f,0.8f,0.8f };//プレイヤーの大きさ
+													//設定上少し小さくする
+	m_ModelPos = m_SpownPosition;
+	CharacterInit(L"Player.cmo", radius,m_height,m_ModelPos);
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
@@ -41,10 +41,10 @@ bool Player::Start()
 	SpriteInit();
 
 	m_HitModel = NewGO<SkinModelRender>(0);
-	m_HitModel->Init(L"Assets/modelData/DebugShere.cmo");
+	m_HitModel->Init(L"DebugShere.cmo");
 	//zはワールド空間でのｙにあたる
 	//yは考慮しない
-	m_HitModel->SetScale({ m_radius, m_radius, 1.0f });
+	m_HitModel->SetScale({ radius, radius, 1.0f });
 	return true;
 }
 void Player::OnAnimEvent(const wchar_t* eventName)
@@ -92,17 +92,6 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	}
 }
 
-void Player::ModelInit()
-{
-	m_Model = NewGO<SkinModelRender>(0);
-	//cmoファイルの読み込み。
-	m_Model->Init(L"Assets/modelData/Player.cmo");
-	m_Model->SetPosition(m_Pos);
-	m_Model->SetRotation(m_Rot);
-	m_Model->SetRenderMode(enSilhouetteDraw);
-	m_Model->SetScale(PlayerScale);
-}
-
 void Player::AnimetionInit()
 {
 	m_AnimeClip[idle].Load(L"Assets/animData/idol.tka");
@@ -128,7 +117,7 @@ void Player::SpriteInit()
 	const float HpHeight = 10.0f;
 	m_HpTopSprite = NewGO<SpriteRender>(2);
 	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_MaxHp, HpHeight, true);
-	m_HpPosition = m_Pos;
+	m_HpPosition = m_ModelPos;
 	m_HpPosition.y += m_height + HpPosUp;
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	m_HpTopSprite->SetPivot({ SpriteRender::XCenter(),SpriteRender::Up() });
@@ -145,7 +134,7 @@ void Player::SpriteInit()
 }
 void Player::UpdateSprite()
 {
-	m_HpPosition = m_Pos;
+	m_HpPosition = m_ModelPos;
 	m_HpPosition.y += m_height + HpPosUp;
 	//m_HpPosition.x -= 100.0f;
 	//Hpをプレイヤーの真ん中に置く
@@ -179,52 +168,47 @@ void Player::Update()
 	m_MoveSpeed.z = -tmp;
 
 	//モデル空間からワールド空間に変換。
-	m_Rot.Multiply(m_MoveSpeed);
+	m_ModelRot.Multiply(m_MoveSpeed);
 	//HPのスプライトを更新
 	UpdateSprite();
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
 	//移動処理
 	PlayerMove();
 	//回転処理
-	PlayerRotate();
-	m_Model->SetPosition(m_Pos);
-	m_Model->SetRotation(m_Rot);
-	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rot);
-	m_forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_forward.Normalize();
+	Rotate();
+	//モデルの更新
+	CharacterModelUpdate();
+	//前方向の更新
+	ForwardUpdate();
 	const float AttackReach = 100.0f;
-	m_AttackPos = m_Pos + m_forward * AttackReach;
+	m_AttackPos = m_ModelPos + m_forward * AttackReach;
 
-	m_HitModel->SetPosition(m_Pos);
+	m_HitModel->SetPosition(m_ModelPos);
 }
 void Player::OnDestroy()
 {
-	DeleteGO(m_Model);
 	DeleteGO(m_HpUnderSprite);
 	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HitModel);
 }
-void Player::PlayerRotate()
+void Player::Rotate()
 {
 	if (m_currentState->IsPossibleRotate()) {
 		//カメラの方向に合わせて向かせる
 		CVector3 MoveSpeed = g_camera3D.GetForward()*g_pad[0].GetLStickYF();
 		MoveSpeed -= g_camera3D.GetRight()*g_pad[0].GetLStickXF();
 		//走り状態時。
-		m_Rot.SetRotation(CVector3::AxisY(), atan2(MoveSpeed.x, MoveSpeed.z));
+		m_ModelRot.SetRotation(CVector3::AxisY(), atan2(MoveSpeed.x, MoveSpeed.z));
 	}
 }
 void Player::PlayerMove()
 {
 	if (m_currentState->IsPossibleMove()) {
 		//プレイヤーの移動量はアニメーションの再生から引っ張ってくる。
-		//m_Pos += m_MoveSpeed;
 		if (m_MoveSpeed.Length() < 1.0f) {
 			m_MoveSpeed = CVector3::Zero();
 		}
-		//m_MoveSpeed.y -= 5.0f;
-		m_Pos = m_CharaCon.Execute(1.0f, m_MoveSpeed);
+		Move(m_MoveSpeed*60.0f);
 	}
 }
 bool Player::IsMove() const

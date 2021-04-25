@@ -1,8 +1,10 @@
 #pragma once
 #include "State/IArcherState.h"
 #include "Player/Player.h"
+#include "GameSceneFunction/AIProcesing.h"
+
 class Arrow;
-class Archer : public IGameObject
+class Archer : public AIProcesing
 {
 	//状態の種類をenum化
 	enum State {
@@ -22,7 +24,7 @@ public:
 	void OnDestroy()override;
 
 	//プレイヤーのいる方向に向く
-	void PlayerFacing();
+	void Rotate();
 
 	//アニメーションを再生しているか
 	bool IsPlayAnimation() {
@@ -49,7 +51,7 @@ public:
 
 	//回転量を設定する
 	void SetRotation(const CQuaternion& rot) {
-		m_Rotation = rot;
+		m_ModelRot = rot;
 	}
 	/// <summary>
 	/// スケルトンに設定されているアタッチボーンから、矢の位置と回転を計算する
@@ -84,6 +86,7 @@ public:
 	void SetFacingFlag() {
 		m_IsPlayerFacing = true;
 	}
+
 private:
 	//攻撃できる？
 	bool IsAttack();
@@ -116,27 +119,19 @@ private:
 	//hpの位置を修正
 	void HpPosAdjustment();
 
-	//前方向を更新
-	void ForwardUpdate();
-
-	//モデルの更新
-	void ModelUpdate();
-
 	//アニメーションイベントを設定
 	void OnAnimEvent(const wchar_t* eventName);
 	
 private:
-	SkinModelRender* m_Model = nullptr;				//モデル
-	CVector3 m_Position = CVector3::Zero();			//位置
 	CVector3 m_SpownPositon = CVector3::Zero();		//初期位置
-	CQuaternion m_Rotation = CQuaternion::Identity();//回転量
+
 	Animation m_Animation;							//アニメーション
 	AnimationClip m_AnimationClip[State::Num];		//アニメーションクリップ
+
 	IArcherState* m_ActiveState = nullptr;			//現在の状態
 	int m_State = State::Idle;						//現在の状態
 	int m_NextState = State::Idle;					//次の状態
 	Player* m_Player = nullptr;						//プレイヤーのポインタ
-	CVector3 m_Forward = CVector3::Front();			//前方向
 
 	SpriteRender* m_HpTopSprite = nullptr;		//hpのスプライト
 	CVector3 m_HpPosition = CVector3::Zero();	//hpのスプライト位置
@@ -144,10 +139,10 @@ private:
 	const float m_SpriteSize = 0.025f;			//hpのサイズを調整
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
-	const float m_height = 150.0f;				//敵の身長
-	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
-	CharacterController m_CharaCon;				//キャラコン
+	const float m_height = 150.0f;				//身長
+
+	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
 	bool m_isAttachArrow = false;
 	std::list<Arrow*> m_ArrowList;

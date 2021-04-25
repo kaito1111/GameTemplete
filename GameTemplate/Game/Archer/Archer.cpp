@@ -20,7 +20,6 @@ namespace {
 
 void Archer::OnDestroy()
 {
-	DeleteGO(m_Model);
 	if (m_ActiveState != nullptr) {
 		m_ActiveState = nullptr;
 	}
@@ -31,10 +30,10 @@ void Archer::OnDestroy()
 bool Archer::Start()
 {
 	//スポーン位置を設定
-	m_Position = m_SpownPositon;
+	m_ModelPos = m_SpownPositon;
 
 	//モデルを初期化
-	InitModel();
+	CharacterInit(L"Archer.cmo", 35.0f, 135.0f,m_ModelPos);
 
 	//アニメーションを初期化
 	InitAnimetion();
@@ -55,11 +54,11 @@ void Archer::InitModel()
 	//モデルをnew
 	m_Model = NewGO<SkinModelRender>(0);
 	//モデルをロード
-	m_Model->Init(L"Assets/modelData/Archer.cmo");
+	m_Model->Init(L"Archer.cmo");
 	//モデルの位置を設定
-	m_Model->SetPosition(m_Position);
+	m_Model->SetPosition(m_ModelPos);
 	//モデルの回転量を設定
-	m_Model->SetRotation(m_Rotation);
+	m_Model->SetRotation(m_ModelRot);
 }
 
 void Archer::InitAnimetion()
@@ -139,6 +138,13 @@ void Archer::OnAnimEvent(const wchar_t * eventName)
 	}
 }
 
+void Archer::Rotate()
+{
+	CVector3 NextForward = m_Player->GetPosition() - m_ModelPos;
+	float rotAngle = atan2(NextForward.x, NextForward.z);
+	m_ModelRot.SetRotation(CVector3::AxisY(), rotAngle);
+}
+
 
 void Archer::CalcArrowPosAndRotationFromAttachBone(CVector3& pos, CQuaternion& rot, const wchar_t* AttchName, const wchar_t* TargetName)
 {
@@ -160,6 +166,7 @@ void Archer::CalcArrowPosAndRotationFromAttachBone(CVector3& pos, CQuaternion& r
 	//矢の回転クォータニオンを計算する。
 	rot.SetRotation(CVector3::AxisZ(), dir);
 }
+
 void Archer::Update()
 {
 	//アニメーションを更新
@@ -173,7 +180,7 @@ void Archer::Update()
 	//前方向の更新
 	ForwardUpdate();
 	//モデルの更新
-	ModelUpdate();
+	CharacterModelUpdate();
 }
 
 void Archer::AnimationUpdate()
@@ -189,12 +196,12 @@ bool Archer::IsAttack()
 	if (GetAsyncKeyState('U')) {
 		return true;
 	}//距離の差を測る
-	CVector3 Diff = m_Player->GetPosition() - m_Position;
+	CVector3 Diff = m_Player->GetPosition() - m_ModelPos;
 	//もしプレイヤーが範囲内にいるなら
 	if (Diff.Length() < InPlayer) {
 		Diff.Normalize();
 		//プレイヤーの方向を取り
-		float Dir = m_Forward.Dot(Diff);
+		float Dir = m_forward.Dot(Diff);
 		//視野に入れば
 		if (Dir > ViewAngle) {
 			//攻撃できる
@@ -227,7 +234,7 @@ void Archer::UpdateState(int st)
 void Archer::UpdateSprite()
 {
 	//Hpの位置を敵の位置に合わせる
-	m_HpPosition = m_Position;
+	m_HpPosition = m_ModelPos;
 	HpPosAdjustment();
 	//Hpの大きさをhpの残量に合わせる
 	float SizeX = m_Hp * m_SpriteSize;
@@ -247,26 +254,4 @@ void Archer::HpPosAdjustment()
 	m_HpPosition.y += m_height + HpPosUp;
 	CVector3 AddSpritePos = g_camera3D.GetRight() * spriteFix;
 	m_HpPosition -= AddSpritePos;
-}
-
-void Archer::ForwardUpdate()
-{
-	CMatrix mRot = CMatrix::Identity();
-	mRot.MakeRotationFromQuaternion(m_Rotation);
-	m_Forward = { mRot.m[2][0],mRot.m[2][1],mRot.m[2][2] };
-	m_Forward.Normalize();
-}
-
-void Archer::ModelUpdate()
-{
-	m_Model->SetPosition(m_Position);
-	m_Model->SetRotation(m_Rotation);
-}
-
-
-void Archer::PlayerFacing()
-{
-	CVector3 NextForward = m_Player->GetPosition() - m_Position;
-	float rotAngle = atan2(NextForward.x, NextForward.z);
-	m_Rotation.SetRotation(CVector3::AxisY(), rotAngle);
 }
