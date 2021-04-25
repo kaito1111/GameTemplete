@@ -6,9 +6,9 @@
 
 namespace {
 	//スプライトの縦の大きさ
-	const float SpriteHight = 50.0f;
+	const float SpriteHight = 10.0f;
 	//HPをちょっと上に置く
-	const float HpPosUp = 10.0f;
+	const float HpPosUp = 30.0f;
 	//攻撃できる判定に入った
 	const float InPlayer = 500.0f;
 	//視野角
@@ -90,7 +90,7 @@ void Archer::InitSprite()
 void Archer::InitHpTop()
 {
 	//hpをnew
-	m_HpTopSprite = NewGO<SpriteRender>(0);
+	m_HpTopSprite = NewGO<SpriteRender>(2);
 	//Hpをロード、画像の大きさも設定
 	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, SpriteHight, true);
 	//位置を更新
@@ -164,7 +164,9 @@ void Archer::Update()
 {
 	//アニメーションを更新
 	AnimationUpdate();
-	//状態を更新
+	//絵を更新
+	UpdateSprite();
+	//現在の状態の更新を呼ぶ
 	m_ActiveState->Update();
 	//状態を更新
 	UpdateState(m_NextState);
@@ -233,6 +235,7 @@ void Archer::UpdateSprite()
 	SpriteSize.x = SizeX;
 	//大きさを設定
 	m_HpTopSprite->SetScale(SpriteSize);
+	m_HpUnderSprite->SetScale(SpriteSize);
 	//Topの位置を設定
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定

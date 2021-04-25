@@ -140,7 +140,7 @@ private:
 
 	SpriteRender* m_HpTopSprite = nullptr;		//hpのスプライト
 	CVector3 m_HpPosition = CVector3::Zero();	//hpのスプライト位置
-	float m_Hp = 50.0f;							//hp
+	float m_Hp = 62.5;							//hp
 	const float m_SpriteSize = 0.025f;			//hpのサイズを調整
 
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
