@@ -111,6 +111,8 @@
     <ClCompile Include="Archer\State\ArcherIdleState.cpp" />
     <ClCompile Include="Archer\Archer.cpp" />
     <ClCompile Include="Archer\Arrow.cpp" />
+    <ClCompile Include="GameSceneFunction\Character.cpp" />
+    <ClCompile Include="GameSceneFunction\Attack.cpp" />
     <ClCompile Include="Boss\State\BossAppearanceRoarState.cpp" />
     <ClCompile Include="Boss\State\BossDieState.cpp" />
     <ClCompile Include="Boss\State\BossNormalRoar.cpp" />
@@ -129,6 +131,7 @@
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Archer\State\IArcherState.cpp" />
     <ClCompile Include="Boss\State\IBossState.cpp" />
+    <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
@@ -163,6 +166,8 @@
     <ClInclude Include="Archer\State\ArcherIdleState.h" />
     <ClInclude Include="Archer\Archer.h" />
     <ClInclude Include="Archer\Arrow.h" />
+    <ClInclude Include="GameSceneFunction\Character.h" />
+    <ClInclude Include="GameSceneFunction\Attack.h" />
     <ClInclude Include="Boss\State\BossAppearanceRoarState.h" />
     <ClInclude Include="Boss\State\BossDieState.h" />
     <ClInclude Include="Boss\State\BossNormalRoar.h" />
@@ -181,6 +186,7 @@
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Archer\State\IArcherState.h" />
     <ClInclude Include="Boss\State\IBossState.h" />
+    <ClInclude Include="GameSceneFunction\AIProcesing.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Stage\Floor.h" />
