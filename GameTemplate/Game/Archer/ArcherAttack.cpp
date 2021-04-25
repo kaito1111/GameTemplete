@@ -15,7 +15,7 @@ ArcherAttack::~ArcherAttack()
 bool ArcherAttack::Start()
 {
 	m_Model = NewGO<SkinModelRender>(0); 
-	m_Model->Init(L"Assets/modelData/DebugShere.cmo");
+	m_Model->Init(L"DebugShere.cmo");
 	m_Model->SetPosition(m_Position);
 	CVector3 scale = { Aria,Aria,1.0f };
 	m_Model->SetScale(scale);
