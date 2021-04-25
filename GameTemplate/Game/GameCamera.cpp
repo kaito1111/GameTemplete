@@ -2,6 +2,11 @@
 #include "GameCamera.h"
 #include "Player/Player.h"
 
+namespace {
+	//カメラとプレイヤーの距離
+	const CVector3 PlayerCameraLeave = { 0.0f,100.0f,500.0f };
+}
+
 GameCamera::GameCamera()
 {
 }
@@ -24,8 +29,6 @@ bool GameCamera::Start()
 
 void GameCamera::Update()
 {
-	//カメラとプレイヤーの距離
-	const CVector3 PlayerCameraLeave = { 0.0f,100.0f,500.0f };
 	CVector3 PlayerPos= m_player->GetPosition();
 	CVector3 Target = { PlayerPos.x,PlayerPos.y + m_player->GetHeight(),PlayerPos.z };
 	g_camera3D.SetTarget(Target);

@@ -12,5 +12,4 @@ public:
 	void AIAttack(float damage, float eria,char* AttackName);	
 protected:
 	Player* m_player = nullptr;
-	CVector3 Position = CVector3::Zero();
 };

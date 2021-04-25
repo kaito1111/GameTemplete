@@ -6,15 +6,15 @@ void AIProcesing::AIAttack(float damage,float eria,char* AttackName)
 {
 	//çUåÇÇÃå®Ç©ÇÁòrÇ‹Ç≈ÇÃãóó£
 	const float AttackReach = 100.0f;
-	CVector3 AttackPos = m_Pos + m_forward * AttackReach;
+	CVector3 AttackPos = m_ModelPos + m_forward * AttackReach;
 	Attack* attack=	NewGO<Attack>(0, AttackName);
 	attack->Init(damage, eria, AttackPos);
 }
 
 void AIProcesing::AIWalk()
 {
-	CVector3 MoveSpeed = m_player->GetPosition() - m_Pos;
-	MoveSpeed.Normalize();
-	MoveSpeed *= 100.0f;
-	Move(MoveSpeed);
+	m_MoveSpeed = m_player->GetPosition() - m_ModelPos;
+	m_MoveSpeed.Normalize();
+	m_MoveSpeed *= 100.0f;
+	Move(m_MoveSpeed);
 }
