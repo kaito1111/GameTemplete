@@ -71,6 +71,7 @@ public:
 	void TryChangeBackStepState()
 	{
 		if (IsBackStep()) {
+			m_mutekiflame = 30;
 			m_NextState = State_Roling;
 		}
 	}
@@ -196,6 +197,15 @@ private:
 	/// </summary>
 	/// <param name="state"></param>
 	void ChangeState(int state);
+
+	//モデルの初期化
+	void ModelInit();
+
+	//アニメーションの初期化
+	void AnimetionInit();
+	
+	//絵の初期化
+	void SpriteInit();
 private:
 	bool m_ComboAttack = false;
 	
