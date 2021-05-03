@@ -32,7 +32,7 @@ bool Player::Start()
 	AnimetionInit();
 
 	const float InterpolateTime = 0.2f;
-	m_Animation.Play(idle, InterpolateTime);
+	m_Animation.Play(State::Idle, InterpolateTime);
 	m_Animation.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) {
 
 		OnAnimEvent(eventName);
@@ -94,22 +94,22 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 
 void Player::AnimetionInit()
 {
-	m_AnimeClip[idle].Load(L"Assets/animData/idol.tka");
-	m_AnimeClip[idle].SetLoopFlag(true);
+	LoadAnimation(m_AnimeClip[State::Idle],L"idol.tka"); 
+	m_AnimeClip[State::Idle].SetLoopFlag(true);
 
-	m_AnimeClip[walk].Load(L"Assets/animData/walk.tka");
-	m_AnimeClip[walk].SetLoopFlag(true);
+	LoadAnimation(m_AnimeClip[State::Walk],L"walk.tka");
+	m_AnimeClip[State::Walk].SetLoopFlag(true);
 
-	m_AnimeClip[Roling].Load(L"Assets/animData/Rolling.tka");
+	LoadAnimation(m_AnimeClip[State::Roling], L"Rolling.tka");
 
-	m_AnimeClip[Attack].Load(L"Assets/animData/Attack.tka");
+	LoadAnimation(m_AnimeClip[State::Attack],L"Attack.tka");
 	m_AnimeClip[Attack].SetLoopFlag(false);
 
-	m_AnimeClip[RollingAttack].Load(L"Assets/animData/RollingAttack.tka");
+	LoadAnimation(m_AnimeClip[State::RollingAttack],L"RollingAttack.tka");
 
-	m_AnimeClip[Damage].Load(L"Assets/animData/damage.tka");
+	LoadAnimation(m_AnimeClip[State::Damage],L"damage.tka");
 
-	m_Animation.Init(m_Model->GetModel(), m_AnimeClip, AnimeNum);
+	InitAnimation(m_AnimeClip, State::Num);
 }
 
 void Player::SpriteInit()
@@ -152,7 +152,7 @@ void Player::UpdateSprite()
 void Player::Update()
 {
 	m_mutekiflame--;
-	if (m_state == State::State_Attack) {
+	if (m_state == State::Attack) {
 		if (g_pad[0].IsTrigger(enButtonX)) {
 			m_ComboAttack = true;
 		}
@@ -234,29 +234,29 @@ void Player::ChangeState(int state)
 {
 	//引数で渡されたステートのインスタンスを作成。
 	switch (state) {
-	case State_Idle:
+	case State::Idle:
 		if (m_currentState != nullptr) {
 			delete m_currentState;
 		}
 		m_currentState = new PlayerStateIdle(this);
 		break;
-	case State_Run:		//走り中
+	case State::Walk:		//走り中
 		delete m_currentState;
 		m_currentState = new PlayerStateRun(this);
 		break;
-	case State_Roling:	//バックステップ中。
+	case State::Roling:	//バックステップ中。
 		delete m_currentState;
 		m_currentState = new PlayerStateBackStep(this);
 		break;
-	case State_Attack:
+	case State::Attack:
 		delete m_currentState;
 		m_currentState = new PlayerStateAttack(this);
 		break;
-	case State_RollingAttack:
+	case State::RollingAttack:
 		delete m_currentState;
 		m_currentState = new PlayerStateRollingAttack(this);
 		break;
-	case State::State_Damage:
+	case State::Damage:
 		DeleteGOs("playerAttack");
 		delete m_currentState;
 		m_currentState = new PlayerStateDamage(this);

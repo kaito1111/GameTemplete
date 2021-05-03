@@ -1,31 +1,20 @@
 #pragma once
 #include "character/CharacterController.h"
-#include "GameSceneFunction/Character.h"
+#include "GameSceneFunction/Anime.h"
 class IPlayerState;
 
-class Player : public Character
+class Player : public Anime
 {
 public:
 	////状態の種類をenum化
 	enum State {
-		State_Idle,		//待機中
-		State_Run,		//走り中
-		State_Roling,	//ローリング中。
-		State_Attack,	//攻撃中
-		State_RollingAttack,//ローリングアタック中
-		State_Damage,	//ダメージ中
-		State_Num
-	};
-	//アニメーションの数
-	//ステートと同じ場所ににしないとバグります
-	enum AnimePattern {
-		idle,			//待機
-		walk,			//走り
-		Roling,			//ローリング
-		Attack,			//攻撃
-		RollingAttack,	//ローリングアタック
-		Damage,			//ダメージ
-		AnimeNum
+		Idle,		//待機中
+		Walk,		//走り中
+		Roling,	//ローリング中。
+		Attack,	//攻撃中
+		RollingAttack,//ローリングアタック中
+		Damage,	//ダメージ中
+		Num
 	};
 	Player();
 	~Player();
@@ -53,7 +42,7 @@ public:
 	/// </summary>
 	void TryChangeIdleState() {
 		if (!IsMove()) {
-			m_NextState = State_Idle;
+			m_NextState = State::Idle;
 		}
 	}
 	/// /// <summary>
@@ -62,7 +51,7 @@ public:
 	void TryChangeMoveState()
 	{
 		if (IsMove()) {
-			m_NextState = State_Run;
+			m_NextState = State::Walk;
 		}
 	}
 	/// <summary>
@@ -72,7 +61,7 @@ public:
 	{
 		if (IsBackStep()) {
 			m_mutekiflame = 30;
-			m_NextState = State_Roling;
+			m_NextState = State::Roling;
 		}
 	}
 	/// <summary>
@@ -81,7 +70,7 @@ public:
 	void TryChangeAttackState()
 	{
 		if (IsAttack()) {
-			m_NextState = State_Attack;
+			m_NextState = State::Attack;
 		}
 	}
 	/// <summary>
@@ -90,12 +79,12 @@ public:
 	void TryChangeRollingAttackState()
 	{
 		if (IsRollingAttack()) {
-			m_NextState = State_RollingAttack;
+			m_NextState = State::RollingAttack;
 		}
 	}
 	//待機状態へ遷移
 	void SetIdleState() {
-		m_NextState = State_Idle;
+		m_NextState = State::Idle;
 	}
 	//アニメーションを再生
 	void PlayAnimation()
@@ -123,7 +112,7 @@ public:
 		//hpを減らす
 		m_Hp -= damege;
 		//ダメージ状態へ遷移
-		m_NextState = State_Damage;
+		m_NextState = State::Damage;
 		//無敵時間を設定
 		m_mutekiflame = 60;
 	}
@@ -208,14 +197,13 @@ private:
 	
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
-	int m_state = State_Idle;					//プレイヤーの現在の状態。
-	int m_NextState = State::State_Idle;		//次の状態。
+	int m_state = State::Idle;					//プレイヤーの現在の状態。
+	int m_NextState = State::Idle;		//次の状態。
 	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
 	
 	float m_mulAnimSpeed = 1.0f;				//アニメーション速度に乗算する
 	CVector3 m_AttackPos = CVector3::Zero();	//攻撃場所
-	Animation m_Animation;						//アニメーション
-	AnimationClip m_AnimeClip[AnimePattern::AnimeNum];//アニメーションクリップ
+	AnimationClip m_AnimeClip[State::Num];//アニメーションクリップ
 
 	SpriteRender* m_HpTopSprite = nullptr;		//上の絵
 	CVector3 m_HpPosition = CVector3::Zero();	//絵の位置
