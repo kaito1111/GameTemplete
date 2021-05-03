@@ -125,18 +125,17 @@ void Enemy::HpUnderSprite(const float SizeY, const CVector3& Scale)
 void Enemy::AnimetionInit()
 {
 	//アニメーションをロード
-	m_AniClip[State::Walk].Load(L"Assets/AnimData/SkeltonWalk.tka");
+	LoadAnimation(m_AniClip[State::Walk], L"SkeltonWalk.tka");
 	//ループフラグを有効
 	m_AniClip[State::Walk].SetLoopFlag(true);
-	m_AniClip[State::Attack].Load(L"Assets/AnimData/SkeltonAttack.tka");
-	m_AniClip[State::Damege].Load(L"Assets/AnimData/SkeltonDamage.tka");
-	m_AniClip[State::Down].Load(L"Assets/AnimData/SkeltonDown.tka");
-	m_AniClip[State::Idle].Load(L"Assets/AnimData/SkeltonIdle.tka");
-
+	LoadAnimation(m_AniClip[State::Attack],L"SkeltonAttack.tka");
+	LoadAnimation(m_AniClip[State::Damege],L"SkeltonDamage.tka");
+	LoadAnimation(m_AniClip[State::Down], L"SkeltonDown.tka");
+	LoadAnimation(m_AniClip[State::Idle], L"SkeltonIdle.tka");
 	//ループフラグを有効
 	m_AniClip[State::Idle].SetLoopFlag(true);
 	//アニメーションを設定
-	m_Animation.Init(m_Model->GetModel(), m_AniClip, State::Num);
+	InitAnimation(m_AniClip, State::Num);
 	//イベントリスナーを設定
 	m_Animation.AddAnimationEventListener([&](const wchar_t* ClipName, const wchar_t* eventName) {
 		OnAnimEvent(eventName);

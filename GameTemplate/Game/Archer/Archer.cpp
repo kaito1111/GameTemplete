@@ -64,14 +64,14 @@ void Archer::InitModel()
 void Archer::InitAnimetion()
 {
 	//各アニメーションイベントをロード
-	m_AnimationClip[State::Idle].Load(L"Assets/animData/ArcherIdle.tka");
+	LoadAnimation(m_AnimationClip[State::Idle], L"ArcherIdle.tka");
 	m_AnimationClip[State::Idle].SetLoopFlag(true);
-	m_AnimationClip[State::Attack].Load(L"Assets/animData/ArcherAttack.tka");
-	m_AnimationClip[State::Damage].Load(L"Assets/animData/ArcherDamage.tka");
-	m_AnimationClip[State::Deth].Load(L"Assets/animData/ArcherDeth.tka");
+	LoadAnimation(m_AnimationClip[State::Attack], L"ArcherAttack.tka");
+	LoadAnimation(m_AnimationClip[State::Damage], L"ArcherDamage.tka");
+	LoadAnimation(m_AnimationClip[State::Deth], L"ArcherDeth.tka");
 
 	//アニメーションを登録
-	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, State::Num);
+	InitAnimation(m_AnimationClip,State::Num);
 	//イベントリスナーを登録
 	m_Animation.AddAnimationEventListener([&](const wchar_t* clipName, const wchar_t* eventName) {
 		OnAnimEvent(eventName);

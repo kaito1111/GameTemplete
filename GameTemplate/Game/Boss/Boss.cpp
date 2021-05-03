@@ -16,14 +16,6 @@ namespace {
 
 bool Boss::Start() {
 	CharacterInit(L"Boss.cmo", radius, height, m_ModelPos);
-
-	m_AnimationClip[State::Walk].Load(L"Assets/animData/BossWalk.tka");
-	m_AnimationClip[State::Walk].SetLoopFlag(true);
-	m_AnimationClip[State::Attack].Load(L"Assets/animData/BossAttack.tka");
-	m_AnimationClip[State::AppearanceRoar].Load(L"Assets/animData/BossAppearanceRoar.tka");
-	m_AnimationClip[State::NormalRoar].Load(L"Assets/animData/BossNormalRoar.tka");
-	m_AnimationClip[State::Die].Load(L"Assets/animData/BossDie.tka");
-	m_Animation.Init(m_Model->GetModel(), m_AnimationClip, StateNum);
 	
 	m_player = FindGO<Player>("player");
 
@@ -49,17 +41,6 @@ void Boss::IsChengeAttackState()
 	}
 }
 
-void Boss::Move(CVector3& move)
-{
-	//回転の更新
-	Rotate();
-	//当たり判定を実行
-	m_ModelPos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime(), move);
-	//モデルの位置を設定
-	m_Model->SetPosition(m_ModelPos);
-	//モデルの回転を設定
-	m_Model->SetRotation(m_ModelRot);
-}
 void Boss::IsChengeNormalRoar()
 {
 	m_RoarTime += gameTime().GetFrameDeltaTime();
@@ -103,4 +84,18 @@ void Boss::Rotate()
 	//前方向を更新
 	CMatrix mRot = CMatrix::Identity();
 	ForwardUpdate();
+}
+
+void Boss::AnimationInit()
+{
+	//アニメーションデータを読みこむ
+	LoadAnimation(m_AnimationClip[State::Walk], L"BossWalk.tka");
+	m_AnimationClip[State::Walk].SetLoopFlag(true);
+	LoadAnimation(m_AnimationClip[State::Attack], L"BossAttack.tka");
+	LoadAnimation(m_AnimationClip[State::AppearanceRoar], L"BossAppearanceRoar.tka");
+	LoadAnimation(m_AnimationClip[State::NormalRoar], L"BossNormalRoar.tka");
+	LoadAnimation(m_AnimationClip[State::Die], L"BossDie");
+
+	//アニメーションを初期化
+	InitAnimation(m_AnimationClip,State::StateNum);
 }

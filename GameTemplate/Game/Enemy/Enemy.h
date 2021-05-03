@@ -108,7 +108,6 @@ private:
 	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
 	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
-	Animation m_Animation;						//アニメーション
 	AnimationClip m_AniClip[Num];				//アニメーションの種類
 
 	int m_State = State::Idle;					//現在のステートを記憶する

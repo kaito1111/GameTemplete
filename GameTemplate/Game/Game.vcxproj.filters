@@ -88,7 +88,7 @@
     <ClCompile Include="GameSceneFunction\Attack.cpp" />
     <ClCompile Include="GameSceneFunction\Character.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
-    <ClCompile Include="Anime.cpp" />
+    <ClCompile Include="GameSceneFunction\Anime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -142,7 +142,7 @@
     <ClInclude Include="GameSceneFunction\Attack.h" />
     <ClInclude Include="GameSceneFunction\Character.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
-    <ClInclude Include="Anime.h" />
+    <ClInclude Include="GameSceneFunction\Anime.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />

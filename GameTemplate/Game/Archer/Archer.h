@@ -125,7 +125,6 @@ private:
 private:
 	CVector3 m_SpownPositon = CVector3::Zero();		//初期位置
 
-	Animation m_Animation;							//アニメーション
 	AnimationClip m_AnimationClip[State::Num];		//アニメーションクリップ
 
 	IArcherState* m_ActiveState = nullptr;			//現在の状態
