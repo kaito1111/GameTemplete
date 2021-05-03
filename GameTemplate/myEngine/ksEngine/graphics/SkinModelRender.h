@@ -7,6 +7,7 @@ namespace ksEngine {
 		SkinModelRender();
 		~SkinModelRender();
 
+		//Assets/modelData/‚Í‚¢‚ç‚È‚¢
 		void Init(const wchar_t* filePath, EnFbxUpAxis Up = EnFbxUpAxis::enFbxUpAxisZ);
 		void SetPosition(const CVector3& pos) {
 			m_Pos = pos;
