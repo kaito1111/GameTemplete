@@ -3,6 +3,7 @@
 #include "State/ArcherIdleState.h"
 #include "State/ArcherAttackState.h"
 #include "Archer/Arrow.h"
+#include "State/ArcherDethState.h"
 
 namespace {
 	//スプライトの縦の大きさ
@@ -25,6 +26,28 @@ void Archer::OnDestroy()
 	}
 	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HpUnderSprite);
+	if (m_ArrowList.size() > 0) {
+		auto list = m_ArrowList;
+		for (auto i : list) {
+			DeleteGO(i);
+		}
+	}
+}
+
+void Archer::HitDamege(const float damege) {
+	//死んでないならHpを減らす
+	if (m_ActiveState->IsPossibleHpDown()) {
+		m_Hp -= damege;
+	}
+	//Hpが0以上ならダメージモーションを
+	if (m_Hp > 0) {
+		m_NextState = State::Damage;
+	}
+	//以下ならhpを0にして殺す
+	else {
+		m_Hp = 0;
+		m_NextState = State::Deth;
+	}
 }
 
 bool Archer::Start()
@@ -91,11 +114,15 @@ void Archer::InitHpTop()
 	//hpをnew
 	m_HpTopSprite = NewGO<SpriteRender>(2);
 	//Hpをロード、画像の大きさも設定
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_Hp, SpriteHight, true);
+	m_HpTopSprite->Init(L"HP_Top_Red.dds", m_Hp, SpriteHight, true);
 	//位置を更新
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//大きさを更新
-	m_HpTopSprite->SetScale(CVector3::One());
+	//Hpの大きさをhpの残量に合わせる
+	float SizeX = m_Hp * m_SpriteSize;
+	CVector3 SpriteSize = CVector3::One();
+	SpriteSize.x = SizeX;
+	m_HpTopSprite->SetScale(SpriteSize);
 	//基点を更新
 	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
 	//カメラ方向に画像を向ける
@@ -107,11 +134,15 @@ void Archer::InitHpUnder()
 	//HpをNew
 	m_HpUnderSprite = NewGO<SpriteRender>(1);
 	//Hpをロード、画像の大きさも設定
-	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, SpriteHight, true);
+	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_Hp, SpriteHight, true);
 	//位置を更新
 	m_HpUnderSprite->SetPosition(m_HpPosition);
 	//大きさを更新
-	m_HpUnderSprite->SetScale(CVector3::One());
+	//Hpの大きさをhpの残量に合わせる
+	float SizeX = m_Hp * m_SpriteSize;
+	CVector3 SpriteSize = CVector3::One();
+	SpriteSize.x = SizeX;
+	m_HpUnderSprite->SetScale(SpriteSize);
 	//基点を更新
 	m_HpUnderSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
 	//カメラ方向に画像を向ける
@@ -223,6 +254,9 @@ void Archer::UpdateState(int st)
 	case Archer::Attack:
 		m_ActiveState = new ArcherAttackState(this);
 		break;
+	case State::Deth:
+		m_ActiveState = new ArcherDethState(this);
+		m_CharaCon.RemoveRigidBoby();
 	case Archer::Num:
 		break;
 	default:
@@ -242,7 +276,6 @@ void Archer::UpdateSprite()
 	SpriteSize.x = SizeX;
 	//大きさを設定
 	m_HpTopSprite->SetScale(SpriteSize);
-	m_HpUnderSprite->SetScale(SpriteSize);
 	//Topの位置を設定
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定

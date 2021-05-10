@@ -9,6 +9,9 @@ public:
 	virtual ~IArcherState() {};
 	virtual void Start();
 	virtual void Update();
+	virtual bool IsPossibleHpDown() {
+		return true;
+	};
 protected:
 	Archer* m_Archer = nullptr;
 };

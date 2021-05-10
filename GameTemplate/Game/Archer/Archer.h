@@ -87,6 +87,7 @@ public:
 		m_IsPlayerFacing = true;
 	}
 
+	void HitDamege(const float damege);
 private:
 	//UŒ‚‚Å‚«‚éH
 	bool IsAttack();
