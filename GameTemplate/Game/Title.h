@@ -1,4 +1,5 @@
 #pragma once
+class Fade;
 class Title : public IGameObject
 {
 public :
@@ -7,5 +8,6 @@ public :
 
 private:
 	SpriteRender* m_TitleSprite = nullptr;
+	Fade* m_fade = nullptr;
 };
 
