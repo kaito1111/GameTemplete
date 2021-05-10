@@ -27,7 +27,7 @@ void SceneChangeLocation::Update()
 		}
 	}
 	else {
-		//もしフェードの透明度が
+		//もしフェードの透明度が1.0以上なら
 		if (m_Fade->GetAlpha() < 1.0f) {
 			if (wcscmp(m_FilePath, L"Assets/level/StageLevel.tkl") == 0) {
 				Game* game = FindGO<Game>("game");
@@ -36,7 +36,7 @@ void SceneChangeLocation::Update()
 				game = nullptr;
 				game = NewGO<Game>(0, "game");
 				game->SetPlayerHp(PlayerHP);
-				game->SetLevelFilePath(L"Assets/level/Bridge.tkl");
+				game->SetLevelFilePath(L"Bridge.tkl");
 				DeleteGO(this);
 			};
 			if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {
@@ -44,7 +44,7 @@ void SceneChangeLocation::Update()
 				DeleteGO(game);
 				game = nullptr;
 				game = NewGO<Game>(0, "game");
-				game->SetLevelFilePath(L"Assets/level/Stage2Level.tkl");
+				game->SetLevelFilePath(L"Stage2Level.tkl");
 				DeleteGO(this);
 			};
 		}

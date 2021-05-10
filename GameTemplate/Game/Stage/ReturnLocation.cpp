@@ -25,7 +25,7 @@ void ReturnLocatoin::Update()
 			DeleteGO(game);
 			game = nullptr;
 			game = NewGO<Game>(0, "game");
-			game->SetLevelFilePath(L"Assets/level/StageLevel.tkl");
+			game->SetLevelFilePath(L"StageLevel.tkl");
 			DeleteGO(this);
 		};
 		if (wcscmp(m_FilePath, L"Assets/level/Stage2Level.tkl") == 0) {
@@ -33,7 +33,7 @@ void ReturnLocatoin::Update()
 			DeleteGO(game);
 			game = nullptr;
 			game = NewGO<Game>(0, "game");
-			game->SetLevelFilePath(L"Assets/level/Bridge.tkl");
+			game->SetLevelFilePath(L"Bridge.tkl");
 			DeleteGO(this);
 		};
 	}
