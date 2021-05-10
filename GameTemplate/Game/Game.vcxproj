@@ -105,6 +105,9 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ARCHERDETHSTATE.CPP" />
+    <ClCompile Include="Archer\State\ArcherDethState.cpp" />
+    <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
     <ClCompile Include="Archer\ArcherSpowner.cpp" />
     <ClCompile Include="Archer\ArcherAttack.cpp" />
@@ -133,7 +136,9 @@
     <ClCompile Include="Archer\State\IArcherState.cpp" />
     <ClCompile Include="Boss\State\IBossState.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
+    <ClCompile Include="Player\State\playerDieState.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
+    <ClCompile Include="ReSetGame.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -161,6 +166,8 @@
     <ClCompile Include="Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer\State\ArcherDethState.h" />
+    <ClInclude Include="Player\DieSprite.h" />
     <ClInclude Include="GameSceneFunction\Anime.h" />
     <ClInclude Include="Archer\ArcherSpowner.h" />
     <ClInclude Include="Archer\ArcherAttack.h" />
@@ -189,7 +196,9 @@
     <ClInclude Include="Archer\State\IArcherState.h" />
     <ClInclude Include="Boss\State\IBossState.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
+    <ClInclude Include="Player\State\playerDieState.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
+    <ClInclude Include="ReSetGame.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
     <ClInclude Include="Stage\Floor.h" />
     <ClInclude Include="Game.h" />
@@ -266,6 +275,12 @@
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\Brack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

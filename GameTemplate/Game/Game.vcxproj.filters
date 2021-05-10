@@ -89,6 +89,11 @@
     <ClCompile Include="GameSceneFunction\Character.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
+    <ClCompile Include="Player\State\playerDieState.cpp" />
+    <ClCompile Include="Player\DieSprite.cpp" />
+    <ClCompile Include="ReSetGame.cpp" />
+    <ClCompile Include="Archer\State\ArcherDethState.cpp" />
+    <ClCompile Include="ARCHERDETHSTATE.CPP" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -143,6 +148,10 @@
     <ClInclude Include="GameSceneFunction\Character.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
     <ClInclude Include="GameSceneFunction\Anime.h" />
+    <ClInclude Include="Player\State\playerDieState.h" />
+    <ClInclude Include="Player\DieSprite.h" />
+    <ClInclude Include="ReSetGame.h" />
+    <ClInclude Include="Archer\State\ArcherDethState.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
@@ -188,5 +197,9 @@
     <ImageContentTask Include="Assets\sprite\title.png" />
     <ImageContentTask Include="Assets\sprite\Loading.png" />
     <ImageContentTask Include="Assets\sprite\Brack.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
+    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
   </ItemGroup>
 </Project>

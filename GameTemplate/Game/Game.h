@@ -13,8 +13,11 @@ public:
 	Game();
 	~Game();
 
+	//L"Assets/level/"‚Í‚¢‚ç‚È‚¢
 	void SetLevelFilePath(wchar_t* filePath) {
-		wcscpy(m_LevelFilePath, filePath);
+		wchar_t fileName[256] = L"Assets/level/";
+		wcscat(fileName, filePath);
+		wcscpy(m_LevelFilePath, fileName);
 	}
 
 	int GetPlayerHp() {
