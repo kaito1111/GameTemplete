@@ -14,6 +14,7 @@ public:
 		Attack,	//攻撃中
 		RollingAttack,//ローリングアタック中
 		Damage,	//ダメージ中
+		Die,    //死亡
 		Num
 	};
 	Player();
@@ -115,6 +116,11 @@ public:
 		m_NextState = State::Damage;
 		//無敵時間を設定
 		m_mutekiflame = 60;
+		//Hpが0以下になったら死ぬ
+		if (m_Hp <= 0.0f) {
+			m_NextState = State::Die;
+			m_Hp = 0;
+		}
 	}
 	//無敵時間を取得
 	int GetMutekiFlame() const {
@@ -215,8 +221,6 @@ private:
 			
 	const float m_height =  110.0f;				//キャラコンの縦幅
 	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
-
-	CVector3 m_forward = CVector3::Front();		//前方向
 
 	int m_mutekiflame = 0;						//無敵時間
 

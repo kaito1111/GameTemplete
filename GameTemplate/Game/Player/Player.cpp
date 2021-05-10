@@ -6,6 +6,8 @@
 #include "State/PlayerStateRollingAttack.h"
 #include "State/PlayerStateDamage.h"
 #include "PlayerAttack.h"
+#include "Player.h"
+#include "State/PlayerDieState.h"
 
 namespace {
 	const float HpPosUp = 40.0f;//HpÇÉvÉåÉCÉÑÅ[ÇÃÇøÇÂÇ¡Ç∆è„Ç…ë´Ç∑
@@ -109,6 +111,8 @@ void Player::AnimetionInit()
 
 	LoadAnimation(m_AnimeClip[State::Damage],L"damage.tka");
 
+	LoadAnimation(m_AnimeClip[State::Die], L"Die.tka");
+
 	InitAnimation(m_AnimeClip, State::Num);
 }
 
@@ -116,13 +120,13 @@ void Player::SpriteInit()
 {
 	const float HpHeight = 10.0f;
 	m_HpTopSprite = NewGO<SpriteRender>(2);
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", m_MaxHp, HpHeight, true);
+	m_HpTopSprite->Init(L"HP_Top_Red.dds", m_MaxHp, HpHeight, true);
 	m_HpPosition = m_ModelPos;
 	m_HpPosition.y += m_height + HpPosUp;
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	m_HpTopSprite->SetPivot({ SpriteRender::XCenter(),SpriteRender::Up() });
 	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
+	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
 	m_HpUnderSprite->SetPosition(m_HpPosition);
 	float sizeX = m_SpriteSize * m_MaxHp;
 	CVector3 SpriteScale = CVector3::One();
@@ -260,6 +264,10 @@ void Player::ChangeState(int state)
 		DeleteGOs("playerAttack");
 		delete m_currentState;
 		m_currentState = new PlayerStateDamage(this);
+		break;
+	case State::Die:
+		delete m_currentState;
+		m_currentState = new PlayerDieState(this);
 		break;
 	}
 
