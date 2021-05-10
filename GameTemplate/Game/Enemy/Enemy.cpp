@@ -95,7 +95,7 @@ void Enemy::HpTopSpriteInit(const float SizeY, const CVector3& Scale)
 	//HpをNew
 	m_HpTopSprite = NewGO<SpriteRender>(2);
 	//Hpをロード、画像の大きさも設定
-	m_HpTopSprite->Init(L"Assets/sprite/HP_Top_Red.dds", 86.0f , SizeY, true);
+	m_HpTopSprite->Init(L"HP_Top_Red.dds", 86.0f , SizeY, true);
 	//位置を更新
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//大きさを更新
@@ -111,7 +111,7 @@ void Enemy::HpUnderSprite(const float SizeY, const CVector3& Scale)
 	//HpをNew
 	m_HpUnderSprite = NewGO<SpriteRender>(1);
 	//Hpをロード、画像の大きさも設定
-	m_HpUnderSprite->Init(L"Assets/sprite/HP_Under_Brack.dds", m_Hp, SizeY, true);
+	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_Hp, SizeY, true);
 	//位置を更新
 	m_HpUnderSprite->SetPosition(m_HpPosition);
 	//大きさを更新

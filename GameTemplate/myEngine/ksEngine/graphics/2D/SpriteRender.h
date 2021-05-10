@@ -7,6 +7,7 @@ namespace ksEngine {
 		SpriteRender() {};
 		~SpriteRender() {};
 
+		//L"Assets/sprite"‚Í‚¢‚ç‚È‚¢
 		void Init(const wchar_t* fileName, float w = FRAME_BUFFER_W, float h = FRAME_BUFFER_H, bool is3DDraw = false);
 		void Update()override;
 		void Draw()override;

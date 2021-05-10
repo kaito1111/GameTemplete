@@ -4,10 +4,10 @@
 bool Fade::Start()
 {
 	m_FadeSprite = NewGO<SpriteRender>(0);
-	m_FadeSprite->Init(L"Assets/sprite/Brack.dds");
+	m_FadeSprite->Init(L"Brack.dds");
 	m_FadeSprite->SetAlpha(m_Alpha);
 	m_LodingSprite = NewGO<SpriteRender>(0);
-	m_LodingSprite->Init(L"Assets/sprite/Loading.dds", 250.0f, 250.0f);
+	m_LodingSprite->Init(L"Loading.dds", 250.0f, 250.0f);
 	m_LodingSprite->SetPosition(m_LodingSpritePos);
 	return true;
 }

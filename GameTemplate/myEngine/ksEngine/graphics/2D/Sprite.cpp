@@ -207,6 +207,7 @@ namespace ksEngine {
 				TEXT("Sprite"),
 				MB_ICONWARNING
 			);
+			std::abort();
 		}
 	}
 	void Sprite::SetVertexBuffer()

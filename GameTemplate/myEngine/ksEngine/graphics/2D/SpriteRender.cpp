@@ -3,7 +3,9 @@
 void SpriteRender::Init(const wchar_t * fileName, float w, float h , bool is3DDraw)
 {
 	m_Size = { w,h };
-	m_sprite.Init(fileName,w,h);
+	wchar_t filePath[256] = L"Assets/sprite/";
+	wcscat(filePath, fileName);
+	m_sprite.Init(filePath,w,h);
 	m_Is3DDraw = is3DDraw;
 }
 
