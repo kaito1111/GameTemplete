@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerAttack.h"
 #include "Enemy/Enemy.h"
+#include "Archer/Archer.h"
 #include "Player/Player.h"
 
 PlayerAttack::PlayerAttack()
@@ -28,6 +29,17 @@ void PlayerAttack::Update()
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
 				enemy->HitDamege(m_Attack);
+				m_Hit = true;
+			}
+		}
+		return true;
+	});	
+	QueryGOs<Archer>("archer", [&](Archer* archer)->bool {
+		CVector3 toEnemyPos = archer->GetPosition() - m_Position;
+		toEnemyPos.y = 0.0f;
+		if (toEnemyPos.Length() < m_Aria) {
+			if (!m_Hit) {
+				archer->HitDamege(m_Attack);
 				m_Hit = true;
 			}
 		}
