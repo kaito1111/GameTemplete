@@ -21,6 +21,11 @@ public:
 	CVector3 GetPlayerPos() {
 		return m_SpownPlayerPosition;
 	}
+	
+	CQuaternion GetPlayerRotation() {
+		return m_PlayerSpawnRot;
+	}
+
 	CVector3 GetEnemyPos() {
 		return m_SpownEnemyPosition;
 	}
@@ -33,6 +38,7 @@ private:
 	Level m_level;
 	wchar_t m_LevelFilePath[256] = {};
 	CVector3 m_SpownPlayerPosition = CVector3::Zero();
+	CQuaternion m_PlayerSpawnRot = CQuaternion::Identity();
 	CVector3 m_SpownEnemyPosition = CVector3::Zero();
 };
 

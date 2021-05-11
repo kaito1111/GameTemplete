@@ -73,6 +73,7 @@ void Stage::Load(wchar_t * filePath)
 		}
 		if (wcscmp(funclevel.name, L"Player") == 0) {
 			m_SpownPlayerPosition = funclevel.position;
+			m_PlayerSpawnRot = funclevel.rotation;
 			return true;
 		}
 
