@@ -24,6 +24,9 @@ bool GameCamera::Start()
 	g_camera3D.SetNear(m_GameNear);
 	const float CharaConScele = 10.0f;
 	m_CharaCon.Init(CharaConScele, CharaConScele, m_Pos);
+	CQuaternion ReverceRot = CQuaternion::Identity();
+	ReverceRot.SetRotationDeg(CVector3::AxisY(), 180.0f);
+	m_StartRot.Multiply(ReverceRot);
 	return true;
 }
 
@@ -44,9 +47,23 @@ void GameCamera::Update()
 		m_AngleX += g_pad[0].GetRStickXF()*XRotVolum;
 	}
 	Rot.SetRotationDeg(CVector3::AxisY(), -m_AngleX);
-	Rot.Multiply(moveSpeed);
+	//CVector4 RevarceRot = { 1.0f - m_StartRot.x,1.0f - m_StartRot.y,1.0f - m_StartRot.z,1.0f };
+	//m_StartRot.y*-1.0f;
+	//CQuaternion ReverceRot ;
+	//ReverceRot.SetRotation(CVector3::AxisY(), -m_StartRot.y
+	//CVector3 Back = m_StartForward*-1.0f;
+	//CQuaternion BackRot = CQuaternion::Identity();
+	//BackRot.SetRotation(Back);
+	//CMatrix mBack=CMatrix::Identity();
+	//mBack.Inverse(mForward);
+	//m_StartRot.SetRotation(mBack);
+	//Rot.Multiply(m_StartRot);
+	//Rot.Multiply(moveSpeed); 
+	m_StartRot.Multiply(moveSpeed);
+	//moveSpeed = { moveSpeed.x * Back.x,moveSpeed.y* Back.y,moveSpeed.z*Back.z };
 	//プレイヤーからちょっとカメラの終点に近い場所
 	CVector3 RayStart = Target + moveSpeed * 0.01f;
+
 	m_CharaCon.SetPosition(RayStart);
 	//高さの回転量を調整
 	const float YRotVolum = 20.0f;

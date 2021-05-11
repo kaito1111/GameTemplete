@@ -1,6 +1,7 @@
 #pragma once
 #include "Anime.h"
 #include "Player/Player.h"
+class Attack;
 class AIProcesing:public Anime
 {
 public:
@@ -21,4 +22,5 @@ public:
 protected:
 	Player* m_player = nullptr;//プレイヤーのポインタ
 	const float AttackReach = 0.0f;	//攻撃の肩から腕までの距離
+	Attack* m_HaveAttack = nullptr;
 };

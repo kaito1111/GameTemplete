@@ -42,11 +42,15 @@ public:
 	CVector3 GetMoveSpeed()const {
 		return m_MoveSpeed;
 	}
+
+	CQuaternion GetRot() {
+		return m_ModelRot;
+	}
 protected:
-	SkinModelRender* m_Model = nullptr;			//“G‚Ìƒ‚ƒfƒ‹
-	CVector3 m_ModelPos = CVector3::Zero();			//“G‚ÌˆÊ’u
-	CQuaternion m_ModelRot = CQuaternion::Identity();//“G‚Ì‰ñ“]
-	CVector3 m_ModelScale = CVector3::One();	//“G‚Ì‘å‚«‚³
+	SkinModelRender* m_Model = nullptr;			//ƒ‚ƒfƒ‹
+	CVector3 m_ModelPos = CVector3::Zero();			//ƒ‚ƒfƒ‹‚ÌˆÊ’u
+	CQuaternion m_ModelRot = CQuaternion::Identity();//ƒ‚ƒfƒ‹‚Ì‰ñ“]
+	CVector3 m_ModelScale = CVector3::One();	//ƒ‚ƒfƒ‹‚Ì‘å‚«‚³
 	CharacterController m_CharaCon;				//ƒLƒƒƒ‰ƒRƒ“
 
 	CVector3 m_MoveSpeed = CVector3::Zero();	//ˆÚ“®—Ê
