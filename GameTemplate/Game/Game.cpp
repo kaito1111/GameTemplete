@@ -19,8 +19,10 @@ bool Game::Start()
 	m_Stage->Load(m_LevelFilePath);
 	m_Player = NewGO<Player>(1, "player");
 	m_Player->SetSpownPos(m_Stage->GetPlayerPos());
+	m_Player->SetRotation(m_Stage->GetPlayerRotation());
 	m_Player->SetSpwonHp(m_SpownHp);
 	m_Camera = NewGO<GameCamera>(0);
+	m_Camera->SetStartAngle(m_Player->GetRot());
 	m_EnemySpawner = NewGO<EnemySpawner>(0);
 	m_EnemySpawner->SetFilePath(m_LevelFilePath);
 	m_ArcherSpawner = NewGO<ArcherSpowner>(0);
