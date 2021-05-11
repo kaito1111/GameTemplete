@@ -8,6 +8,8 @@
 #include "Enemy/State/EnemyDamageState.h"
 #include "State/EnemyDown.h"
 #include "EnemyAttack.h"
+#include "GameSceneFunction/AIProcesing.h"
+#include "GameSceneFunction/Attack.h"
 
 namespace {
 	
@@ -17,7 +19,8 @@ namespace {
 	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
 	const float AttackDamage = 10.0f;	//攻撃力
 	const float AttackEria = 135.0f;	//攻撃範囲
-	const float  SpriteClear = 0.0f;	//スプライトを透明にする	
+	const float SpriteClear = 0.0f;	//スプライトを透明にする
+	const float SpriteSize = 0.025f;			//hpのサイズを調整	
 }
 Enemy::Enemy()
 {
@@ -79,10 +82,10 @@ void Enemy::HpSpriteInit()
 {
 	//hpスプライトを設定
 	m_HpPosition = m_ModelPos;
-	//スプライトのサイズを設定
+	////Hpの大きさをhpの残量に合わせる
+	float SizeX = m_Hp * SpriteSize;
 	CVector3 SpriteSize = CVector3::One();
-	//float sizeX = m_SpriteSize * m_Hp;
-	//SpriteSize.x = sizeX;
+	SpriteSize.x = SizeX;
 	//TopSpriteを初期化
 	HpTopSpriteInit(hpSpriteSizeY, SpriteSize);
 	//UnderSpriteを初期化
@@ -152,7 +155,8 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 	//AttackEndの名前を見つけたら
 	if (wcscmp(eventName, L"AttackEnd") == 0) {
 		//攻撃判定を消す
-		DeleteGO("enemyAttack");
+		DeleteGO(m_HaveAttack);
+		m_HaveAttack = nullptr;
 	}
 }
 
@@ -173,16 +177,17 @@ void Enemy::ChangeState(int st)
 	case State::Attack:		//攻撃中
 		delete m_ActiveState;
 		m_ActiveState = new EnemyAttackState(this);
-		//CreateEnemyAttack();
 		break;
 	case State::Damege:		//攻撃をくらった
 		delete m_ActiveState;
-		DeleteGOs("enemyAttack");
+		DeleteGO(m_HaveAttack);
+		m_HaveAttack = nullptr;
 		m_ActiveState = new EnemyDamageState(this);
 		break;
 	case State::Down:		//死んだ
 		delete m_ActiveState;
-		DeleteGOs("enemyAttack");
+		DeleteGO(m_HaveAttack);
+		m_HaveAttack = nullptr;
 		m_CharaCon.RemoveRigidBoby();
 		m_HpUnderSprite->SetAlpha(SpriteClear);
 		m_ActiveState = new EnemyDown(this);
@@ -198,6 +203,8 @@ void Enemy::Update()
 	m_ActiveState->Update();
 	//ステートを変更する
 	ChangeState(m_NextState);
+	//前方向の更新
+	ForwardUpdate();
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
 	CharacterModelUpdate();
@@ -209,11 +216,11 @@ void Enemy::UpdateSprite()
 	m_HpPosition = m_ModelPos;
 	HpPosAdjustment();
 	////Hpの大きさをhpの残量に合わせる
-	//float SizeX = m_Hp * m_SpriteSize;
-	//CVector3 SpriteSize = CVector3::One();
-	//SpriteSize.x = SizeX;
-	////大きさを設定
-	//m_HpTopSprite->SetScale(SpriteSize);
+	float SizeX = m_Hp * SpriteSize;
+	CVector3 SpriteSize = CVector3::One();
+	SpriteSize.x = SizeX;
+	//大きさを設定
+	m_HpTopSprite->SetScale(SpriteSize);
 	//Topの位置を設定
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定

@@ -153,16 +153,18 @@ void Archer::OnAnimEvent(const wchar_t * eventName)
 {
 	if (wcscmp(eventName, L"SpownArrow") == 0) {
 		//ñÓÇçÏÇÈ
-		Arrow* m_Arrow = NewGO<Arrow>(0);
+		Arrow* m_Arrow = NewGO<Arrow>(0,"arrow");
 		//ñÓÇÃèâä˙âª
 		m_Arrow->Init(this);
 		m_ArrowList.push_back(m_Arrow);
+		m_HasArrow = m_Arrow;
 	}
 	if (wcscmp(eventName, L"bindArrow") == 0) {
 		m_isAttachArrow = true;
 	}
 	if (wcscmp(eventName, L"ShotArrow") == 0) {
 		m_ArrowList.back()->SetShot();
+		m_HasArrow = nullptr;
 	}
 	if(wcscmp(eventName, L"PlayerFacingFinish") == 0) {
 		m_IsPlayerFacing = false;
@@ -248,16 +250,23 @@ void Archer::UpdateState(int st)
 {
 	switch (st)
 	{
-	case Archer::Idle:
+	case State::Idle:
 		m_ActiveState = new ArcherIdleState(this);
 		break;
-	case Archer::Attack:
+	case State::Attack:
 		m_ActiveState = new ArcherAttackState(this);
 		break;
 	case State::Deth:
 		m_ActiveState = new ArcherDethState(this);
 		m_CharaCon.RemoveRigidBoby();
-	case Archer::Num:
+		DeleteGO(m_HasArrow);
+		m_HasArrow = nullptr;
+		break;
+	case State::Damage:
+		DeleteGO(m_HasArrow);
+		m_HasArrow = nullptr;
+		break;
+	case State::Num:
 		break;
 	default:
 		break;

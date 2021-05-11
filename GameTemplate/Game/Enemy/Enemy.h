@@ -117,7 +117,6 @@ private:
 
 	CVector3 m_AttackPos = CVector3::Zero();	//UŒ‚‚ÌêŠ
 
-	EnemyAttack* attack = nullptr;				//UŒ‚”»’è
 	Player* m_Player = nullptr;
 
 };

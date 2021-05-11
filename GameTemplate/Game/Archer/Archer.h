@@ -146,6 +146,7 @@ private:
 
 	bool m_isAttachArrow = false;
 	std::list<Arrow*> m_ArrowList;
+	Arrow* m_HasArrow = nullptr;
 
 	bool m_IsPlayerFacing = true;			//ƒvƒŒƒCƒ„[‚ğ’Ç]‚·‚é‚©
 };
