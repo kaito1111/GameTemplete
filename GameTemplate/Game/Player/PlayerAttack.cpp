@@ -39,7 +39,7 @@ void PlayerAttack::Update()
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
-				archer->HitDamege(m_Attack);
+ 				archer->HitDamege(m_Attack);
 				m_Hit = true;
 			}
 		}
