@@ -105,8 +105,6 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ARCHERDETHSTATE.CPP" />
-    <ClCompile Include="Archer\State\ArcherDethState.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
     <ClCompile Include="Archer\ArcherSpowner.cpp" />
