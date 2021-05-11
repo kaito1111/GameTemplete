@@ -11,3 +11,8 @@ void Attack::Update()
 		}
 	}
 }
+
+void Attack::OnDestroy()
+{
+	DeleteGO(m_AttackModel);
+}

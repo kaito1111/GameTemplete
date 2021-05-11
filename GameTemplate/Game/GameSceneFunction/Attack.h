@@ -19,6 +19,7 @@ public:
 	}
 	//XV
 	void Update();
+	void OnDestroy()override;
 private:
 	float m_Damege = 0.0f;
 	float m_Area = 0.0f;
