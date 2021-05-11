@@ -11,7 +11,7 @@ public :
 	}
 	~ArcherDethState() {}
 
-	void Update();
+	void Update() {};
 	bool IsPossibleHpDown() {
 		return false;
 	}
