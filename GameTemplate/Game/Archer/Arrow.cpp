@@ -53,6 +53,7 @@ void Arrow::Update()
 
 void Arrow::OnDestroy()
 {
+	DeleteGO(m_ArcherAttack);
 	DeleteGO(m_Model);
 	m_Archer->ArrowListPop();
 }
