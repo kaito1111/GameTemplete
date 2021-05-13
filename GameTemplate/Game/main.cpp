@@ -21,7 +21,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
 	Game* game = NewGO<Game>(0,"game");
-	game->SetLevelFilePath(L"Bridge.tkl");
+	game->SetLevelFilePath(L"StageBoss.tkl");
 	
 	//Fade* fade = NewGO<Fade>(0);
 	Stopwatch m_sw;

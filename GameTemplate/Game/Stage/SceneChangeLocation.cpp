@@ -44,7 +44,7 @@ void SceneChangeLocation::Update()
 				DeleteGO(game);
 				game = nullptr;
 				game = NewGO<Game>(0, "game");
-				game->SetLevelFilePath(L"Stage2Level.tkl");
+				game->SetLevelFilePath(L"StageBoss.tkl");
 				DeleteGO(this);
 			};
 		}

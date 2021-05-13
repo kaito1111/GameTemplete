@@ -25,7 +25,7 @@ void ReturnLocatoin::Update()
 			DeleteGO(game);
 			game = nullptr;
 			game = NewGO<Game>(0, "game");
-			game->SetLevelFilePath(L"StageLevel.tkl");
+			game->SetLevelFilePath(L"ReturnStageLevel.tkl");
 			DeleteGO(this);
 		};
 		if (wcscmp(m_FilePath, L"Assets/level/Stage2Level.tkl") == 0) {
