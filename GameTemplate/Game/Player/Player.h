@@ -15,6 +15,7 @@ public:
 		RollingAttack,//ローリングアタック中
 		Damage,	//ダメージ中
 		Die,    //死亡
+		GameClear,
 		Num
 	};
 	Player();
@@ -87,6 +88,9 @@ public:
 	void SetIdleState() {
 		m_NextState = State::Idle;
 	}
+	void SetClearState() {
+		m_NextState = State::GameClear;
+	}
 	//アニメーションを再生
 	void PlayAnimation()
 	{
@@ -109,7 +113,7 @@ public:
 		return m_Animation.IsPlaying();
 	}
 	//ダメージを受けた
-	void HitDamage(const float damege) {
+	void HitDamage(const float damege) override{
 		//hpを減らす
 		m_Hp -= damege;
 		//ダメージ状態へ遷移
@@ -184,9 +188,6 @@ private:
 	/// <param name="eventName"></param>
 	void OnAnimEvent(const wchar_t* eventName);
 
-	//スプライトを更新
-	void UpdateSprite();
-
 	/// <summary>
 	/// 状態を切り替える。
 	/// </summary>
@@ -195,9 +196,6 @@ private:
 
 	//アニメーションの初期化
 	void AnimetionInit();
-	
-	//絵の初期化
-	void SpriteInit();
 private:
 	bool m_ComboAttack = false;
 	
@@ -211,14 +209,8 @@ private:
 	CVector3 m_AttackPos = CVector3::Zero();	//攻撃場所
 	AnimationClip m_AnimeClip[State::Num];//アニメーションクリップ
 
-	SpriteRender* m_HpTopSprite = nullptr;		//上の絵
-	CVector3 m_HpPosition = CVector3::Zero();	//絵の位置
-	float m_Hp = 62.5;							//体力
-	const float m_MaxHp = 62.5;					//最大体力
 	const float m_SpriteSize = 0.025f;			//hpの絵を調整する定数
 
-	SpriteRender* m_HpUnderSprite = nullptr;	//下の絵
-			
 	const float m_height =  110.0f;				//キャラコンの縦幅
 	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
 

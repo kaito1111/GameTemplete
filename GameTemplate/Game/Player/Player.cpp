@@ -8,10 +8,20 @@
 #include "PlayerAttack.h"
 #include "Player.h"
 #include "State/PlayerDieState.h"
+#include "State/PlayerStateGameClear.h"
 
 namespace {
-	const float HpPosUp = 40.0f;//Hpをプレイヤーのちょっと上に足す
+	//const float HpPosUp = 40.0f;//Hpをプレイヤーのちょっと上に足す
 	const float radius = 35.0f;//キャラコンの横幅
+	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
+	const float HpSpriteSizeX = 1.5625f;
+	//スプライトの基点をずらしているので
+	//そのズレを修正
+	const float spriteFix = -50.0f;
+	float Hight = 0.0f;
+	//HPをちょっと上に置く
+	const float HpPosUp = 30.0f;
+	const float MaxHp = 62.5f;
 }
 Player::Player()
 {
@@ -40,7 +50,7 @@ bool Player::Start()
 		OnAnimEvent(eventName);
 	});
 
-	SpriteInit();
+	InitHpSprite(MaxHp,HpScale::PlayerHP);
 
 	m_HitModel = NewGO<SkinModelRender>(0);
 	m_HitModel->Init(L"DebugShere.cmo");
@@ -64,7 +74,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	}
 	if (wcscmp(eventName, L"AttackJubgmentStart1") == 0) {
 		PlayerAttack* PlAttack = NewGO<PlayerAttack>(0, "playerAttack");
-		const float AttackDamage = 32.0f;
+		const float AttackDamage = 20.0f;
 		const float AttackEria = 105.0f;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
@@ -75,7 +85,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		if (m_ComboAttack) {
 			m_ComboAttack = false;
 			PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
-			const float AttackDamage = 32.0f;
+			const float AttackDamage = 30.0f;
 			const float AttackEria = 90.0f;
 			PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 		}
@@ -116,56 +126,27 @@ void Player::AnimetionInit()
 	InitAnimation(m_AnimeClip, State::Num);
 }
 
-void Player::SpriteInit()
-{
-	const float HpHeight = 10.0f;
-	m_HpTopSprite = NewGO<SpriteRender>(2);
-	m_HpTopSprite->Init(L"HP_Top_Red.dds", m_MaxHp, HpHeight, true);
-	m_HpPosition = m_ModelPos;
-	m_HpPosition.y += m_height + HpPosUp;
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	m_HpTopSprite->SetPivot({ SpriteRender::XCenter(),SpriteRender::Up() });
-	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_MaxHp, HpHeight, true);
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-	float sizeX = m_SpriteSize * m_MaxHp;
-	CVector3 SpriteScale = CVector3::One();
-	SpriteScale.x = sizeX;
-	m_HpUnderSprite->SetScale(SpriteScale);
-	m_HpTopSprite->SetScale(SpriteScale);
-	m_HpUnderSprite->SetIsFaceCamera(true);
-	m_HpTopSprite->SetIsFaceCamera(true);
-}
-void Player::UpdateSprite()
-{
-	m_HpPosition = m_ModelPos;
-	m_HpPosition.y += m_height + HpPosUp;
-	//m_HpPosition.x -= 100.0f;
-	//Hpをプレイヤーの真ん中に置く
-	CVector3 AddSpritePos = g_camera3D.GetRight()*50.0f;
-	m_HpPosition += AddSpritePos;
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	m_HpUnderSprite->SetPivot({SpriteRender::Left(),SpriteRender::Up() });
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
-	CVector3 SpriteSize = CVector3::One();
-	float sizeX = m_SpriteSize * m_Hp;
-	SpriteSize.x = sizeX;
-	m_HpTopSprite->SetScale(SpriteSize);
-}
 void Player::Update()
 {
 	m_mutekiflame--;
+
 	if (m_state == State::Attack) {
 		if (g_pad[0].IsTrigger(enButtonX)) {
 			m_ComboAttack = true;
 		}
 	}
+
+	//状態を切り替え
+	ChangeState(m_NextState);
+	//状態の更新
 	UpdateState();
+
+	//HPスプライトの更新
+	SpriteUpdate();
+
+	//キャラコン上での移動
 	m_MoveSpeed = m_Animation.Update(gameTime().GetFrameDeltaTime() * m_mulAnimSpeed);
-	//if (m_MoveSpeed.y < -10000.0f) {
-	//	printf("hoge");
-	//}
+
 	//3dsMaxの空間からゲーム空間に移動速度を変更。
 	float tmp = m_MoveSpeed.y;
 	m_MoveSpeed.y = m_MoveSpeed.z;
@@ -173,20 +154,26 @@ void Player::Update()
 
 	//モデル空間からワールド空間に変換。
 	m_ModelRot.Multiply(m_MoveSpeed);
-	//HPのスプライトを更新
-	UpdateSprite();
+
 	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
+
 	//移動処理
 	PlayerMove();
+
 	//回転処理
 	Rotate();
+
 	//モデルの更新
 	CharacterModelUpdate();
+
 	//前方向の更新
 	ForwardUpdate();
+
+	//攻撃発生位置を更新
 	const float AttackReach = 100.0f;
 	m_AttackPos = m_ModelPos + m_forward * AttackReach;
 
+	//当たり判定を更新
 	m_HitModel->SetPosition(m_ModelPos);
 }
 void Player::OnDestroy()
@@ -212,7 +199,7 @@ void Player::PlayerMove()
 		if (m_MoveSpeed.Length() < 1.0f) {
 			m_MoveSpeed = CVector3::Zero();
 		}
-		Move(m_MoveSpeed*60.0f);
+		Move(m_MoveSpeed);
 	}
 }
 bool Player::IsMove() const
@@ -268,6 +255,12 @@ void Player::ChangeState(int state)
 	case State::Die:
 		delete m_currentState;
 		m_currentState = new PlayerDieState(this);
+		break;
+	case State::GameClear:
+		delete m_currentState;
+		m_currentState = new PlayerStateGameClear(this);
+		break;
+	default:
 		break;
 	}
 
