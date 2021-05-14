@@ -7,6 +7,5 @@ public:
 		IBossState(boss) {};
 
 	void Update()override;
-	
 };
 

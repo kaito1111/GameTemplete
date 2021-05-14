@@ -3,6 +3,7 @@ class IBossState;
 class Player;
 #include "GameSceneFunction/AIProcesing.h"
 #include "character/CharacterController.h"
+#include "BossHpSprite.h"
 class Boss : public AIProcesing
 {
 	//状態
@@ -11,13 +12,13 @@ class Boss : public AIProcesing
 		Attack,
 		NormalRoar,
 		AppearanceRoar,
+		Down,
+		Parry,
 		Die,
 		StateNum,
 	};
 public:
 	~Boss() {};//デスストラクタ
-	
-
 
 	bool Start()override;//初期化関数を呼ぶ場所
 	void Update()override;//更新関数を呼ぶ場所
@@ -43,6 +44,23 @@ public:
 	void SetWalkState() {
 		m_NextState = State::Walk;
 	}
+
+	//ダメージを受けた
+	void HitDamage(const float damege)override {
+		//hpを減らす
+		m_Hp -= damege;
+		//ダメージが３分の１まで減ったら１度だけダウン状態に入る
+		if (m_MaxHp / 3 > m_Hp&&IsParyy) {
+			//ダメージ状態へ遷移
+			m_NextState = State::Down;
+			IsParyy = false;
+		}
+		//Hpが0以下になったら死ぬ
+		if (m_Hp <= 0.0f) {
+			m_NextState = State::Die;
+			m_Hp = 0;
+		}
+	}
 private:	
 	AnimationClip m_AnimationClip[StateNum];//アニメーションクリップ
 
@@ -51,10 +69,12 @@ private:
 	State m_CurrentState = State::AppearanceRoar;	//現在の状態
 	State m_NextState = State::Walk;		//次の状態
 
-	const float m_CoolTimeRoar = 500;	//咆哮をしてから咆哮をするまでの時間
+	const float m_CoolTimeRoar = 10;	//咆哮をしてから咆哮をするまでの時間
 	float m_RoarTime = 0;				//咆哮してからの経過時間
 
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
+
+	BossHpSprite* m_BossSprite = nullptr;
 private:
 	//ステートを変更する関数
 	void ChengeState(const State& state);
@@ -62,5 +82,14 @@ private:
 	void Rotate()override;
 	//アニメーションを初期化関数
 	void AnimationInit();
+
+	void OnAnimEvent(const wchar_t* eventName);
+
+	//咆哮処理を更新する関数
+	void RoarUpdate();
+
+	void InitSprite();
+
+	bool IsParyy = true;	//パリィができるかどうか
 };
 

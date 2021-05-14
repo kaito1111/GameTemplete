@@ -4,5 +4,9 @@
 void BossAttackState::Update()
 {
 	m_Boss->PlayAnimation();
-	m_Boss->SetWalkState();
+	if (!m_Boss->IsPlayAnimation())
+	{
+		m_Boss->SetWalkState();
+		m_Boss->IsChengeNormalRoar();
+	}
 }
