@@ -3,6 +3,12 @@
 class Character :public IGameObject
 {
 public:
+	enum HpScale {
+		PlayerHP,
+		EnemyHP,
+		BossHP,
+		Num
+	};
 	~Character() {
 		DeleteGO(m_Model);
 	};
@@ -46,6 +52,20 @@ public:
 	CQuaternion GetRot() {
 		return m_ModelRot;
 	}
+	
+	//hpと最大Hpを設定している
+	//hpだけ設定したければSetHPとかを作る
+	void InitHpSprite(const float hp, HpScale hpScale);
+
+	//スプライトのhpの残りとかを計算している
+	void SpriteUpdate();
+
+	//攻撃が当たった時に呼ばれる
+	//関数内にステートを変更する処理が入るので純粋仮想関数にする
+	virtual	void HitDamage(const float damege) = 0;
+private:
+	void SpriteInit(SpriteRender*& SpriteP,wchar_t* fileName);
+	void HpPosAdjustment();
 protected:
 	SkinModelRender* m_Model = nullptr;			//モデル
 	CVector3 m_ModelPos = CVector3::Zero();			//モデルの位置
@@ -56,5 +76,17 @@ protected:
 	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
 	CVector3 m_forward = CVector3::Front();		//前方向
 	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
+
+	SpriteRender* m_HpUnderSprite = nullptr;
+	SpriteRender* m_HpTopSprite = nullptr;
+	CVector3 m_HpPosition = CVector3::Zero();
+	float m_Hp = 0.0f;
+	float m_MaxHp = 0.0f;
+	float m_Hight = 0.0f;
+	HpScale m_HpScale;
+	float m_HpScaleList[HpScale::Num] = { 100.0f,100.0f,120.f };
+	//スプライトの基点をずらしているので
+	//そのズレを修正
+	float m_spriteFix = -50.0f;
 };
 
