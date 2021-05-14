@@ -1,6 +1,5 @@
 #pragma once
 #include "State/IArcherState.h"
-#include "Player/Player.h"
 #include "GameSceneFunction/AIProcesing.h"
 
 class Arrow;
@@ -87,7 +86,7 @@ public:
 		m_IsPlayerFacing = true;
 	}
 
-	void HitDamege(const float damege);
+	void HitDamage(const float damege)override;
 private:
 	//攻撃できる？
 	bool IsAttack();
@@ -98,27 +97,12 @@ private:
 	//アニメーションを初期化
 	void InitAnimetion();
 
-	//絵を初期化
-	void InitSprite();
-
-	//上のhpを初期化
-	void InitHpTop();
-
-	//下のHpを初期化
-	void InitHpUnder();
-
 	//アニメーションの更新
 	void AnimationUpdate();
 
 
 	//状態の切り替え
 	void UpdateState(int st);
-
-	//絵の更新
-	void UpdateSprite();
-	
-	//hpの位置を修正
-	void HpPosAdjustment();
 
 	//アニメーションイベントを設定
 	void OnAnimEvent(const wchar_t* eventName);
@@ -131,16 +115,6 @@ private:
 	IArcherState* m_ActiveState = nullptr;			//現在の状態
 	int m_State = State::Idle;						//現在の状態
 	int m_NextState = State::Idle;					//次の状態
-	Player* m_Player = nullptr;						//プレイヤーのポインタ
-
-	SpriteRender* m_HpTopSprite = nullptr;		//hpのスプライト
-	CVector3 m_HpPosition = CVector3::Zero();	//hpのスプライト位置
-	float m_Hp = 62.5;							//hp
-	const float m_SpriteSize = 0.025f;			//hpのサイズを調整
-
-	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
-
-	const float m_height = 150.0f;				//身長
 
 	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 

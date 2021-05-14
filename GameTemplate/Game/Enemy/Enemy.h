@@ -55,7 +55,7 @@ public:
 	}
 
 	//プレイヤーからの攻撃が当たったら呼ばれる
-	void HitDamege(const float damege);
+	void HitDamage(const float damege)override;
 
 	//プレイヤー方向に歩く
 	void EnemyWalk() {
@@ -65,16 +65,6 @@ private:
 	//初期化場所
 	bool Start()override;
 
-	//HPスプライトを初期化
-	void HpSpriteInit();
-	//HPを敵のちょっと上に置き
-	//Hpの位置を基点に合わせて修正
-	void HpPosAdjustment();
-	//TopSpriteを初期化
-	void HpTopSpriteInit(const float sizeY,const CVector3& scale);
-	//UnderSpriteを初期化
-	void HpUnderSprite(const float sizeY, const CVector3& scale);
-
 	//アニメーションを初期化
 	void AnimetionInit();
 	//更新
@@ -83,8 +73,6 @@ private:
 	//アニメーションイベント
 	//EnemyAttackを作っている
 	void OnAnimEvent(const wchar_t* eventName);
-	//スプライトを更新
-	void UpdateSprite();
 	
 	//歩くかの判定
 	bool IsWalk()const;
@@ -99,13 +87,8 @@ private:
 	void ChangeState(int st);
 
 private:
-
-	SpriteRender* m_HpTopSprite = nullptr;		//hpのスプライト
-	CVector3 m_HpPosition = CVector3::Zero();	//hpのスプライト位置
 	float m_Hp = 62.5f;							//hp
-	//const float m_SpriteSize = 0.025f;			//hpのサイズを調整
 
-	SpriteRender* m_HpUnderSprite = nullptr;	//hpの下にあるスプライト
 	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
 	AnimationClip m_AniClip[Num];				//アニメーションの種類

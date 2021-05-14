@@ -6,17 +6,13 @@
 #include "State/ArcherDethState.h"
 
 namespace {
-	//スプライトの縦の大きさ
-	const float SpriteHight = 10.0f;
-	//HPをちょっと上に置く
-	const float HpPosUp = 30.0f;
 	//攻撃できる判定に入った
 	const float InPlayer = 500.0f;
 	//視野角
 	const float ViewAngle = 0.7f;
-	//スプライトの基点をずらしているので
-	//そのズレを修正
-	const float spriteFix = -50.0f;
+
+	const float MaxHp = 62.5f;			//Hp
+	const float m_height = 150.0f;  //身長
 }
 
 void Archer::OnDestroy()
@@ -34,7 +30,7 @@ void Archer::OnDestroy()
 	}
 }
 
-void Archer::HitDamege(const float damege) {
+void Archer::HitDamage(const float damege) {
 	//死んでないならHpを減らす
 	if (m_ActiveState->IsPossibleHpDown()) {
 		m_Hp -= damege;
@@ -65,10 +61,10 @@ bool Archer::Start()
 	m_ActiveState = new ArcherIdleState(this);
 
 	//プレイヤーを見つける
-	m_Player = FindGO<Player>("player");
+	m_player = FindGO<Player>("player");
 
 	//絵を初期化
-	InitSprite();
+	InitHpSprite(MaxHp,HpScale::EnemyHP);
 	return true;
 }
 
@@ -100,55 +96,6 @@ void Archer::InitAnimetion()
 		OnAnimEvent(eventName);
 	});
 }
-
-void Archer::InitSprite()
-{
-	//上のHpバーを初期化
-	InitHpTop();
-	//下のHpバーを初期化
-	InitHpUnder();
-}
-
-void Archer::InitHpTop()
-{
-	//hpをnew
-	m_HpTopSprite = NewGO<SpriteRender>(2);
-	//Hpをロード、画像の大きさも設定
-	m_HpTopSprite->Init(L"HP_Top_Red.dds", m_Hp, SpriteHight, true);
-	//位置を更新
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	//大きさを更新
-	//Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * m_SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	m_HpTopSprite->SetScale(SpriteSize);
-	//基点を更新
-	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
-	//カメラ方向に画像を向ける
-	m_HpTopSprite->SetIsFaceCamera(true);
-}
-
-void Archer::InitHpUnder()
-{
-	//HpをNew
-	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	//Hpをロード、画像の大きさも設定
-	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_Hp, SpriteHight, true);
-	//位置を更新
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-	//大きさを更新
-	//Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * m_SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	m_HpUnderSprite->SetScale(SpriteSize);
-	//基点を更新
-	m_HpUnderSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
-	//カメラ方向に画像を向ける
-	m_HpUnderSprite->SetIsFaceCamera(true);
-}
-
 void Archer::OnAnimEvent(const wchar_t * eventName)
 {
 	if (wcscmp(eventName, L"SpownArrow") == 0) {
@@ -173,7 +120,7 @@ void Archer::OnAnimEvent(const wchar_t * eventName)
 
 void Archer::Rotate()
 {
-	CVector3 NextForward = m_Player->GetPosition() - m_ModelPos;
+	CVector3 NextForward = m_player->GetPosition() - m_ModelPos;
 	float rotAngle = atan2(NextForward.x, NextForward.z);
 	m_ModelRot.SetRotation(CVector3::AxisY(), rotAngle);
 }
@@ -205,7 +152,7 @@ void Archer::Update()
 	//アニメーションを更新
 	AnimationUpdate();
 	//絵を更新
-	UpdateSprite();
+	SpriteUpdate();
 	//現在の状態の更新を呼ぶ
 	m_ActiveState->Update();
 	//状態を更新
@@ -229,7 +176,7 @@ bool Archer::IsAttack()
 	if (GetAsyncKeyState('U')) {
 		return true;
 	}//距離の差を測る
-	CVector3 Diff = m_Player->GetPosition() - m_ModelPos;
+	CVector3 Diff = m_player->GetPosition() - m_ModelPos;
 	//もしプレイヤーが範囲内にいるなら
 	if (Diff.Length() < InPlayer) {
 		Diff.Normalize();
@@ -272,28 +219,4 @@ void Archer::UpdateState(int st)
 		break;
 	}
 	m_State = st;
-}
-
-void Archer::UpdateSprite()
-{
-	//Hpの位置を敵の位置に合わせる
-	m_HpPosition = m_ModelPos;
-	HpPosAdjustment();
-	//Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * m_SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	//大きさを設定
-	m_HpTopSprite->SetScale(SpriteSize);
-	//Topの位置を設定
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	//Underの位置を設定
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-}
-
-void Archer::HpPosAdjustment()
-{
-	m_HpPosition.y += m_height + HpPosUp;
-	CVector3 AddSpritePos = g_camera3D.GetRight() * spriteFix;
-	m_HpPosition -= AddSpritePos;
 }

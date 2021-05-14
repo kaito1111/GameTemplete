@@ -12,7 +12,6 @@
 #include "GameSceneFunction/Attack.h"
 
 namespace {
-	
 	const float visility = 500.0f;//視界	
 	const float radius = 20.0f;//キャラコンの幅
 	const float m_height = 150.0f;				//敵の身長
@@ -21,6 +20,7 @@ namespace {
 	const float AttackEria = 135.0f;	//攻撃範囲
 	const float SpriteClear = 0.0f;	//スプライトを透明にする
 	const float SpriteSize = 0.025f;			//hpのサイズを調整	
+	const float EnemyMaxHp = 62.5;
 }
 Enemy::Enemy()
 {
@@ -38,7 +38,7 @@ void Enemy::OnDestroy()
 }
 
 
-void Enemy::HitDamege(const float damege) {
+void Enemy::HitDamage(const float damege) {
 	//死んでないならHpを減らす
 	if (m_ActiveState->IsPossibleHpDown()) {
 		m_Hp -= damege;
@@ -67,64 +67,15 @@ bool Enemy::Start()
 	CharacterInit(L"Skeleton.cmo", radius, m_height, m_ModelPos);
 
 	//HPのスプライトを初期化
-	HpSpriteInit();
+	InitHpSprite(m_Hp, HpScale::PlayerHP);
 
 	//アニメーションを初期化
 	AnimetionInit();
 
 	//初期化でIdleStateを設定
 	m_ActiveState = new EnemyIdleState(this);
-
 	return true;
 }
-
-void Enemy::HpSpriteInit()
-{
-	//hpスプライトを設定
-	m_HpPosition = m_ModelPos;
-	////Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	//TopSpriteを初期化
-	HpTopSpriteInit(hpSpriteSizeY, SpriteSize);
-	//UnderSpriteを初期化
-	HpUnderSprite(hpSpriteSizeY, SpriteSize);
-}
-
-
-void Enemy::HpTopSpriteInit(const float SizeY, const CVector3& Scale)
-{
-	//HpをNew
-	m_HpTopSprite = NewGO<SpriteRender>(2);
-	//Hpをロード、画像の大きさも設定
-	m_HpTopSprite->Init(L"HP_Top_Red.dds", 86.0f , SizeY, true);
-	//位置を更新
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	//大きさを更新
-	m_HpTopSprite->SetScale(Scale);
-	//基点を更新
-	m_HpTopSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
-	//カメラ方向に画像を向ける
-	m_HpTopSprite->SetIsFaceCamera(true);
-}
-
-void Enemy::HpUnderSprite(const float SizeY, const CVector3& Scale)
-{
-	//HpをNew
-	m_HpUnderSprite = NewGO<SpriteRender>(1);
-	//Hpをロード、画像の大きさも設定
-	m_HpUnderSprite->Init(L"HP_Under_Brack.dds", m_Hp, SizeY, true);
-	//位置を更新
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-	//大きさを更新
-	m_HpUnderSprite->SetScale(Scale);
-	//基点を更新
-	m_HpUnderSprite->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
-	//カメラ方向に画像を向ける
-	m_HpUnderSprite->SetIsFaceCamera(true);
-}
-
 void Enemy::AnimetionInit()
 {
 	//アニメーションをロード
@@ -198,7 +149,7 @@ void Enemy::ChangeState(int st)
 void Enemy::Update()
 {
 	//スプライトを更新
-	UpdateSprite();
+	SpriteUpdate();
 	//ステートを更新
 	m_ActiveState->Update();
 	//ステートを変更する
@@ -208,34 +159,6 @@ void Enemy::Update()
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
 	CharacterModelUpdate();
-}
-
-void Enemy::UpdateSprite()
-{
-	//Hpの位置を敵の位置に合わせる
-	m_HpPosition = m_ModelPos;
-	HpPosAdjustment();
-	////Hpの大きさをhpの残量に合わせる
-	float SizeX = m_Hp * SpriteSize;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
-	//大きさを設定
-	m_HpTopSprite->SetScale(SpriteSize);
-	//Topの位置を設定
-	m_HpTopSprite->SetPosition(m_HpPosition);
-	//Underの位置を設定
-	m_HpUnderSprite->SetPosition(m_HpPosition);
-}
-
-void Enemy::HpPosAdjustment()
-{
-	//HPをちょっと上に置く
-	const float HpPosUp = 10.0f;
-	m_HpPosition.y += m_height + HpPosUp;
-	//基点をずらしているので
-	//そのズレを修正
-	CVector3 AddSpritePos = g_camera3D.GetRight()*-50.0f;
-	m_HpPosition -= AddSpritePos;
 }
 
 bool Enemy::IsWalk() const
