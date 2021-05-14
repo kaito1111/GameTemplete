@@ -3,7 +3,7 @@
 #include "Player/Player.h"
 
 namespace {
-	const float Aria = 50.0f;
+	const float Aria = 30.0f;
 	const float Damage = 10.0f;
 }
 
