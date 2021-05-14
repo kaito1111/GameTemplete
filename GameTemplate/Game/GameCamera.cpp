@@ -60,6 +60,7 @@ void GameCamera::Update()
 	//Rot.Multiply(m_StartRot);
 	//Rot.Multiply(moveSpeed); 
 	m_StartRot.Multiply(moveSpeed);
+	Rot.Multiply(moveSpeed);
 	//moveSpeed = { moveSpeed.x * Back.x,moveSpeed.y* Back.y,moveSpeed.z*Back.z };
 	//プレイヤーからちょっとカメラの終点に近い場所
 	CVector3 RayStart = Target + moveSpeed * 0.01f;
