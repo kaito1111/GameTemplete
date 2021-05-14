@@ -92,7 +92,9 @@
     <ClCompile Include="Player\State\playerDieState.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="ReSetGame.cpp" />
-    <ClCompile Include="Archer\State\ARCHERDETHSTATE.CPP" />
+    <ClCompile Include="Boss\BossHpSprite.cpp" />
+    <ClCompile Include="Player\HuntedSprite.cpp" />
+    <ClCompile Include="Player\State\PlayerStateGameClear.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -151,6 +153,9 @@
     <ClInclude Include="Player\DieSprite.h" />
     <ClInclude Include="ReSetGame.h" />
     <ClInclude Include="Archer\State\ArcherDethState.h" />
+    <ClInclude Include="Boss\BossHpSprite.h" />
+    <ClInclude Include="Player\HuntedSprite.h" />
+    <ClInclude Include="Player\State\PlayerStateGameClear.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
@@ -200,5 +205,7 @@
     <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
     <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
   </ItemGroup>
 </Project>

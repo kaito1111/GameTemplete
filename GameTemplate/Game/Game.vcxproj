@@ -105,6 +105,9 @@
     </MeshContentTask>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss\BossHpSprite.cpp" />
+    <ClCompile Include="Player\State\PlayerStateGameClear.cpp" />
+    <ClCompile Include="Player\HuntedSprite.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
     <ClCompile Include="Archer\ArcherSpowner.cpp" />
@@ -165,6 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer\State\ArcherDethState.h" />
+    <ClInclude Include="Boss\BossHpSprite.h" />
+    <ClInclude Include="Player\State\PlayerStateGameClear.h" />
+    <ClInclude Include="Player\HuntedSprite.h" />
     <ClInclude Include="Player\DieSprite.h" />
     <ClInclude Include="GameSceneFunction\Anime.h" />
     <ClInclude Include="Archer\ArcherSpowner.h" />
@@ -279,6 +285,10 @@
     <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
+    <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
