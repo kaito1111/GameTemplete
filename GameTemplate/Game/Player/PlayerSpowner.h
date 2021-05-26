@@ -12,6 +12,7 @@ public:
 	}
 
 	bool Start()override;
+	void OnDestroy()override;
 
 private:
 	Player* m_player = nullptr;		//ƒvƒŒƒCƒ„[

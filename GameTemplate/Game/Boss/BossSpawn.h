@@ -6,6 +6,7 @@ public:
 	~BossSpawn() {};//デストラクタ
 
 	bool Start()override;//初期化位置
+	void OnDestroy()override;
 
 	//levelデータを読みこむ
 	void SetFilePath(wchar_t* fileName) {

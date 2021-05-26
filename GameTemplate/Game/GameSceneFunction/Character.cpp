@@ -4,7 +4,13 @@
 namespace {
 	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
 	//HPをちょっと上に置く
-	const float HpPosUp = 30.0f;
+	const float HpPosUp = 40.0f;
+}
+Character::~Character() {
+	DeleteGO(m_Model);
+	DeleteGO(m_HpUnderSprite);
+	DeleteGO(m_HpTopSprite); 
+
 }
 void Character::CharacterInit(wchar_t * filePath, float radius, float hight, const CVector3 & pos)
 {
@@ -17,6 +23,8 @@ void Character::CharacterInit(wchar_t * filePath, float radius, float hight, con
 void Character::Move(CVector3& move)
 {
 	Rotate();
+	//重力を加算
+	move.y -= 10.0f;
 	//当たり判定を実行
 	m_ModelPos = m_CharaCon.Execute(gameTime().GetFrameDeltaTime()*60.0f, move);
 	//モデルの位置を設定
@@ -40,17 +48,17 @@ void Character::ForwardUpdate()
 	m_forward.Normalize();
 }
 
-void Character::SpriteInit( SpriteRender*& SpriteP ,wchar_t* fileName)
+void Character::SpriteInit(SpriteRender*& SpriteP, wchar_t* fileName)
 {
 	//HpをNew
 	SpriteP = NewGO<SpriteRender>(1);
 	//Hpをロード、画像の大きさも設定
 	SpriteP->Init(fileName, m_HpScaleList[m_HpScale], hpSpriteSizeY, true);
-	m_spriteFix = -hpSpriteSizeY / 2;
+	m_spriteFix = -m_HpScaleList[m_HpScale] / 2;
 	//位置を更新
 	SpriteP->SetPosition(m_HpPosition);
 	//基点を更新
-	SpriteP->SetPivot({ SpriteRender::Left(),SpriteRender::Up() });
+	SpriteP->SetPivot({ SpriteRender::Left(),0.5f });
 	//カメラ方向に画像を向ける
 	SpriteP->SetIsFaceCamera(true);
 }
@@ -68,9 +76,11 @@ void Character::SpriteUpdate()
 	m_HpPosition = m_ModelPos;
 	HpPosAdjustment();
 	//Hpの大きさをhpの残量に合わせる
-	float SizeX = (m_Hp * m_HpScaleList[m_HpScale]) / m_MaxHp;
+	float SizeX = m_Hp / m_MaxHp;
 	CVector3 SpriteSize = CVector3::One();
 	SpriteSize.x = SizeX;
+	//Topの大きさを設定
+	m_HpTopSprite->SetScale(SpriteSize);
 	//Topの位置を設定
 	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定

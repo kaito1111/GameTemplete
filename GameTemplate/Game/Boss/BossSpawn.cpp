@@ -13,3 +13,8 @@ bool BossSpawn::Start() {
 	});
 	return true;
 }
+
+void BossSpawn::OnDestroy()
+{
+	DeleteGOs("Boss");
+}

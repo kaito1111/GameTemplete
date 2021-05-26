@@ -10,7 +10,7 @@ public:
 		m_player = FindGO<Player>("player");
 	}
 	//デストラクタ
-	~AIProcesing() {};
+	~AIProcesing() ;
 	//プレイヤーを追いかける処理
 	void AIWalk();
 	//プレイヤーを攻撃する処理
@@ -21,6 +21,6 @@ public:
 	}
 protected:
 	Player* m_player = nullptr;//プレイヤーのポインタ
-	float AttackReach = 0.0f;	//攻撃の肩から腕までの距離
+	float AttackReach = 50.0f;	//攻撃の肩から腕までの距離
 	Attack* m_HaveAttack = nullptr;
 };

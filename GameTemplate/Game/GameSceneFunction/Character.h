@@ -9,9 +9,7 @@ public:
 		BossHP,
 		Num
 	};
-	~Character() {
-		DeleteGO(m_Model);
-	};
+	~Character() ;
 
 
 	//‰ŠúˆÊ’u‚ğİ’è
