@@ -3,10 +3,10 @@
 
 bool Fade::Start()
 {
-	m_FadeSprite = NewGO<SpriteRender>(0);
+	m_FadeSprite = NewGO<SpriteRender>(1);
 	m_FadeSprite->Init(L"Brack.dds");
 	m_FadeSprite->SetAlpha(m_Alpha);
-	m_LodingSprite = NewGO<SpriteRender>(0);
+	m_LodingSprite = NewGO<SpriteRender>(1);
 	m_LodingSprite->Init(L"Loading.dds", 250.0f, 250.0f);
 	m_LodingSprite->SetPosition(m_LodingSpritePos);
 	return true;
@@ -14,22 +14,22 @@ bool Fade::Start()
 
 void Fade::Update()
 {
-	const int MaxStayCount = 150;
+	const float MaxStayCount = 0.5f;
 	//‚à‚µStayCount‚ªMaxStayCount‚ð’´‚¦‚Ä‚¢‚È‚¯‚ê‚Î
-	if (m_StayCount <= MaxStayCount) {
+	if (m_StayCount >= MaxStayCount) {
 		//“§–¾“x‚ð‰º‚°‚é
 		const float alhpaSub = 0.2f;
 		m_Alpha -= alhpaSub;
 	}
 	else {
 		//’´‚¦‚Ä‚¢‚ê‚Îã‚°‚é
-		const float alphaAdd = 0.5f;
+		const float alphaAdd = 0.2f;
 		m_Alpha += alphaAdd;
 	}
 	//‚à‚µ“§–¾‚È‚çStayCount‚ðã‚°‚é
-	if (m_Alpha > 1.0f) {
-		m_StayCount++;
-		m_Alpha = 1.0f;
+	if (m_Alpha > 1.1f) {
+		m_StayCount+=gameTime().GetFrameDeltaTime();
+		m_Alpha = 1.1f;
 	}
 	const float OneFrameLodingAngle = 6.0f;
 	m_Angle += OneFrameLodingAngle;
