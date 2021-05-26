@@ -13,6 +13,7 @@ namespace {
 
 	const float MaxHp = 62.5f;			//Hp
 	const float m_height = 150.0f;  //g’·
+	const float DethAlpha = 0.0f;
 }
 
 void Archer::OnDestroy()
@@ -20,8 +21,6 @@ void Archer::OnDestroy()
 	if (m_ActiveState != nullptr) {
 		m_ActiveState = nullptr;
 	}
-	DeleteGO(m_HpTopSprite);
-	DeleteGO(m_HpUnderSprite);
 	if (m_ArrowList.size() > 0) {
 		auto list = m_ArrowList;
 		for (auto i : list) {
@@ -207,6 +206,7 @@ void Archer::UpdateState(int st)
 		m_ActiveState = new ArcherDethState(this);
 		m_CharaCon.RemoveRigidBoby();
 		DeleteGO(m_HasArrow);
+		m_HpUnderSprite->SetAlpha(DethAlpha);
 		m_HasArrow = nullptr;
 		break;
 	case State::Damage:
