@@ -26,9 +26,9 @@ void EnemyAttack::Update()
 {
 	CVector3 toPlayerPos =	m_Player->GetPosition()- m_Position;
 	if (toPlayerPos.Length()<m_Area) {
-		if (m_Player->GetMutekiFlame() < 0) {
-			m_Player->HitDamage(m_Damege);
-		}
+		//if (m_Player->GetMutekiFlame() < 0) {
+		//	m_Player->HitDamage(m_Damege);
+		//}
 	}
 }
 
