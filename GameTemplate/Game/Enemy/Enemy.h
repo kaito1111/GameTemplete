@@ -17,10 +17,8 @@ enum State {
 	Down,
 	Num
 };
-	Enemy();
-	~Enemy();
-	//敵が消えた瞬間に呼ばれる
-	void OnDestroy()override;
+Enemy() {};
+~Enemy() {};
 public:
 	//アニメーションを再生
 	//enumのStateを使うと便利。推奨
@@ -87,7 +85,6 @@ private:
 	void ChangeState(int st);
 
 private:
-	float m_Hp = 62.5f;							//hp
 
 	int m_AttackPattarn = 0;					//どの攻撃判定が発生している？
 
