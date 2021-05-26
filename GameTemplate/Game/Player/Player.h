@@ -2,6 +2,7 @@
 #include "character/CharacterController.h"
 #include "GameSceneFunction/Anime.h"
 class IPlayerState;
+class HuntedSprite;
 
 class Player : public Anime
 {
@@ -36,7 +37,7 @@ public:
 		return m_AttackPos;
 	}
 	//hpを取得
-	int GetHp() {
+	float GetHp() const{
 		return m_Hp;
 	}
 	/// <summary>
@@ -62,7 +63,6 @@ public:
 	void TryChangeBackStepState()
 	{
 		if (IsBackStep()) {
-			m_mutekiflame = 30;
 			m_NextState = State::Roling;
 		}
 	}
@@ -118,17 +118,11 @@ public:
 		m_Hp -= damege;
 		//ダメージ状態へ遷移
 		m_NextState = State::Damage;
-		//無敵時間を設定
-		m_mutekiflame = 60;
 		//Hpが0以下になったら死ぬ
 		if (m_Hp <= 0.0f) {
 			m_NextState = State::Die;
 			m_Hp = 0;
 		}
-	}
-	//無敵時間を取得
-	int GetMutekiFlame() const {
-		return m_mutekiflame;
 	}
 
 	//初期位置を設定
@@ -141,13 +135,18 @@ public:
 	}
 	//Hpを設定
 	//エリアチェンジで使う
-	void SetSpwonHp(const int hp) {
+	void SetSpwonHp(const float hp) {
 		m_Hp = hp;
 	}
 
 	//プレイヤーの高さを取得
 	float GetHeight() const {
 		return m_height;
+	}
+
+	//プレイヤーの状態を取得
+	int GetState()const {
+		return m_state;
 	}
 private:
 	/// <summary>
@@ -214,10 +213,9 @@ private:
 	const float m_height =  110.0f;				//キャラコンの縦幅
 	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
 
-	int m_mutekiflame = 0;						//無敵時間
-
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 
 	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
+	HuntedSprite* m_HuntedSprite = nullptr;
 };
 

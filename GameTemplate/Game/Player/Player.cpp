@@ -5,23 +5,16 @@
 #include "State/PlayerStateBackStep.h"
 #include "State/PlayerStateRollingAttack.h"
 #include "State/PlayerStateDamage.h"
-#include "PlayerAttack.h"
 #include "Player.h"
 #include "State/PlayerDieState.h"
 #include "State/PlayerStateGameClear.h"
+#include "HuntedSprite.h"
+#include "PlayerAttack.h"
 
 namespace {
-	//const float HpPosUp = 40.0f;//Hpをプレイヤーのちょっと上に足す
 	const float radius = 35.0f;//キャラコンの横幅
-	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
-	const float HpSpriteSizeX = 1.5625f;
-	//スプライトの基点をずらしているので
-	//そのズレを修正
-	const float spriteFix = -50.0f;
-	float Hight = 0.0f;
-	//HPをちょっと上に置く
-	const float HpPosUp = 30.0f;
 	const float MaxHp = 62.5f;
+	const float AttackReach = 100.0f;
 }
 Player::Player()
 {
@@ -34,8 +27,8 @@ Player::~Player()
 
 bool Player::Start()
 {
-	m_ModelScale = { 0.8f,0.8f,0.8f };//プレイヤーの大きさ
-													//設定上少し小さくする
+	m_ModelScale = { 0.8f,0.8f,0.8f };  //プレイヤーの大きさ
+								    	//設定上少し小さくする
 	m_ModelPos = m_SpownPosition;
 	CharacterInit(L"Player.cmo", radius,m_height,m_ModelPos);
 	//待機ステートを作成する。
@@ -75,7 +68,8 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	if (wcscmp(eventName, L"AttackJubgmentStart1") == 0) {
 		PlayerAttack* PlAttack = NewGO<PlayerAttack>(0, "playerAttack");
 		const float AttackDamage = 20.0f;
-		const float AttackEria = 105.0f;
+		const float AttackEria = 75.0f;
+		m_AttackPos = m_ModelPos + m_forward * AttackReach;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
 	if (wcscmp(eventName, L"AttackJubgmentEnd1") == 0) {
@@ -86,7 +80,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 			m_ComboAttack = false;
 			PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
 			const float AttackDamage = 30.0f;
-			const float AttackEria = 90.0f;
+			const float AttackEria = 75.0f;
 			PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 		}
 	}
@@ -96,10 +90,19 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	if (wcscmp(eventName, L"AttackJubgmentStart3") == 0) {
 		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
 		const float AttackDamage = 100.0f;
-		const float AttackEria = 135.0f;
+		const float AttackEria = 95.0f;
 		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
 	}
 	if (wcscmp(eventName, L"AttackJubgmentEnd3") == 0) {
+		DeleteGO("playerAttack");
+	}
+	if (wcscmp(eventName, L"RollAttackStart") == 0) {
+		PlayerAttack* PlAttack = NewGO< PlayerAttack>(0, "playerAttack");
+		const float AttackDamage = 80.0f;
+		const float AttackEria = 105.0f;
+		PlAttack->Init(AttackDamage, AttackEria, m_AttackPos);
+	}
+	if (wcscmp(eventName, L"RollAttackEnd") == 0) {
 		DeleteGO("playerAttack");
 	}
 }
@@ -123,13 +126,14 @@ void Player::AnimetionInit()
 
 	LoadAnimation(m_AnimeClip[State::Die], L"Die.tka");
 
+	LoadAnimation(m_AnimeClip[State::GameClear],L"VictoryPose.tka");
+
 	InitAnimation(m_AnimeClip, State::Num);
+
 }
 
 void Player::Update()
 {
-	m_mutekiflame--;
-
 	if (m_state == State::Attack) {
 		if (g_pad[0].IsTrigger(enButtonX)) {
 			m_ComboAttack = true;
@@ -178,9 +182,11 @@ void Player::Update()
 }
 void Player::OnDestroy()
 {
-	DeleteGO(m_HpUnderSprite);
-	DeleteGO(m_HpTopSprite);
 	DeleteGO(m_HitModel);
+	if (m_HuntedSprite != nullptr) {
+		DeleteGO(m_HuntedSprite);
+		m_HuntedSprite = nullptr;
+	}
 }
 void Player::Rotate()
 {
@@ -238,6 +244,7 @@ void Player::ChangeState(int state)
 	case State::Roling:	//バックステップ中。
 		delete m_currentState;
 		m_currentState = new PlayerStateBackStep(this);
+		
 		break;
 	case State::Attack:
 		delete m_currentState;
@@ -257,8 +264,9 @@ void Player::ChangeState(int state)
 		m_currentState = new PlayerDieState(this);
 		break;
 	case State::GameClear:
-		delete m_currentState;
-		m_currentState = new PlayerStateGameClear(this);
+		if (m_HuntedSprite == nullptr) {
+			m_HuntedSprite = NewGO<HuntedSprite>(0);
+		}
 		break;
 	default:
 		break;
