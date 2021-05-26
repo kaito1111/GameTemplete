@@ -7,12 +7,12 @@ FBXHeaderExtension:  {
 	CreationTimeStamp:  {
 		Version: 1000
 		Year: 2021
-		Month: 3
-		Day: 11
-		Hour: 1
-		Minute: 10
-		Second: 38
-		Millisecond: 569
+		Month: 5
+		Day: 21
+		Hour: 15
+		Minute: 45
+		Second: 36
+		Millisecond: 879
 	}
 	Creator: "FBX SDK/FBX Plugins version 2019.2"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -34,13 +34,13 @@ FBXHeaderExtension:  {
 			P: "Original|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "Original|ApplicationName", "KString", "", "", "3ds Max"
 			P: "Original|ApplicationVersion", "KString", "", "", "2020"
-			P: "Original|DateTime_GMT", "DateTime", "", "", "10/03/2021 16:10:38.562"
+			P: "Original|DateTime_GMT", "DateTime", "", "", "21/05/2021 06:45:36.872"
 			P: "Original|FileName", "KString", "", "", "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\wall.FBX"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Autodesk"
 			P: "LastSaved|ApplicationName", "KString", "", "", "3ds Max"
 			P: "LastSaved|ApplicationVersion", "KString", "", "", "2020"
-			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "10/03/2021 16:10:38.562"
+			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "21/05/2021 06:45:36.872"
 			P: "Original|ApplicationActiveProject", "KString", "", "", "C:\Users\佐藤　賀郁\Documents\3ds Max 2020"
 			P: "Original|ApplicationNativeFile", "KString", "", "", "C:\Users\佐藤　賀郁\Desktop\就職作品素材\model\Stage\wall.max"
 		}
@@ -77,7 +77,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2685592189248, "", "Scene" {
+	Document: 2128625501280, "", "Scene" {
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
 			P: "ActiveAnimStackName", "KString", "", "", ""
@@ -326,13 +326,13 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	NodeAttribute: 2685589781888, "NodeAttribute::", "Null" {
+	NodeAttribute: 2128482013744, "NodeAttribute::", "Null" {
 		Properties70:  {
 			P: "Look", "enum", "", "",0
 		}
 		TypeFlags: "Null"
 	}
-	Geometry: 2686031706016, "Geometry::", "Mesh" {
+	Geometry: 2128601194576, "Geometry::", "Mesh" {
 		Properties70:  {
 			P: "Color", "ColorRGB", "Color", "",0.341176470588235,0.776470588235294,0.882352941176471
 		}
@@ -624,7 +624,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 2685600885120, "Model::StageLevel", "Null" {
+	Model: 2128483545808, "Model::StageLevel", "Null" {
 		Version: 232
 		Properties70:  {
 			P: "InheritType", "enum", "", "",1
@@ -635,19 +635,21 @@ Objects:  {
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Model: 2685600858816, "Model::wall", "Mesh" {
+	Model: 2128483541424, "Model::wall", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,0,-65.188720703125
+			P: "Lcl Scaling", "Lcl Scaling", "", "A",1,1,1.56177
 			P: "UDP3DSMAX", "KString", "", "U", "MapChannel:1 = UVChannel_1&cr;&lf;"
 			P: "MaxHandle", "int", "Integer", "UH",6
 		}
 		Shading: T
 		Culling: "CullingOff"
 	}
-	Material: 2686033882592, "Material::01 - Default", "" {
+	Material: 2128483333840, "Material::01 - Default", "" {
 		Version: 102
 		ShadingModel: "phong"
 		MultiLayer: 0
@@ -671,7 +673,7 @@ Objects:  {
 			P: "Reflectivity", "double", "Number", "",0
 		}
 	}
-	Material: 2686033863872, "Material::01 - Default", "" {
+	Material: 2128483335760, "Material::01 - Default", "" {
 		Version: 102
 		ShadingModel: "phong"
 		MultiLayer: 0
@@ -695,7 +697,7 @@ Objects:  {
 			P: "Reflectivity", "double", "Number", "",0
 		}
 	}
-	Video: 2686033873472, "Video::マップ #1", "Clip" {
+	Video: 2128483342000, "Video::マップ #1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_yellow_hd.png"
@@ -705,7 +707,7 @@ Objects:  {
 		Filename: "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_yellow_hd.png"
 		RelativeFilename: "UnityTexture\fi_village_walls_yellow_hd.png"
 	}
-	Video: 2686033873952, "Video::マップ #2", "Clip" {
+	Video: 2128483351120, "Video::マップ #2", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_hd_n.png"
@@ -715,7 +717,7 @@ Objects:  {
 		Filename: "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_hd_n.png"
 		RelativeFilename: "UnityTexture\fi_village_walls_hd_n.png"
 	}
-	Video: 2686033883552, "Video::マップ #1", "Clip" {
+	Video: 2128483360720, "Video::マップ #1", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_yellow_hd.png"
@@ -725,7 +727,7 @@ Objects:  {
 		Filename: "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_yellow_hd.png"
 		RelativeFilename: "UnityTexture\fi_village_walls_yellow_hd.png"
 	}
-	Video: 2686033864352, "Video::マップ #2", "Clip" {
+	Video: 2128483332400, "Video::マップ #2", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_hd_n.png"
@@ -735,7 +737,7 @@ Objects:  {
 		Filename: "E:\就職作品\GameTemplete\GameTemplate\Game\Assets\modelData\UnityTexture\fi_village_walls_hd_n.png"
 		RelativeFilename: "UnityTexture\fi_village_walls_hd_n.png"
 	}
-	Texture: 2686033872032, "Texture::マップ #1", "" {
+	Texture: 2128483347760, "Texture::マップ #1", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::マップ #1"
@@ -751,7 +753,7 @@ Objects:  {
 		Texture_Alpha_Source: "Alpha_Black"
 		Cropping: 0,0,0,0
 	}
-	Texture: 2686033884512, "Texture::マップ #2", "" {
+	Texture: 2128483349200, "Texture::マップ #2", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::マップ #2"
@@ -767,7 +769,7 @@ Objects:  {
 		Texture_Alpha_Source: "Alpha_Black"
 		Cropping: 0,0,0,0
 	}
-	Texture: 2686033866752, "Texture::マップ #1", "" {
+	Texture: 2128483360240, "Texture::マップ #1", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::マップ #1"
@@ -783,7 +785,7 @@ Objects:  {
 		Texture_Alpha_Source: "Alpha_Black"
 		Cropping: 0,0,0,0
 	}
-	Texture: 2686033872512, "Texture::マップ #2", "" {
+	Texture: 2128483357840, "Texture::マップ #2", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::マップ #2"
@@ -799,13 +801,13 @@ Objects:  {
 		Texture_Alpha_Source: "Alpha_Black"
 		Cropping: 0,0,0,0
 	}
-	AnimationStack: 2685589166096, "AnimStack::Take 001", "" {
+	AnimationStack: 2128478362544, "AnimStack::Take 001", "" {
 		Properties70:  {
 			P: "LocalStop", "KTime", "Time", "",153953860000
 			P: "ReferenceStop", "KTime", "Time", "",153953860000
 		}
 	}
-	AnimationCurve: 2685304578880, "AnimCurve::", "" {
+	AnimationCurve: 2128618072784, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -826,7 +828,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2685304575200, "AnimCurve::", "" {
+	AnimationCurve: 2128618073584, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -847,7 +849,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2685304582080, "AnimCurve::", "" {
+	AnimationCurve: 2128618075024, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -868,7 +870,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2685304583520, "AnimCurve::", "" {
+	AnimationCurve: 2128618083504, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -889,7 +891,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2685304584160, "AnimCurve::", "" {
+	AnimationCurve: 2128618082224, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -910,7 +912,7 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurve: 2685304579360, "AnimCurve::", "" {
+	AnimationCurve: 2128618082704, "AnimCurve::", "" {
 		Default: 0
 		KeyVer: 4009
 		KeyTime: *1 {
@@ -931,21 +933,21 @@ Objects:  {
 			a: 1
 		} 
 	}
-	AnimationCurveNode: 2685589174000, "AnimCurveNode::R", "" {
+	AnimationCurveNode: 2128478373152, "AnimCurveNode::R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",0
 			P: "d|Y", "Number", "", "A",0
 			P: "d|Z", "Number", "", "A",0
 		}
 	}
-	AnimationCurveNode: 2685589171920, "AnimCurveNode::R", "" {
+	AnimationCurveNode: 2128478377520, "AnimCurveNode::R", "" {
 		Properties70:  {
 			P: "d|X", "Number", "", "A",0
 			P: "d|Y", "Number", "", "A",0
 			P: "d|Z", "Number", "", "A",0
 		}
 	}
-	AnimationLayer: 2685597702368, "AnimLayer::BaseLayer", "" {
+	AnimationLayer: 2128487374432, "AnimLayer::BaseLayer", "" {
 	}
 }
 
@@ -955,79 +957,79 @@ Objects:  {
 Connections:  {
 	
 	;Model::StageLevel, Model::RootNode
-	C: "OO",2685600885120,0
+	C: "OO",2128483545808,0
 	
 	;AnimLayer::BaseLayer, AnimStack::Take 001
-	C: "OO",2685597702368,2685589166096
+	C: "OO",2128487374432,2128478362544
 	
 	;AnimCurveNode::R, AnimLayer::BaseLayer
-	C: "OO",2685589174000,2685597702368
+	C: "OO",2128478373152,2128487374432
 	
 	;AnimCurveNode::R, AnimLayer::BaseLayer
-	C: "OO",2685589171920,2685597702368
+	C: "OO",2128478377520,2128487374432
 	
 	;Model::wall, Model::StageLevel
-	C: "OO",2685600858816,2685600885120
+	C: "OO",2128483541424,2128483545808
 	
 	;NodeAttribute::, Model::StageLevel
-	C: "OO",2685589781888,2685600885120
+	C: "OO",2128482013744,2128483545808
 	
 	;AnimCurveNode::R, Model::StageLevel
-	C: "OP",2685589174000,2685600885120, "Lcl Rotation"
+	C: "OP",2128478373152,2128483545808, "Lcl Rotation"
 	
 	;Geometry::, Model::wall
-	C: "OO",2686031706016,2685600858816
+	C: "OO",2128601194576,2128483541424
 	
 	;Material::01 - Default, Model::wall
-	C: "OO",2686033882592,2685600858816
+	C: "OO",2128483333840,2128483541424
 	
 	;Material::01 - Default, Model::wall
-	C: "OO",2686033863872,2685600858816
+	C: "OO",2128483335760,2128483541424
 	
 	;AnimCurveNode::R, Model::wall
-	C: "OP",2685589171920,2685600858816, "Lcl Rotation"
+	C: "OP",2128478377520,2128483541424, "Lcl Rotation"
 	
 	;Texture::マップ #1, Material::01 - Default
-	C: "OP",2686033872032,2686033882592, "DiffuseColor"
+	C: "OP",2128483347760,2128483333840, "DiffuseColor"
 	
 	;Texture::マップ #2, Material::01 - Default
-	C: "OP",2686033884512,2686033882592, "Bump"
+	C: "OP",2128483349200,2128483333840, "Bump"
 	
 	;Video::マップ #1, Texture::マップ #1
-	C: "OO",2686033873472,2686033872032
+	C: "OO",2128483342000,2128483347760
 	
 	;Video::マップ #2, Texture::マップ #2
-	C: "OO",2686033873952,2686033884512
+	C: "OO",2128483351120,2128483349200
 	
 	;Texture::マップ #1, Material::01 - Default
-	C: "OP",2686033866752,2686033863872, "DiffuseColor"
+	C: "OP",2128483360240,2128483335760, "DiffuseColor"
 	
 	;Texture::マップ #2, Material::01 - Default
-	C: "OP",2686033872512,2686033863872, "NormalMap"
+	C: "OP",2128483357840,2128483335760, "NormalMap"
 	
 	;Video::マップ #1, Texture::マップ #1
-	C: "OO",2686033883552,2686033866752
+	C: "OO",2128483360720,2128483360240
 	
 	;Video::マップ #2, Texture::マップ #2
-	C: "OO",2686033864352,2686033872512
+	C: "OO",2128483332400,2128483357840
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304578880,2685589174000, "d|X"
+	C: "OP",2128618072784,2128478373152, "d|X"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304575200,2685589174000, "d|Y"
+	C: "OP",2128618073584,2128478373152, "d|Y"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304582080,2685589174000, "d|Z"
+	C: "OP",2128618075024,2128478373152, "d|Z"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304583520,2685589171920, "d|X"
+	C: "OP",2128618083504,2128478377520, "d|X"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304584160,2685589171920, "d|Y"
+	C: "OP",2128618082224,2128478377520, "d|Y"
 	
 	;AnimCurve::, AnimCurveNode::R
-	C: "OP",2685304579360,2685589171920, "d|Z"
+	C: "OP",2128618082704,2128478377520, "d|Z"
 }
 ;Takes section
 ;----------------------------------------------------
