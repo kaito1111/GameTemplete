@@ -43,4 +43,5 @@ void Game::OnDestroy()
 	DeleteGO(m_Camera);
 	DeleteGO(m_EnemySpawner);
 	DeleteGO(m_ArcherSpawner);
+	DeleteGO(m_BossSpawner);
 }
