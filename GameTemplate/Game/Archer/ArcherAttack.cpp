@@ -29,7 +29,9 @@ void ArcherAttack::Update()
 	m_Position.y = 0;
 	CVector3 Diff = m_Position - m_Player->GetPosition();
 	if (Diff.Length() < Aria) {
-		if (m_Player->GetMutekiFlame() < 0) {
+		if (m_Player->GetState() < Player::State::Damage&&
+			m_Player->GetState() < Player::State::Roling&&
+			m_Player->GetState() < Player::State::GameClear) {
 			m_Player->HitDamage(Damage);
 		}
 	}
