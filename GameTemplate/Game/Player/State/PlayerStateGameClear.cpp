@@ -4,6 +4,6 @@
 
 void PlayerStateGameClear::Update() {
 	if (m_HuntedSprite == nullptr) {
-		m_HuntedSprite = NewGO<HuntedSprite>(0);
+		
 	}
 }

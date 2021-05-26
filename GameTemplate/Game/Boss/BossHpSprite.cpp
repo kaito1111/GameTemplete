@@ -28,7 +28,8 @@ void BossHpSprite::Update()
 	}
 	else {
 		HpScale.x = m_Hp / m_MaxHp;
-		m_TopHpSprite->SetPivot({ SpriteRender::Left(), SpriteRender::Up() });
+		m_TopHpSprite->SetPivot({ SpriteRender::Left(), 0.5f });
+		m_TopHpSprite->SetPosition({ 891.0f,-390.0f,0.0f });
 	}
 	m_TopHpSprite->SetScale(HpScale*MaxHpScale);
 }

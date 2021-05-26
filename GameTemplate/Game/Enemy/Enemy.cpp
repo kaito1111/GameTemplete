@@ -22,21 +22,6 @@ namespace {
 	const float SpriteSize = 0.025f;			//hpのサイズを調整	
 	const float EnemyMaxHp = 62.5;
 }
-Enemy::Enemy()
-{
-}
-
-Enemy::~Enemy()
-{
-}
-
-void Enemy::OnDestroy()
-{
-	//この敵に関係するインスタンスを削除
-	DeleteGO(m_HpTopSprite);
-	DeleteGO(m_HpUnderSprite);
-}
-
 
 void Enemy::HitDamage(const float damege) {
 	//死んでないならHpを減らす
@@ -67,7 +52,7 @@ bool Enemy::Start()
 	CharacterInit(L"Skeleton.cmo", radius, m_height, m_ModelPos);
 
 	//HPのスプライトを初期化
-	InitHpSprite(m_Hp, HpScale::PlayerHP);
+	InitHpSprite(EnemyMaxHp, HpScale::PlayerHP);
 
 	//アニメーションを初期化
 	AnimetionInit();

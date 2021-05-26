@@ -23,12 +23,12 @@ void SceneChangeLocation::Update()
 		//もしプレイヤーが範囲に入っていれば
 		if (Diff.Length() < m_Eria) {
 			//フェードを出す
-			m_Fade = NewGO<Fade>(0, "fade");
+			m_Fade = NewGO<Fade>(5, "fade");
 		}
 	}
 	else {
 		//もしフェードの透明度が1.0以上なら
-		if (m_Fade->GetAlpha() < 1.0f) {
+		if (m_Fade->GetAlpha() > 1.0f) {
 			if (wcscmp(m_FilePath, L"Assets/level/StageLevel.tkl") == 0) {
 				Game* game = FindGO<Game>("game");
 				int PlayerHP = game->GetPlayerHp();

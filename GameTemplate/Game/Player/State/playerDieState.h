@@ -1,6 +1,7 @@
 #pragma once
 #include "Player/State/IPlayerState.h"
 #include "Player/DieSprite.h"
+class ReSetGame;
 class Fade;
 class PlayerDieState : public IPlayerState
 {
@@ -15,7 +16,7 @@ public:
 private:
 	void ReStart();
 	DieSprite* m_DieSprite = nullptr;
-	Fade* m_fade = nullptr;
-	int m_Rezult = 0;
+	int m_Rezult = 0; 
+	ReSetGame* m_resetGame = nullptr;
 };
 

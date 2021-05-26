@@ -65,7 +65,7 @@ void Stage::Load(wchar_t * filePath)
 		//Wall* wall = NewGO<Wall>(0);
 		//wall->SetPosition(funclevel.position);
 
-		if (wcscmp(funclevel.name, L"keleton") == 0) {
+		if (wcscmp(funclevel.name, L"Skeleton") == 0) {
 			return true;
 		}
 		if (wcscmp(funclevel.name, L"Archer") == 0) {

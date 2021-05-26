@@ -15,19 +15,16 @@ void PlayerDieState::Update()
 
 void PlayerDieState::ReStart()
 {
-	if (m_DieSprite->GetRezult() == 0) {
-		m_fade = NewGO<Fade>(0);
-		m_Rezult = m_DieSprite->GetRezult();
-	}
-	if (m_fade != nullptr) {
-		if (m_fade->GetAlpha() >= 1.0f) {
-			NewGO<ReSetGame>(0);
-		}
+	if (
+		m_DieSprite->GetRezult() == 0&&
+		m_resetGame==nullptr
+		) {
+		m_resetGame = NewGO<ReSetGame>(0);
 	}
 }
 
 PlayerDieState::~PlayerDieState()
-{	
+{
 	if (m_DieSprite != nullptr) {
 		DeleteGO(m_DieSprite);
 	}

@@ -5,6 +5,8 @@
 #include "Player/Player.h"
 #include "Boss/Boss.h"
 
+namespace {
+}
 PlayerAttack::PlayerAttack()
 {
 }
@@ -17,7 +19,7 @@ bool PlayerAttack::Start()
 {
 	m_AttackModel = NewGO<SkinModelRender>(0);
 	m_AttackModel->Init(L"DebugShere.cmo");
-	m_AttackModel->SetPosition(m_Position);
+	m_AttackModel->SetPosition(m_AttackPos);
 	m_AttackModel->SetScale({ m_Aria, m_Aria, 1.0f });
 	return true;
 }
@@ -25,7 +27,7 @@ bool PlayerAttack::Start()
 void PlayerAttack::Update()
 {
 	QueryGOs<Enemy>("enemy", [&](Enemy* enemy)->bool {
-		CVector3 toEnemyPos = enemy->GetPosition() - m_Position;
+		CVector3 toEnemyPos = enemy->GetPosition() - m_AttackPos;
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
@@ -36,7 +38,7 @@ void PlayerAttack::Update()
 		return true;
 	});
 	QueryGOs<Archer>("archer", [&](Archer* archer)->bool {
-		CVector3 toEnemyPos = archer->GetPosition() - m_Position;
+		CVector3 toEnemyPos = archer->GetPosition() - m_AttackPos;
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
@@ -47,11 +49,13 @@ void PlayerAttack::Update()
 		return true;
 	});
 	QueryGOs<Boss>("Boss", [&](Boss* boss)->bool {
-		CVector3 toBossPos = boss->GetPosition() - m_Position;
+		CVector3 toBossPos = boss->GetPosition() - m_AttackPos;
 		toBossPos.y = 0.0f;
-		if (!m_Hit) {
-			boss->HitDamage(m_Attack);
-			m_Hit = true;
+		if (toBossPos.Length() < m_Aria) {
+			if (!m_Hit) {
+				boss->HitDamage(m_Attack);
+				m_Hit = true;
+			}
 		}
 		return true;
 	});

@@ -3,7 +3,7 @@
 
 namespace {
 	float addSpriteAlpha = 0.01f;
-	float priority = 0;
+	float priority = 5;
 }
 
 bool DieSprite::Start()
@@ -16,11 +16,11 @@ bool DieSprite::Start()
 	m_LogoSprite->Init(L"PlayerDieLogo.dds");
 	m_LogoSprite->SetAlpha(m_LogoAlpha);
 
-	m_PlayerDieChoicesSprite = NewGO<SpriteRender>(0);
+	m_PlayerDieChoicesSprite = NewGO<SpriteRender>(priority + 1);
 	m_PlayerDieChoicesSprite->Init(L"PlayerDieChoices.dds");
 	m_PlayerDieChoicesSprite->SetAlpha(m_ChoicesAlpha);
 
-	m_ChoicesIConSprite = NewGO<SpriteRender>(0);
+	m_ChoicesIConSprite = NewGO<SpriteRender>(priority + 1);
 	m_ChoicesIConSprite->Init(L"ChoicesIcon.dds");
 	m_ChoicesIConSprite->SetAlpha(m_ChoicesAlpha);
 	return true;

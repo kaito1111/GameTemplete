@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "system/system.h"
 #include "Game.h"
+#include "Player/HuntedSprite.h"
+#include "Fade.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -21,9 +23,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
 	Game* game = NewGO<Game>(0,"game");
-	game->SetLevelFilePath(L"StageBoss.tkl");
-	
-	//Fade* fade = NewGO<Fade>(0);
+	game->SetLevelFilePath(L"StageLevel.tkl");
+	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
+	//SkinModelRender* testmodel = NewGO<SkinModelRender>(0);
+	//testmodel->Init(L"Player.cmo");
+	Fade* fade = nullptr;
 	Stopwatch m_sw;
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -42,7 +46,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//Rot.SetRotationDeg(CVector3::AxisY(), 180.0f);
 		//sprite.Update(/*CVector3::Zero(), CQuaternion::Identity(), CVector3::One()*/);
 		//sprite.Draw(g_camera2D.GetViewMatrix(),g_camera2D.GetProjectionMatrix());
-
+		//g_camera2D.Update();
+		//g_camera3D.Update();
 		CGameObjectManager()->ExcuteGame();
 
 		//描画終了。
