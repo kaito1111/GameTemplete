@@ -22,7 +22,7 @@ public:
 
 	bool Start()override;//初期化関数を呼ぶ場所
 	void Update()override;//更新関数を呼ぶ場所
-
+	void OnDestroy()override;
 	//ステート先でアニメーションをプレイする。
 	void PlayAnimation() {
 		m_Animation.Update(gameTime().GetFrameDeltaTime());

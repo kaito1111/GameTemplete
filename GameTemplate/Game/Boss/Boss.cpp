@@ -15,7 +15,7 @@ namespace {
 	const float InPlayer = 200.0f;	//プレイヤーが攻撃範囲内にいるかどうかに使う
 	const float Damage = 15.0f;		//ダメージ
 	const float Eria = 70.0f;		//攻撃範囲
-	const float BossMaxHp = 10.0f;	//ボス最大のHP
+	const float BossMaxHp = 1.0f;	//ボス最大のHP
 	const float HpSpriteSizeX = 1.5625f;
 
 	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
@@ -48,13 +48,26 @@ bool Boss::Start() {
 
 void Boss::Update()
 {
+	//状態を変更
 	ChengeState(m_NextState);
+	//現在の状態を更新
 	m_ActiveState->Update();
+	//Animationをプレイ
 	m_Animation.Play(m_CurrentState);
+	//咆哮を更新
 	RoarUpdate();
+	//Boss用のスプライトにHpを設定
+	m_BossSprite->SetHp(m_Hp);
+	//CharactorクラスのHpバーの更新
 	SpriteUpdate();
-
+	//前方向を更新
 	ForwardUpdate();
+}
+
+void Boss::OnDestroy()
+{
+	DeleteGO(m_HitModel);
+	DeleteGO(m_BossSprite);
 }
 
 void Boss::IsChengeAttackState()
@@ -102,6 +115,7 @@ void Boss::ChengeState(const State& state)
 	case State::Die:
 		m_ActiveState = new BossDieState(this);
 		m_HpUnderSprite->SetAlpha(HpSpriteDead);
+		m_CurrentState = state;
 	default:
 		break;
 	}
