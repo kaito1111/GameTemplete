@@ -58,12 +58,16 @@
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\2D\SampleSprite.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="sound\SoundSource.cpp" />
+    <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Timer\GameTime.cpp" />
     <ClCompile Include="Timer\Stopwatch.cpp" />
+    <ClCompile Include="sound\WaveFile.cpp" />
+    <ClCompile Include="sound\WaveFileBank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="graphics\GPUBuffer\ConstantBufferGPU.h" />
@@ -108,11 +112,15 @@
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\2D\SampleSprite.h" />
     <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="sound\SoundSource.h" />
+    <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="system\system.h" />
     <ClInclude Include="Timer\GameTime.h" />
     <ClInclude Include="Timer\Stopwatch.h" />
     <ClInclude Include="util\Util.h" />
+    <ClInclude Include="sound\WaveFile.h" />
+    <ClInclude Include="sound\WaveFileBank.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

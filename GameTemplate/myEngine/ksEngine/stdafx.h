@@ -12,6 +12,9 @@
 #include <map>
 #include <functional>
 #include <algorithm>
+#include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 
 #include "btBulletDynamicsCommon.h"
 #include "BulletCollision\CollisionDispatch\btGhostObject.h"
@@ -58,5 +61,7 @@ static const int MAX_BONE = 512;	//!<ƒ{[ƒ“‚ÌÅ‘å”B
 #include "graphics/ChangeRenderTarget.h"
 #include "Timer/GameTime.h"
 #include "Timer/Stopwatch.h"
+#include "sound/SoundEngine.h"
+#include "sound/SoundSource.h"
 
 using namespace ksEngine;

@@ -44,6 +44,10 @@
     <ClCompile Include="graphics\GaussianBlur.cpp" />
     <ClCompile Include="Timer\GameTime.cpp" />
     <ClCompile Include="Timer\Stopwatch.cpp" />
+    <ClCompile Include="sound\SoundEngine.cpp" />
+    <ClCompile Include="sound\SoundSource.cpp" />
+    <ClCompile Include="sound\WaveFile.cpp" />
+    <ClCompile Include="sound\WaveFileBank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -93,5 +97,9 @@
     <ClInclude Include="graphics\GaussianBlur.h" />
     <ClInclude Include="Timer\GameTime.h" />
     <ClInclude Include="Timer\Stopwatch.h" />
+    <ClInclude Include="sound\SoundEngine.h" />
+    <ClInclude Include="sound\SoundSource.h" />
+    <ClInclude Include="sound\WaveFile.h" />
+    <ClInclude Include="sound\WaveFileBank.h" />
   </ItemGroup>
 </Project>

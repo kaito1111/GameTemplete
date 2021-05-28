@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Player/HuntedSprite.h"
 #include "Fade.h"
+#include "sound/SoundEngine.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -22,6 +23,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CGameObjectManager()->Init();
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
+	
+	SoundEngine soundEngine;
+	//サウンドエンジンを初期化。
+	soundEngine.Init();
+
 	Game* game = NewGO<Game>(0,"game");
 	game->SetLevelFilePath(L"StageLevel.tkl");
 	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
@@ -50,6 +56,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//g_camera3D.Update();
 		CGameObjectManager()->ExcuteGame();
 
+		//サウンドエンジンを更新。
+		soundEngine.Update();
 		//描画終了。
 		g_graphicsEngine->EndRender();
 
