@@ -38,6 +38,7 @@ public:
 	/// </summary>
 	/// <param name="filePath">
 	/// ファイルパス。対応しているファイルフォーマット(*.wave)
+	/// L"Assets/sound"はいらない
 	/// </param>
 	void Init(wchar_t* filePath);
 	/// <summary>
@@ -75,8 +76,9 @@ public:
 	/// <param name="isLoop">
 	/// ループ再生フラグ。
 	/// このフラグがfalseの場合はワンショット再生となります。
+	/// デフォルトはfalse
 	/// </param>
-	void Play(bool isLoop);
+	void Play(bool isLoop = false);
 
 	/// <summary>
 	/// 停止

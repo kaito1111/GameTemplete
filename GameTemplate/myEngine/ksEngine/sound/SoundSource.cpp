@@ -22,11 +22,13 @@ void SoundSource::InitCommon()
 }
 void SoundSource::Init(wchar_t* filePath)
 {
+	wchar_t fileName[256] = L"Assets/sound/";
+	wcscat(fileName, filePath);
 	m_isAvailable = false;
-	m_waveFile = g_soundEngine->GetWaveFileBank().FindWaveFile(0, filePath);
+	m_waveFile = g_soundEngine->GetWaveFileBank().FindWaveFile(0, fileName);
 	if (!m_waveFile) {
 		m_waveFile.reset(new WaveFile);
-		bool result = m_waveFile->Open(filePath);
+		bool result = m_waveFile->Open(fileName);
 		if (result == false) {
 			//waveファイルの読み込みに失敗。
 			g_soundEngine->GetWaveFileBank().UnregistWaveFile(0, m_waveFile);

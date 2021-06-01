@@ -6,7 +6,6 @@ class PlayerStateRun : public IPlayerState
 public: 
 	PlayerStateRun(Player* pl) :
 		IPlayerState(pl) {
-
 	}
 	
 	/// <summary>
@@ -22,5 +21,7 @@ public:
 	{
 		return true;
 	}
+private:
+	SoundSource m_sound;
 };
 

@@ -50,6 +50,8 @@ bool Player::Start()
 	//z‚Íƒ[ƒ‹ƒh‹óŠÔ‚Å‚Ì‚™‚É‚ ‚½‚é
 	//y‚Íl—¶‚µ‚È‚¢
 	m_HitModel->SetScale({ radius, radius, 1.0f });
+	m_WalkSound.Init(L"Walk.wav");
+	m_WalkSound2.Init(L"Walk.wav");
 	return true;
 }
 void Player::OnAnimEvent(const wchar_t* eventName)
@@ -104,6 +106,12 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 	}
 	if (wcscmp(eventName, L"RollAttackEnd") == 0) {
 		DeleteGO("playerAttack");
+	}
+	if (wcscmp(eventName, L"WalkSound") == 0) {
+		m_WalkSound.Play();
+	}
+	if (wcscmp(eventName, L"WalkSound2") == 0) {
+		m_WalkSound2.Play();
 	}
 }
 

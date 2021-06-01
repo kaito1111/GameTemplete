@@ -217,5 +217,7 @@ private:
 
 	CVector3 m_SpownPosition = CVector3::Zero();//‰ŠúˆÊ’u
 	HuntedSprite* m_HuntedSprite = nullptr;
+	SoundSource m_WalkSound;
+	SoundSource m_WalkSound2;
 };
 
