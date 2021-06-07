@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "Fade.h"
+#include "Game.h"
 
 bool Fade::Start()
 {
-	m_FadeSprite = NewGO<SpriteRender>(1);
+	m_FadeSprite = NewGO<SpriteRender>(5);
 	m_FadeSprite->Init(L"Brack.dds");
 	m_FadeSprite->SetAlpha(m_Alpha);
-	m_LodingSprite = NewGO<SpriteRender>(1);
+	m_LodingSprite = NewGO<SpriteRender>(6);
 	m_LodingSprite->Init(L"Loading.dds", 250.0f, 250.0f);
 	m_LodingSprite->SetPosition(m_LodingSpritePos);
 	return true;
@@ -40,6 +41,8 @@ void Fade::Update()
 	m_FadeSprite->SetAlpha(m_Alpha);
 	//アルファ値がマイナスなので役目が終了
 	if (m_Alpha < 0.0f) {
+		Game* game = FindGO<Game>("game");
+		game->SetUpdateFlag(true);
 		DeleteGO(this);
 	}
 	//フェード中はゲームカメラも消す可能性があるから

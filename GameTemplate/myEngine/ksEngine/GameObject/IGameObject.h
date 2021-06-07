@@ -47,9 +47,12 @@ namespace ksEngine {
 		bool IsNewFromGameObjectManager() const {
 			return m_IsNewFromGameObjectManajer;
 		}
+		void SetUpdateFlag(bool isUpdate) {
+			m_IsUpdate = isUpdate;
+		}
 	public:
 		void UpdateWrapper() {
-			if (m_IsActive&&m_IsStart && !m_IsDead && !m_IsRegistDeadList) {
+			if (m_IsActive&&m_IsStart &&m_IsUpdate && !m_IsDead && !m_IsRegistDeadList) {
 				Update();
 			}
 		}
@@ -83,6 +86,7 @@ namespace ksEngine {
 	protected:
 		GameObjectPrio m_priority = 0;//実行優先度
 		bool m_IsStart = false;//スタートフラグ
+		bool m_IsUpdate = true;//アップデートフラグ
 		bool m_IsDead = false;//デッドフラグ
 		bool m_IsActive = true;//アクティブフラグ
 		bool m_IsRegistDeadList = false;//死亡リストに積まれているか
