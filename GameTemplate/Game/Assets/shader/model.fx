@@ -30,6 +30,7 @@ cbuffer VSPSCb : register(b0) {
 	//todo ライトビュー行列を追加。
 	float4x4 mLightView;	//ライトビュー行列。
 	float4x4 mLightProj;	//ライトプロジェクション行列。
+	float3 emissionColor;	//自己発光色。
 };
 
 /// <summary>
@@ -221,6 +222,8 @@ float4 PSMain(PSInput In) : SV_Target0
 	}
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;
+	//自己発光を加算。
+	finalColor.xyz += emissionColor;
 	return finalColor;
 }
 

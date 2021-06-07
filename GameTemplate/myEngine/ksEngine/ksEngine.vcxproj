@@ -58,6 +58,7 @@
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\2D\SampleSprite.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
+    <ClCompile Include="SkyCube\Sky.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -112,6 +113,7 @@
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\2D\SampleSprite.h" />
     <ClInclude Include="ShadowMap.h" />
+    <ClInclude Include="SkyCube\Sky.h" />
     <ClInclude Include="sound\SoundSource.h" />
     <ClInclude Include="sound\SoundEngine.h" />
     <ClInclude Include="stdafx.h" />
@@ -179,6 +181,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(ProjectDir)/\effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -63,5 +63,6 @@ static const int MAX_BONE = 512;	//!<ƒ{[ƒ“‚ÌÅ‘å”B
 #include "Timer/Stopwatch.h"
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
+#include "SkyCube/Sky.h"
 
 using namespace ksEngine;

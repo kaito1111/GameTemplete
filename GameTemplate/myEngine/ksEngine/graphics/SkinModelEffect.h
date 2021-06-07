@@ -25,6 +25,7 @@ protected:
 	ID3D11DepthStencilView* m_depthStencilView;
 
 	ID3D11ShaderResourceView* m_ShadowMapTexture = nullptr;
+	ID3D11ShaderResourceView* m_diffuseTex = nullptr;
 public:
 	ModelEffect()
 	{
@@ -54,6 +55,9 @@ public:
 		}
 		if (m_silhouettoDepthStepsilState != nullptr) {
 			m_silhouettoDepthStepsilState->Release();
+		}
+		if (m_diffuseTex) {
+			m_diffuseTex->Release();
 		}
 	}
 	void __cdecl Apply(ID3D11DeviceContext* deviceContext) override;
@@ -96,6 +100,15 @@ public:
 	{
 		m_albedoTextureStackPos--;
 		SetAlbedoTexture(m_albedoTextureStack[m_albedoTextureStackPos]);
+	}
+
+	void SetRender3DModelPSShader(ksEngine::Shader& psShader)
+	{
+		m_pPSShader = &psShader;
+	}
+	void SetDiffuseTexture(ID3D11ShaderResourceView* tex)
+	{
+		m_diffuseTex = tex;
 	}
 };
 /*!

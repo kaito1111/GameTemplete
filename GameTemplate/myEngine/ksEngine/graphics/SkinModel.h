@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Skeleton.h"
-class Shader;
 #include "graphics/RenderTarget.h"
+class Shader;
 class ModelEffect;
 
 /*!
@@ -109,6 +109,29 @@ public:
 			func(reinterpret_cast<ModelEffect*>(material));
 		});
 	}
+	typedef std::function<void(std::unique_ptr<DirectX::ModelMeshPart>&)>		OnFindMesh;
+	void FindMesh(OnFindMesh findMesh) const
+	{
+		if (m_modelDx != nullptr) {
+			for (auto& modelMeshs : m_modelDx->meshes) {
+				for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : modelMeshs->meshParts) {
+					findMesh(mesh);
+				}
+			}
+		}
+	}
+	void FindMaterial(std::function<void(ModelEffect*)> findMaterial) const
+	{
+		FindMesh([&](auto& mesh) {
+			ModelEffect* effect = reinterpret_cast<ModelEffect*>(mesh->effect.get());
+			findMaterial(effect);
+		});
+	}
+	// 自己発光色を設定。
+	void SetEmissionColor(CVector3 color)
+	{
+		m_emissionColor = color;
+	}
 private:
 	/*!
 	*@brief	サンプラステートの初期化。
@@ -137,6 +160,7 @@ private:
 		CMatrix mView;
 		CMatrix mProj;
 		CMatrix mLightView;		//todo ライトビュー行列。
+		CVector3 emissionColor;	//!<自己発光色。
 		CMatrix mLightProj;		//todo ライトプロジェクション行列。
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
@@ -150,11 +174,11 @@ private:
 	ID3D11Buffer* m_light = nullptr;
 	Light m_dirLight;
 
-	ID3D11ShaderResourceView* m_albedoTexture = nullptr;
 	ksEngine::Shader m_psSilhouette;
 	int m_renderMode = 0;
 	ID3D11DepthStencilState* m_silhouettoDepthStepsilState = nullptr;	//シルエット描画用のデプスステンシルステート。
 
 	RenderTarget m_renderTarget;
+	CVector3 m_emissionColor = CVector3::Zero();				//自己発光カラー。
 };
 

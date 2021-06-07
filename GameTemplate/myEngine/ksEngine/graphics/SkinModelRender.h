@@ -27,6 +27,16 @@ namespace ksEngine {
 
 		 void SetRenderMode(int rm) {
 			 m_RenderMode = rm;
+		 }		
+		 //	モデルマテリアルの検索。
+		 //param[in]	findEffect		マテリアルを見つけた時に呼ばれるコールバック関数
+		 void FindMaterial(std::function<void(ModelEffect*)> findMaterial) const
+		 {
+			 m_SkinModel.FindMaterial(findMaterial);
+		 }
+		 void SetEmissionColor(CVector3 color)
+		 {
+			 m_SkinModel.SetEmissionColor(color);
 		 }
 	private:
 		void Update();

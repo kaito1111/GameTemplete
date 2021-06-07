@@ -80,6 +80,14 @@ namespace ksEngine {
 		void SetIsFaceCamera(bool isFace) {
 			m_IsFaceCamera = isFace;
 		}
+		void CreateFromDDSTextureFromFile(const wchar_t* fileName);
+		void AddRef() {
+			m_TextureSRV->AddRef();
+		}
+		ID3D11ShaderResourceView*& GetBody()
+		{
+			return m_TextureSRV;
+		}
 	private:
 		/// <summary>
 		/// ‰Šú‰»‚Ì‹¤’Êˆ—B
@@ -91,7 +99,6 @@ namespace ksEngine {
 		void CreateConstantBuffer();
 		void InitTranslucentBlendState();
 		void InitShader();
-		void CreateFromDDSTextureFromFile(const wchar_t* fileName);
 		void SetVertexBuffer();
 		void SetWorld();
 		void SetWVP(const CMatrix & viewMatrix, const CMatrix & projMatrix);
