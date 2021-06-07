@@ -64,6 +64,7 @@ bool Archer::Start()
 
 	//ŠG‚ğ‰Šú‰»
 	InitHpSprite(MaxHp,HpScale::EnemyHP);
+
 	return true;
 }
 

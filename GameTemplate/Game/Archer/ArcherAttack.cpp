@@ -21,6 +21,8 @@ bool ArcherAttack::Start()
 	m_Model->SetScale(scale);
 
 	m_Player = FindGO<Player>("player");
+
+	m_DrawSound.Init(L"DamageArrow.wav");
 	return true;
 }
 
@@ -32,6 +34,7 @@ void ArcherAttack::Update()
 		if (m_Player->GetState() < Player::State::Damage&&
 			m_Player->GetState() < Player::State::Roling&&
 			m_Player->GetState() < Player::State::GameClear) {
+			m_DrawSound.Play();
 			m_Player->HitDamage(Damage);
 		}
 	}
