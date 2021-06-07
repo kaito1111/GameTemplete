@@ -15,7 +15,7 @@ namespace {
 	const float InPlayer = 200.0f;	//プレイヤーが攻撃範囲内にいるかどうかに使う
 	const float Damage = 15.0f;		//ダメージ
 	const float Eria = 70.0f;		//攻撃範囲
-	const float BossMaxHp = 1.0f;	//ボス最大のHP
+	const float BossMaxHp = 300.0f;	//ボス最大のHP
 	const float HpSpriteSizeX = 1.5625f;
 
 	const float hpSpriteSizeY = 10.0f;	//スプライトの縦幅
@@ -26,7 +26,7 @@ namespace {
 	float Hight = 0.0f;
 	//HPをちょっと上に置く
 	const float HpPosUp = 30.0f;
-	const float HpSpriteDead = 0.0f;//ボスyが死んだときにHpバーを見えなくする
+	const float HpSpriteDead = 0.0f;//ボスが死んだときにHpバーを見えなくする
 }
 
 bool Boss::Start() {
@@ -43,6 +43,9 @@ bool Boss::Start() {
 
 	InitHpSprite(BossMaxHp, HpScale::BossHP);
 	InitSprite();
+	m_RoarSound.Init(L"RoarSound.wav");
+	m_HpTopSprite->SetAlpha(0.0f);
+	m_HpUnderSprite->SetAlpha(0.0f);
 	return true;
 }
 
@@ -110,8 +113,6 @@ void Boss::ChengeState(const State& state)
 		m_HaveAttack = nullptr;
 		m_CurrentState = state;
 		break;
-	//case State::Down:
-	//	m_ActiveState=new Boss
 	case State::Die:
 		m_ActiveState = new BossDieState(this);
 		m_HpUnderSprite->SetAlpha(HpSpriteDead);
@@ -164,6 +165,9 @@ void Boss::OnAnimEvent(const wchar_t * eventName)
 		//攻撃判定を消す
 		DeleteGO(m_HaveAttack);
 		m_HaveAttack = nullptr;
+	}
+	if (wcscmp(eventName, L"RoorSound") == 0) {
+		m_RoarSound.Play();
 	}
 }
 

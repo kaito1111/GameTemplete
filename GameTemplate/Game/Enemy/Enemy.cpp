@@ -21,6 +21,7 @@ namespace {
 	const float SpriteClear = 0.0f;	//スプライトを透明にする
 	const float SpriteSize = 0.025f;			//hpのサイズを調整	
 	const float EnemyMaxHp = 62.5;
+	const float EnemyScale = 4.5f;
 }
 
 void Enemy::HitDamage(const float damege) {
@@ -42,7 +43,7 @@ void Enemy::HitDamage(const float damege) {
 bool Enemy::Start()
 {
 	//モデルの大きさを調整
-	m_ModelScale *= 10.0f;
+	m_ModelScale *= EnemyScale;
 	//プレイヤーのポインタを見つける
 	m_Player = FindGO<Player>("player");
 	//初期位置を設定
@@ -59,6 +60,10 @@ bool Enemy::Start()
 
 	//初期化でIdleStateを設定
 	m_ActiveState = new EnemyIdleState(this);
+	m_WalkSound.Init(L"EnemyWalk.wav");
+	m_SwingSound.Init(L"EnemySwingSword.wav");
+	//m_WalkSound.Play(true);
+	//m_WalkSound.SetVolume(0.0f);
 	return true;
 }
 void Enemy::AnimetionInit()
@@ -94,6 +99,15 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 		DeleteGO(m_HaveAttack);
 		m_HaveAttack = nullptr;
 	}
+	if (wcscmp(eventName, L"WalkSound1") == 0) {
+		m_WalkSound.Play();
+	}
+	if (wcscmp(eventName, L"WalkSound2") == 0) {
+		m_WalkSound.Play();
+	}
+	//if (wcscmp(eventName, L"SwingSound") == 0) {
+	//	m_WalkSound.Play();
+	//}
 }
 
 void Enemy::ChangeState(int st)

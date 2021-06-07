@@ -182,6 +182,10 @@
     <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\Grass.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ground.fbx" />
+    <MeshContentTask Include="Assets\modelData\Sky.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\discode_icon.png" />

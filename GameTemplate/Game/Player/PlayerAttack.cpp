@@ -21,6 +21,7 @@ bool PlayerAttack::Start()
 	m_AttackModel->Init(L"DebugShere.cmo");
 	m_AttackModel->SetPosition(m_AttackPos);
 	m_AttackModel->SetScale({ m_Aria, m_Aria, 1.0f });
+	m_DamageSound.Init(L"PlayerAtack.wav");
 	return true;
 }
 
@@ -31,6 +32,7 @@ void PlayerAttack::Update()
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
+				m_DamageSound.Play();
 				enemy->HitDamage(m_Attack);
 				m_Hit = true;
 			}
@@ -42,6 +44,7 @@ void PlayerAttack::Update()
 		toEnemyPos.y = 0.0f;
 		if (toEnemyPos.Length() < m_Aria) {
 			if (!m_Hit) {
+				m_DamageSound.Play();
 				archer->HitDamage(m_Attack);
 				m_Hit = true;
 			}
@@ -53,6 +56,7 @@ void PlayerAttack::Update()
 		toBossPos.y = 0.0f;
 		if (toBossPos.Length() < m_Aria) {
 			if (!m_Hit) {
+				m_DamageSound.Play();
 				boss->HitDamage(m_Attack);
 				m_Hit = true;
 			}

@@ -29,6 +29,8 @@ bool Game::Start()
 	m_ArcherSpawner->SetFilePath(m_LevelFilePath);
 	m_BossSpawner = NewGO<BossSpawn>(0);
 	m_BossSpawner->SetFilePath(m_LevelFilePath);
+	m_BGM.Init(L"bgm.wav");
+	m_BGM.Play(true);
 	return true;
 }
 

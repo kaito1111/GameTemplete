@@ -52,6 +52,7 @@ bool Player::Start()
 	m_HitModel->SetScale({ radius, radius, 1.0f });
 	m_WalkSound.Init(L"Walk.wav");
 	m_WalkSound2.Init(L"Walk.wav");
+	m_SwingSound.Init(L"SwingSword.wav");
 	return true;
 }
 void Player::OnAnimEvent(const wchar_t* eventName)
@@ -68,6 +69,7 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 		m_ComboAttack = false;
 	}
 	if (wcscmp(eventName, L"AttackJubgmentStart1") == 0) {
+		m_SwingSound.Play();
 		PlayerAttack* PlAttack = NewGO<PlayerAttack>(0, "playerAttack");
 		const float AttackDamage = 20.0f;
 		const float AttackEria = 75.0f;
@@ -252,7 +254,6 @@ void Player::ChangeState(int state)
 	case State::Roling:	//バックステップ中。
 		delete m_currentState;
 		m_currentState = new PlayerStateBackStep(this);
-		
 		break;
 	case State::Attack:
 		delete m_currentState;

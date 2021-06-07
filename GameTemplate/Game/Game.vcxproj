@@ -95,7 +95,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;dxguid.lib;ksEngine.lib;Effekseer.Release.lib;EffekseerRendererDX11.Release.lib</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;d3d11.lib;d3dcompiler.lib;%(AdditionalDependencies);xinput.lib;BulletCollision.lib;BulletDynamics.lib;LinearMath.lib;dxguid.lib;ksEngine.lib;Effekseer.Release.lib;EffekseerRendererDX11.Release.lib;Winmm.lib;XAudio2.lib</AdditionalDependencies>
     </Link>
     <ImageContentTask>
       <ContentOutput>$(ProjectDir)\Resource\sprite\%(Filename).dds</ContentOutput>
@@ -235,12 +235,16 @@
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Door.FBX" />
     <MeshContentTask Include="Assets\modelData\Floor.FBX" />
+    <MeshContentTask Include="Assets\modelData\Grass.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ground.fbx" />
+    <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\Sky.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Ceiling.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Floor.fbx" />

@@ -9,6 +9,7 @@ void Attack::Update()
 		if (m_Player->GetState() < Player::State::Damage&&
 			m_Player->GetState() < Player::State::Roling&&
 			m_Player->GetState() < Player::State::GameClear) {
+			m_DamageSound.Play();
 			m_Player->HitDamage(m_Damege);
 		}
 	}
