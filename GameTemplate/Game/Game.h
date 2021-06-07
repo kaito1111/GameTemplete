@@ -7,7 +7,7 @@ class GameCamera;
 #include "Archer/ArcherSpowner.h"
 #include "Boss/BossSpawn.h"
 
-class Game : public IGameObject
+class Game final : public IGameObject
 {
 public:
 	Game();
@@ -40,4 +40,5 @@ private:
 	ArcherSpowner* m_ArcherSpawner = nullptr;
 	BossSpawn* m_BossSpawner = nullptr;
 	SkinModel model;
+	SoundSource m_BGM;
 };

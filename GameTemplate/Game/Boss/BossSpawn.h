@@ -1,6 +1,6 @@
 #pragma once
 #include "Level/Level.h"
-class BossSpawn : public IGameObject
+class BossSpawn final : public IGameObject
 {
 public: 
 	~BossSpawn() {};//デストラクタ

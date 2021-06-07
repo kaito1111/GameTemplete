@@ -1,7 +1,7 @@
 #pragma once
 class Archer;
 class ArcherAttack;
-class Arrow : public IGameObject
+class Arrow final : public IGameObject
 {
 public:
 	//デストラクタ

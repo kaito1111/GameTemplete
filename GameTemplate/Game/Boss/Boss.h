@@ -4,7 +4,7 @@ class Player;
 #include "GameSceneFunction/AIProcesing.h"
 #include "character/CharacterController.h"
 #include "BossHpSprite.h"
-class Boss : public AIProcesing
+class Boss final : public AIProcesing
 {
 	//状態
 	enum State {
@@ -75,6 +75,8 @@ private:
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 
 	BossHpSprite* m_BossSprite = nullptr;
+
+	SoundSource m_RoarSound;
 private:
 	//ステートを変更する関数
 	void ChengeState(const State& state);

@@ -1,5 +1,5 @@
 #pragma once
-class DieSprite: public IGameObject
+class DieSprite final : public IGameObject
 {
 public:
 	~DieSprite() {};

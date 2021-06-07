@@ -4,7 +4,7 @@
 class IPlayerState;
 class HuntedSprite;
 
-class Player : public Anime
+class Player final : public Anime
 {
 public:
 	////状態の種類をenum化
@@ -114,6 +114,7 @@ public:
 	}
 	//ダメージを受けた
 	void HitDamage(const float damege) override{
+
 		//hpを減らす
 		m_Hp -= damege;
 		//ダメージ状態へ遷移
@@ -219,5 +220,6 @@ private:
 	HuntedSprite* m_HuntedSprite = nullptr;
 	SoundSource m_WalkSound;
 	SoundSource m_WalkSound2;
+	SoundSource m_SwingSound;
 };
 

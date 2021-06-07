@@ -1,5 +1,5 @@
 #pragma once
-class Floor : public IGameObject
+class Floor final : public IGameObject
 {
 public:
 	Floor() {};

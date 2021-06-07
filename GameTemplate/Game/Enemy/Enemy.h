@@ -5,7 +5,7 @@ class IEnemyState;
 #include "Player/Player.h"
 #include "GameSceneFunction/AIProcesing.h"
 //“G
-class Enemy :public AIProcesing
+class Enemy final :public AIProcesing
 {
 public:
 	//ó‘Ô‚Ìí—Ş‚ğenum‰»
@@ -43,6 +43,9 @@ public:
 	void TryChangeWalk() {
 		//true‚Å•à‚­
 		if (IsWalk()) {
+			if (!m_WalkSound.IsPlaying()) {
+				m_WalkSound.Play();
+			}
 			m_NextState = State::Walk;
 		}
 	}
@@ -98,5 +101,6 @@ private:
 	CVector3 m_AttackPos = CVector3::Zero();	//UŒ‚‚ÌêŠ
 
 	Player* m_Player = nullptr;
-
+	SoundSource m_WalkSound;
+	SoundSource m_SwingSound;
 };

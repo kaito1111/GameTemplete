@@ -1,6 +1,6 @@
 #pragma once
 #include "physics/PhysicsStaticObject.h"
-class PhysicsStageObject : public IGameObject
+class PhysicsStageObject final : public IGameObject
 {
 public:
 	PhysicsStageObject();

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameSceneFunction/Anime.h"
-class PlayerAttack: public IGameObject
+class PlayerAttack final : public IGameObject
 {
 public:
 	PlayerAttack();
@@ -21,4 +21,5 @@ private:
 	float m_Aria = 0.0f;
 	bool m_Hit = false;//UŒ‚‚ª‚P‰ñƒqƒbƒg‚µ‚½
 	SkinModelRender* m_AttackModel = nullptr;
+	SoundSource m_DamageSound;
 };

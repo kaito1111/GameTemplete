@@ -3,7 +3,7 @@
 #include "level/Level.h"
 class PhysicsStageObject;
 class Player;
-class Stage :public IGameObject
+class Stage final :public IGameObject
 {
 	//敵のポジションとローテーションを記憶
 	struct EnemyInfor {

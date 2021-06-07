@@ -1,6 +1,6 @@
 #pragma once
 class Fade;
-class Title : public IGameObject
+class Title final : public IGameObject
 {
 public :
 	bool Start();

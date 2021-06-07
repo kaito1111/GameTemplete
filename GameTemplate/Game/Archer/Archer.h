@@ -3,7 +3,7 @@
 #include "GameSceneFunction/AIProcesing.h"
 
 class Arrow;
-class Archer : public AIProcesing
+class Archer final : public AIProcesing
 {
 	//ó‘Ô‚Ìí—Ş‚ğenum‰»
 	enum State {

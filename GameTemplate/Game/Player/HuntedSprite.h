@@ -1,6 +1,6 @@
 #pragma once
 class Fade;
-class HuntedSprite :public IGameObject
+class HuntedSprite final :public IGameObject
 {
 public:
 	HuntedSprite() {};

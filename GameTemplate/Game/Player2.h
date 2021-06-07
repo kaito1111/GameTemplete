@@ -1,5 +1,5 @@
 #pragma once
-class Player2 :public IGameObject
+class Player2 final :public IGameObject
 {
 public:
 	Player2();

@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class ReturnLocatoin : public IGameObject
+class ReturnLocatoin final : public IGameObject
 {
 public:
 	ReturnLocatoin() {};

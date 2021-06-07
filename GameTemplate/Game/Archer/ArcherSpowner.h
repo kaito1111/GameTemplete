@@ -1,7 +1,7 @@
 #pragma once
 #include "level/Level.h"
 #include "Archer/Archer.h"
-class ArcherSpowner : public IGameObject
+class ArcherSpowner final : public IGameObject
 {
 public:
 	~ArcherSpowner() {};

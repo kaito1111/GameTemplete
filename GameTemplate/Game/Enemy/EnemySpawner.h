@@ -1,7 +1,7 @@
 #pragma once
 #include "Enemy/Enemy.h"
 #include "level/level.h"
-class EnemySpawner : public IGameObject
+class EnemySpawner final : public IGameObject
 {
 public:
 	EnemySpawner() {};

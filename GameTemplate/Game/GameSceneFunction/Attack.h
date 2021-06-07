@@ -3,7 +3,9 @@ class Player;
 class Attack : public IGameObject
 {
 public:
-	Attack() {};
+	Attack() {
+		m_DamageSound.Init(L"HitAttack.wav");
+	};
 	~Attack() {};
 	//èâä˙âª
 	void Init(float Damege, float Aria, const CVector3& pos) {
@@ -26,5 +28,6 @@ private:
 	Player* m_Player = nullptr;
 	CVector3 m_Position = CVector3::Zero();
 	SkinModelRender* m_AttackModel = nullptr;
+	SoundSource m_DamageSound;
 };
 

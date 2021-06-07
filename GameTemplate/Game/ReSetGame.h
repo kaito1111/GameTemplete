@@ -1,6 +1,6 @@
 #pragma once
 class Fade;
-class ReSetGame : public IGameObject
+class ReSetGame final : public IGameObject
 {
 public:
 	ReSetGame() {}

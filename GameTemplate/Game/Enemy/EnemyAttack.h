@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class EnemyAttack : public IGameObject
+class EnemyAttack final : public IGameObject
 {
 public:
 	EnemyAttack();

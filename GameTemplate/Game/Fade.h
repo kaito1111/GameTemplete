@@ -1,5 +1,5 @@
 #pragma once
-class Fade :public IGameObject
+class Fade final :public IGameObject
 {
 public:
 	bool Start()override;

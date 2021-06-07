@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class ArcherAttack : public IGameObject
+class ArcherAttack final : public IGameObject
 {
 public:
 	~ArcherAttack();
@@ -14,5 +14,6 @@ private:
 	SkinModelRender* m_Model = nullptr;
 	CVector3 m_Position = CVector3::Zero();
 	Player* m_Player = nullptr;
+	SoundSource m_DrawSound;
 };
 

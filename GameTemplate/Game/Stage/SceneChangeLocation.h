@@ -1,7 +1,7 @@
 #pragma once
 class Player;
 class Fade;
-class SceneChangeLocation : public IGameObject
+class SceneChangeLocation final : public IGameObject
 {
 public:
 	SceneChangeLocation() {};

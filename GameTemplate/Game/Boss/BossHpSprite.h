@@ -1,5 +1,5 @@
 #pragma once
-class BossHpSprite :public IGameObject
+class BossHpSprite final :public IGameObject
 {
 public:
 	BossHpSprite() {};
