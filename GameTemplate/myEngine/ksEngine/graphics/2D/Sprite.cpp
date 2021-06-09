@@ -117,7 +117,7 @@ namespace ksEngine {
 		D3D11_SUBRESOURCE_DATA InitData = { 0 };
 		short index[6] = {
 			0,1,2,		//三角形一つ目
-			2,1,3, 		//三角形二つ目
+			1,2,3, 		//三角形二つ目
 		};
 		InitData.pSysMem = index;
 
