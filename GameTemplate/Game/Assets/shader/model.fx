@@ -180,7 +180,6 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
-
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
 	for (int i = 0; i < 4; i++) {
@@ -271,4 +270,14 @@ float PSMain_ShadowMap(PSInput_ShadowMap In) : SV_Target0
 {
 	//射影空間でのZ値を返す。
 	return In.Position.z / In.Position.w;
+}
+
+TextureCube<float4> skyCubeMap : register(t0);	//スカイキューブマップ。
+
+//空用のシェーダー。
+float4 PSMain_SkyCube(PSInput In) : SV_Target0
+{
+	float4 color = skyCubeMap.Sample(Sampler, In.Normal);
+	color.xyz += emissionColor;
+	return color;
 }

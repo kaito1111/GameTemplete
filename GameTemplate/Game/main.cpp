@@ -27,7 +27,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SoundEngine soundEngine;
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
-	Sky* sky = NewGO<Sky>(0);
 	Game* game = NewGO<Game>(0,"game");
 	game->SetLevelFilePath(L"StageLevel.tkl");
 	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);

@@ -74,14 +74,14 @@ namespace ksEngine {
 		}
 
 	private:
-		SkinModelRender* m_skinModelRender = nullptr;	//モデル描画のゲームオブジェクト。
-		Sprite m_skyCube;	//スカイキューブマップのSRV
-		Shader m_psSkyShader;									//空用のシェーダー。
-		CVector3 m_scale = { 8000.0f, 8000.0f, 8000.0f };		//空の拡大率。
-		CVector3 m_position = CVector3::Zero();					//座標。
-		CVector3 m_emissionColor = CVector3::Zero();				//自己発光カラー。
-		bool m_isDirty = false;									//ダーティフラグ。
-		std::wstring m_skyCubeMapFilePath = L"modelData/skyCubeMap.dds";		//空のキューブマップのファイルパス。
-		std::wstring m_skyModelFilePath = L"sky.cmo";				//空のcmoファイルのファイルパス。
+		SkinModelRender* m_skinModelRender = nullptr;							//モデル描画のゲームオブジェクト。
+		ID3D11ShaderResourceView* m_srv = nullptr;								//スカイキューブマップのSRV
+		Shader m_psSkyShader;													//空用のシェーダー。
+		CVector3 m_scale = CVector3::One()*10.0f;								//空の拡大率。
+		CVector3 m_position = CVector3::Zero();									//座標。
+		CVector3 m_emissionColor = CVector3::Zero();							//自己発光カラー。
+		bool m_isDirty = false;													//ダーティフラグ。
+		std::wstring m_skyCubeMapFilePath = L"Assets/modelData/skyCubeMap.dds";	//空のキューブマップのファイルパス。
+		std::wstring m_skyModelFilePath = L"sky.cmo";							//空のcmoファイルのファイルパス。
 	};
 }

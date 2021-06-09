@@ -109,17 +109,6 @@ public:
 			func(reinterpret_cast<ModelEffect*>(material));
 		});
 	}
-	typedef std::function<void(std::unique_ptr<DirectX::ModelMeshPart>&)>		OnFindMesh;
-	void FindMesh(OnFindMesh findMesh) const
-	{
-		if (m_modelDx != nullptr) {
-			for (auto& modelMeshs : m_modelDx->meshes) {
-				for (std::unique_ptr<DirectX::ModelMeshPart>& mesh : modelMeshs->meshParts) {
-					findMesh(mesh);
-				}
-			}
-		}
-	}
 	void FindMaterial(std::function<void(ModelEffect*)> findMaterial) const
 	{
 		FindMesh([&](auto& mesh) {
@@ -160,8 +149,8 @@ private:
 		CMatrix mView;
 		CMatrix mProj;
 		CMatrix mLightView;		//todo ライトビュー行列。
-		CVector3 emissionColor;	//!<自己発光色。
 		CMatrix mLightProj;		//todo ライトプロジェクション行列。
+		CVector3 emissionColor;	//!<自己発光色。
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
 	ID3D11Buffer*		m_cb = nullptr;					//!<定数バッファ。
@@ -181,4 +170,3 @@ private:
 	RenderTarget m_renderTarget;
 	CVector3 m_emissionColor = CVector3::Zero();				//自己発光カラー。
 };
-

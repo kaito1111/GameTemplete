@@ -160,7 +160,7 @@ public:
 			effect = std::make_shared<NonSkinModelEffect>();
 		}
 		effect->SetMatrialName(info.name);
-		if (info.diffuseTexture && *info.diffuseTexture)
+		if (info.diffuseTexture && *info.diffuseTexture) 
 		{
 			ID3D11ShaderResourceView* texSRV;
 			DirectX::EffectFactory::CreateTexture(info.diffuseTexture, deviceContext, &texSRV);

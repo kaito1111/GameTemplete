@@ -56,6 +56,9 @@ void Stage::OnDestroy()
 	for (PhysicsStageObject* it : m_PSOList) {
 		DeleteGO(it);
 	}
+	if (m_sky != nullptr) {
+		DeleteGO(m_sky);
+	}
 }
 
 void Stage::Load(wchar_t * filePath)
@@ -76,7 +79,10 @@ void Stage::Load(wchar_t * filePath)
 			m_PlayerSpawnRot = funclevel.rotation;
 			return true;
 		}
-
+		if (wcscmp(funclevel.name, L"Sky") == 0) {
+			m_sky = NewGO<Sky>(0, "sky");
+			return true;
+		}
 		if (wcscmp(funclevel.name, L"Boss") == 0) {
 			return true;
 		}

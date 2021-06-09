@@ -40,5 +40,6 @@ private:
 	CVector3 m_SpownPlayerPosition = CVector3::Zero();
 	CQuaternion m_PlayerSpawnRot = CQuaternion::Identity();
 	CVector3 m_SpownEnemyPosition = CVector3::Zero();
+	Sky* m_sky = nullptr;
 };
 
