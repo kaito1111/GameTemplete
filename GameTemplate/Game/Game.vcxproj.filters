@@ -159,20 +159,12 @@
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
-    <MeshContentTask Include="Assets\modelData\candle.FBX" />
-    <MeshContentTask Include="Assets\modelData\Chair.FBX" />
-    <MeshContentTask Include="Assets\modelData\Door.FBX" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
-    <MeshContentTask Include="Assets\modelData\Floor.FBX" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
     <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Ceiling.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Floor.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Wall.fbx" />
-    <MeshContentTask Include="Assets\modelData\Table.FBX" />
     <MeshContentTask Include="Assets\modelData\Stege1.fbx" />
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />

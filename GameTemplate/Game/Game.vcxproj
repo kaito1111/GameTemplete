@@ -230,11 +230,7 @@
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
-    <MeshContentTask Include="Assets\modelData\candle.FBX" />
-    <MeshContentTask Include="Assets\modelData\Chair.FBX" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
-    <MeshContentTask Include="Assets\modelData\Door.FBX" />
-    <MeshContentTask Include="Assets\modelData\Floor.FBX" />
     <MeshContentTask Include="Assets\modelData\Grass.fbx" />
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
     <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
@@ -246,13 +242,9 @@
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Sky.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Ceiling.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Floor.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
-    <MeshContentTask Include="Assets\modelData\Stage2Wall.fbx" />
     <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\Stege1.fbx" />
-    <MeshContentTask Include="Assets\modelData\Table.FBX" />
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
   </ItemGroup>
   <ItemGroup>

@@ -204,7 +204,7 @@ void SoundSource::Update()
 		//ストリーミング再生中の更新。
 		UpdateStreaming();
 	}
-	else {
+ 	else {
 		//オンメモリ再生中の更新処理。
 		UpdateOnMemory();
 	}
