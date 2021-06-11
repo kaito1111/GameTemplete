@@ -77,7 +77,7 @@ namespace ksEngine {
 		SkinModelRender* m_skinModelRender = nullptr;							//モデル描画のゲームオブジェクト。
 		ID3D11ShaderResourceView* m_srv = nullptr;								//スカイキューブマップのSRV
 		Shader m_psSkyShader;													//空用のシェーダー。
-		CVector3 m_scale = CVector3::One()*10.0f;								//空の拡大率。
+		CVector3 m_scale = CVector3::One();								//空の拡大率。
 		CVector3 m_position = CVector3::Zero();									//座標。
 		CVector3 m_emissionColor = CVector3::Zero();							//自己発光カラー。
 		bool m_isDirty = false;													//ダーティフラグ。

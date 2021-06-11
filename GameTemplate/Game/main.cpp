@@ -28,7 +28,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
 	Game* game = NewGO<Game>(0,"game");
-	game->SetLevelFilePath(L"StageLevel.tkl");
+	game->SetLevelFilePath(L"Bridge.tkl");
 	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
 	//SkinModelRender* testmodel = NewGO<SkinModelRender>(0);
 	//testmodel->Init(L"Player.cmo");

@@ -81,6 +81,7 @@ void Stage::Load(wchar_t * filePath)
 		}
 		if (wcscmp(funclevel.name, L"Sky") == 0) {
 			m_sky = NewGO<Sky>(0, "sky");
+			m_sky->SetPosition(funclevel.position);
 			return true;
 		}
 		if (wcscmp(funclevel.name, L"Boss") == 0) {
