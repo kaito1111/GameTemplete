@@ -77,14 +77,15 @@ void Character::SpriteUpdate()
 	HpPosAdjustment();
 	//Hpの大きさをhpの残量に合わせる
 	float SizeX = m_Hp / m_MaxHp;
-	CVector3 SpriteSize = CVector3::One();
-	SpriteSize.x = SizeX;
+	CVector3 SpriteSize = CVector3::One()*0.8f;
+	SpriteSize.x = SizeX * 0.989f;
 	//Topの大きさを設定
 	m_HpTopSprite->SetScale(SpriteSize);
-	//Topの位置を設定
-	m_HpTopSprite->SetPosition(m_HpPosition);
 	//Underの位置を設定
 	m_HpUnderSprite->SetPosition(m_HpPosition);
+	m_HpPosition.x += SpriteSize.x / 1.0f;
+	//Topの位置を設定
+	m_HpTopSprite->SetPosition(m_HpPosition);
 }
 
 void Character::HpPosAdjustment()
