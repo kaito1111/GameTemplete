@@ -384,7 +384,8 @@ namespace
         _In_ unsigned int miscFlags,
         _In_ bool forceSRGB,
         _Outptr_opt_ ID3D11Resource** texture,
-        _Outptr_opt_ ID3D11ShaderResourceView** textureView)
+        _Outptr_opt_ ID3D11ShaderResourceView** textureView,
+		_Out_opt_ bool* outIsCubeMap)
     {
         HRESULT hr = S_OK;
 
@@ -575,6 +576,10 @@ namespace
             }
         }
 
+		if (outIsCubeMap != nullptr)
+		{
+			*outIsCubeMap = isCubeMap;
+		}
         if (autogen)
         {
             // Create texture with auto-generated mipmaps
@@ -809,11 +814,12 @@ HRESULT DirectX::CreateDDSTextureFromMemory(ID3D11Device* d3dDevice,
     ID3D11Resource** texture,
     ID3D11ShaderResourceView** textureView,
     size_t maxsize,
-    DDS_ALPHA_MODE* alphaMode)
+    DDS_ALPHA_MODE* alphaMode,
+	bool* isCubeMap)
 {
     return CreateDDSTextureFromMemoryEx(d3dDevice, ddsData, ddsDataSize, maxsize,
         D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false,
-        texture, textureView, alphaMode);
+        texture, textureView, alphaMode, isCubeMap);
 }
 
 _Use_decl_annotations_
@@ -848,7 +854,8 @@ HRESULT DirectX::CreateDDSTextureFromMemoryEx(ID3D11Device* d3dDevice,
     bool forceSRGB,
     ID3D11Resource** texture,
     ID3D11ShaderResourceView** textureView,
-    DDS_ALPHA_MODE* alphaMode)
+    DDS_ALPHA_MODE* alphaMode,
+	bool* isCubeMap)
 {
     if (texture)
     {
@@ -862,6 +869,10 @@ HRESULT DirectX::CreateDDSTextureFromMemoryEx(ID3D11Device* d3dDevice,
     {
         *alphaMode = DDS_ALPHA_MODE_UNKNOWN;
     }
+	if (isCubeMap)
+	{
+		*isCubeMap = false;
+	}
 
     if (!d3dDevice || !ddsData || (!texture && !textureView))
     {
@@ -913,7 +924,7 @@ HRESULT DirectX::CreateDDSTextureFromMemoryEx(ID3D11Device* d3dDevice,
 #endif
         header, ddsData + offset, ddsDataSize - offset, maxsize,
         usage, bindFlags, cpuAccessFlags, miscFlags, forceSRGB,
-        texture, textureView);
+        texture, textureView,isCubeMap);
     if (SUCCEEDED(hr))
     {
         if (texture != 0 && *texture != 0)
@@ -951,7 +962,8 @@ _Use_decl_annotations_
         bool forceSRGB,
         ID3D11Resource** texture,
         ID3D11ShaderResourceView** textureView,
-        DDS_ALPHA_MODE* alphaMode)
+        DDS_ALPHA_MODE* alphaMode,
+		bool* isCubeMap)
 {
     if (texture)
     {
@@ -1016,7 +1028,7 @@ _Use_decl_annotations_
 #endif
         header, ddsData + offset, ddsDataSize - offset, maxsize,
         usage, bindFlags, cpuAccessFlags, miscFlags, forceSRGB,
-        texture, textureView);
+        texture, textureView, isCubeMap);
     if (SUCCEEDED(hr))
     {
         if (texture != 0 && *texture != 0)
@@ -1043,7 +1055,8 @@ HRESULT DirectX::CreateDDSTextureFromFile(ID3D11Device* d3dDevice,
     ID3D11Resource** texture,
     ID3D11ShaderResourceView** textureView,
     size_t maxsize,
-    DDS_ALPHA_MODE* alphaMode)
+    DDS_ALPHA_MODE* alphaMode,
+	bool* isCubeMap)
 {
     return CreateDDSTextureFromFileEx(d3dDevice, fileName, maxsize,
         D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false,
@@ -1062,7 +1075,8 @@ _Use_decl_annotations_
         ID3D11Resource** texture,
         ID3D11ShaderResourceView** textureView,
         size_t maxsize,
-        DDS_ALPHA_MODE* alphaMode)
+        DDS_ALPHA_MODE* alphaMode,
+		bool* isCubeMap)
 {
     return CreateDDSTextureFromFileEx(d3dDevice, d3dContext, fileName, maxsize,
         D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, 0, false,
@@ -1080,7 +1094,8 @@ HRESULT DirectX::CreateDDSTextureFromFileEx(ID3D11Device* d3dDevice,
     bool forceSRGB,
     ID3D11Resource** texture,
     ID3D11ShaderResourceView** textureView,
-    DDS_ALPHA_MODE* alphaMode)
+    DDS_ALPHA_MODE* alphaMode,
+	bool* isCubeMap)
 {
     if (texture)
     {
@@ -1094,6 +1109,10 @@ HRESULT DirectX::CreateDDSTextureFromFileEx(ID3D11Device* d3dDevice,
     {
         *alphaMode = DDS_ALPHA_MODE_UNKNOWN;
     }
+	if (isCubeMap)
+	{
+		*isCubeMap = false;
+	}
 
     if (!d3dDevice || !fileName || (!texture && !textureView))
     {
@@ -1122,7 +1141,7 @@ HRESULT DirectX::CreateDDSTextureFromFileEx(ID3D11Device* d3dDevice,
 #endif
         header, bitData, bitSize, maxsize,
         usage, bindFlags, cpuAccessFlags, miscFlags, forceSRGB,
-        texture, textureView);
+        texture, textureView, isCubeMap);
 
     if (SUCCEEDED(hr))
     {
@@ -1214,7 +1233,8 @@ _Use_decl_annotations_
         bool forceSRGB,
         ID3D11Resource** texture,
         ID3D11ShaderResourceView** textureView,
-        DDS_ALPHA_MODE* alphaMode)
+        DDS_ALPHA_MODE* alphaMode,
+		bool* isCubeMap)
 {
     if (texture)
     {
@@ -1256,7 +1276,7 @@ _Use_decl_annotations_
 #endif
         header, bitData, bitSize, maxsize,
         usage, bindFlags, cpuAccessFlags, miscFlags, forceSRGB,
-        texture, textureView);
+        texture, textureView, isCubeMap);
 
     if (SUCCEEDED(hr))
     {
