@@ -13,11 +13,13 @@ public:
 		m_Damege = Damege;
 		m_Position = pos;
 		m_Player = FindGO<Player>("player");
+#ifdef _DEBUG
 		m_AttackModel = NewGO<SkinModelRender>(0);
 		m_AttackModel->Init(L"DebugShere.cmo");
 		m_AttackModel->SetPosition(m_Position);
 		CVector3 ModelScale = { m_Area,m_Area,1.0f };
 		m_AttackModel->SetScale(ModelScale);
+#endif
 	}
 	//çXêV
 	void Update();
@@ -27,7 +29,9 @@ private:
 	float m_Area = 0.0f;
 	Player* m_Player = nullptr;
 	CVector3 m_Position = CVector3::Zero();
+#ifdef _DEBUG
 	SkinModelRender* m_AttackModel = nullptr;
+#endif
 	SoundSource m_DamageSound;
 };
 

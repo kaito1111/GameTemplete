@@ -9,17 +9,20 @@ namespace {
 
 ArcherAttack::~ArcherAttack()
 {
+#ifdef _DEBUG
 	DeleteGO(m_Model);
+#endif
 }
 
 bool ArcherAttack::Start()
 {
+#ifdef _DEBUG
 	m_Model = NewGO<SkinModelRender>(0); 
 	m_Model->Init(L"DebugShere.cmo");
 	m_Model->SetPosition(m_Position);
 	CVector3 scale = { Aria,Aria,1.0f };
 	m_Model->SetScale(scale);
-
+#endif
 	m_Player = FindGO<Player>("player");
 
 	m_DrawSound.Init(L"DamageArrow.wav");
@@ -38,5 +41,7 @@ void ArcherAttack::Update()
 			m_Player->HitDamage(Damage);
 		}
 	}
+#ifdef _DEBUG
 	m_Model->SetPosition(m_Position);
+#endif
 }

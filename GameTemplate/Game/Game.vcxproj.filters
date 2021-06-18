@@ -203,5 +203,7 @@
     <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
+    <ImageContentTask Include="Assets\modelData\SkySprite.png" />
+    <ImageContentTask Include="Assets\modelData\SkySample.png" />
   </ItemGroup>
 </Project>

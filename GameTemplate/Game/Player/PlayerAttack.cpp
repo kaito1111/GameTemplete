@@ -17,10 +17,12 @@ PlayerAttack::~PlayerAttack()
 
 bool PlayerAttack::Start()
 {
+#ifdef _DEBUG
 	m_AttackModel = NewGO<SkinModelRender>(0);
 	m_AttackModel->Init(L"DebugShere.cmo");
 	m_AttackModel->SetPosition(m_AttackPos);
 	m_AttackModel->SetScale({ m_Aria, m_Aria, 1.0f });
+#endif
 	m_DamageSound.Init(L"PlayerAtack.wav");
 	return true;
 }
@@ -67,5 +69,7 @@ void PlayerAttack::Update()
 
 void PlayerAttack::OnDestroy()
 {
+#ifdef _DEBUG
 	DeleteGO(m_AttackModel);
+#endif
 }

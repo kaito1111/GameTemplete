@@ -34,11 +34,13 @@ bool Boss::Start() {
 	CharacterInit(L"Boss.cmo", radius, height, m_ModelPos);
 	AnimationInit();
 	m_player = FindGO<Player>("player");
+#ifdef _DEBUG
 	m_HitModel = NewGO<SkinModelRender>(0);
 	m_HitModel->Init(L"DebugShere.cmo");
 	//z‚Íƒ[ƒ‹ƒh‹óŠÔ‚Å‚Ì‚™‚É‚ ‚½‚é
 	//y‚Íl—¶‚µ‚È‚¢
 	m_HitModel->SetScale({ radius, radius, 1.0f });
+#endif
 	AttackReach = 150.0f;
 
 	InitHpSprite(BossMaxHp, HpScale::BossHP);
@@ -69,7 +71,9 @@ void Boss::Update()
 
 void Boss::OnDestroy()
 {
+#ifdef _DEBUG
 	DeleteGO(m_HitModel);
+#endif
 	DeleteGO(m_BossSprite);
 }
 

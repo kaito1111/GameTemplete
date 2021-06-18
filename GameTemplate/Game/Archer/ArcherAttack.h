@@ -11,7 +11,9 @@ public:
 		m_Position = pos;
 	}
 private:
+#ifdef _DEBUG
 	SkinModelRender* m_Model = nullptr;
+#endif
 	CVector3 m_Position = CVector3::Zero();
 	Player* m_Player = nullptr;
 	SoundSource m_DrawSound;

@@ -45,11 +45,13 @@ bool Player::Start()
 
 	InitHpSprite(MaxHp,HpScale::PlayerHP);
 
+#ifdef _DEBUG
 	m_HitModel = NewGO<SkinModelRender>(0);
 	m_HitModel->Init(L"DebugShere.cmo");
 	//zはワールド空間でのｙにあたる
 	//yは考慮しない
 	m_HitModel->SetScale({ radius, radius, 1.0f });
+#endif
 	m_WalkSound.Init(L"Walk.wav");
 	m_WalkSound2.Init(L"Walk.wav");
 	m_SwingSound.Init(L"SwingSword.wav");
@@ -187,16 +189,21 @@ void Player::Update()
 	const float AttackReach = 100.0f;
 	m_AttackPos = m_ModelPos + m_forward * AttackReach;
 
+#ifdef _DEBUG
 	//当たり判定を更新
 	m_HitModel->SetPosition(m_ModelPos);
+#endif
 }
 void Player::OnDestroy()
 {
+#ifdef _DEBUG
 	DeleteGO(m_HitModel);
+#endif
 	if (m_HuntedSprite != nullptr) {
 		DeleteGO(m_HuntedSprite);
 		m_HuntedSprite = nullptr;
 	}
+
 }
 void Player::Rotate()
 {

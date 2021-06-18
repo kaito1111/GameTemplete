@@ -7,10 +7,12 @@
 bool ReturnLocatoin::Start()
 {
 	m_player = FindGO<Player>("player");
+#ifdef _DEBUG
 	m_Skin = NewGO<SkinModelRender>(0);
 	m_Skin->Init(L"ReturnRoad.cmo");
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetScale({ m_Eria,m_Eria,0.0f });
+#endif
 	return true;
 }
 
@@ -41,5 +43,7 @@ void ReturnLocatoin::Update()
 
 void ReturnLocatoin::OnDestroy()
 {
+#ifdef _DEBUG
 	DeleteGO(m_Skin);
+#endif
 }

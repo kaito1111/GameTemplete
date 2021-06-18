@@ -214,8 +214,9 @@ private:
 	const float m_height =  110.0f;				//キャラコンの縦幅
 	bool m_isInvokeAttackColli = false;			//攻撃判定が発生している？
 
+#ifdef _DEBUG
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
-
+#endif
 	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
 	HuntedSprite* m_HuntedSprite = nullptr;
 	SoundSource m_WalkSound;

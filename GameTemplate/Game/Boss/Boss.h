@@ -72,7 +72,9 @@ private:
 	const float m_CoolTimeRoar = 10;	//咆哮をしてから咆哮をするまでの時間
 	float m_RoarTime = 0;				//咆哮してからの経過時間
 
+#ifdef _DEBUG
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
+#endif
 
 	BossHpSprite* m_BossSprite = nullptr;
 

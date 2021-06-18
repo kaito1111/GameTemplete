@@ -17,5 +17,7 @@ void Attack::Update()
 
 void Attack::OnDestroy()
 {
+#ifdef _DEBUG
 	DeleteGO(m_AttackModel);
+#endif
 }

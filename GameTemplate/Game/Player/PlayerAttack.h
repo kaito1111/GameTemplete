@@ -20,6 +20,8 @@ private:
 	float m_Attack = 0.0f;
 	float m_Aria = 0.0f;
 	bool m_Hit = false;//UŒ‚‚ª‚P‰ñƒqƒbƒg‚µ‚½
+#ifdef _DEBUG
 	SkinModelRender* m_AttackModel = nullptr;
+#endif
 	SoundSource m_DamageSound;
 };

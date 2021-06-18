@@ -17,7 +17,7 @@ GameCamera::~GameCamera()
 
 bool GameCamera::Start()
 {
-	const float m_GameFar = 10000.0f;
+	const float m_GameFar = 15000.0f;
 	const float m_GameNear = 1.0f;
 	m_player = FindGO<Player>("player");
 	g_camera3D.SetFar(m_GameFar);
