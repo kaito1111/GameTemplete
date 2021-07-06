@@ -49,6 +49,9 @@
     <ClCompile Include="sound\WaveFile.cpp" />
     <ClCompile Include="sound\WaveFileBank.cpp" />
     <ClCompile Include="SkyCube\Sky.cpp" />
+    <ClCompile Include="Light\LightManager.cpp" />
+    <ClCompile Include="Light\PointLight.cpp" />
+    <ClCompile Include="Light\LightBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -103,5 +106,9 @@
     <ClInclude Include="sound\WaveFile.h" />
     <ClInclude Include="sound\WaveFileBank.h" />
     <ClInclude Include="SkyCube\Sky.h" />
+    <ClInclude Include="Light\LightManager.h" />
+    <ClInclude Include="Light\PointLight.h" />
+    <ClInclude Include="Light\LightBase.h" />
+    <ClInclude Include="Light\Light.h" />
   </ItemGroup>
 </Project>

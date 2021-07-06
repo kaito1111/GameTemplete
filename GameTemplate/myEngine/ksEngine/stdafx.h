@@ -64,5 +64,8 @@ static const int MAX_BONE = 512;	//!<ƒ{[ƒ“‚ÌÅ‘å”B
 #include "sound/SoundEngine.h"
 #include "sound/SoundSource.h"
 #include "SkyCube/Sky.h"
+#include "Light/PointLight.h"
+#include "Light/LightManager.h"
+#include "Light/LightBase.h"
 
 using namespace ksEngine;

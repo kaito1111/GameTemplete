@@ -106,6 +106,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boss\BossHpSprite.cpp" />
+    <ClCompile Include="Stage\candle.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Player\weapon\IWeapon.cpp" />
     <ClCompile Include="Player\State\PlayerStateGameClear.cpp" />
     <ClCompile Include="Player\HuntedSprite.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
@@ -163,12 +166,16 @@
     <ClCompile Include="Stage\ReturnLocation.cpp" />
     <ClCompile Include="Stage\SceneChangeLocation.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
+    <ClCompile Include="Player\weapon\Sword.cpp" />
     <ClCompile Include="Title.cpp" />
     <ClCompile Include="Stage\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer\State\ArcherDethState.h" />
     <ClInclude Include="Boss\BossHpSprite.h" />
+    <ClInclude Include="Stage\candle.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Player\weapon\IWeapon.h" />
     <ClInclude Include="Player\State\PlayerStateGameClear.h" />
     <ClInclude Include="Player\HuntedSprite.h" />
     <ClInclude Include="Player\DieSprite.h" />
@@ -222,6 +229,7 @@
     <ClInclude Include="Stage\ReturnLocation.h" />
     <ClInclude Include="Stage\SceneChangeLocation.h" />
     <ClInclude Include="Stage\Stage.h" />
+    <ClInclude Include="Player\weapon\Sword.h" />
     <ClInclude Include="Title.h" />
     <ClInclude Include="Stage\Wall.h" />
   </ItemGroup>
@@ -230,10 +238,13 @@
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
+    <MeshContentTask Include="Assets\modelData\candle.fbx" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Grass.fbx" />
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
+    <MeshContentTask Include="Assets\modelData\PlayerSword.fbx" />
     <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
+    <MeshContentTask Include="Assets\modelData\SignBoard.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
@@ -248,20 +259,11 @@
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\discode_icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ImageContentTask Include="Assets\sprite\EnemyHP.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Blue.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Orenge.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Purple.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_White.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Yellor.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Under_Gray.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Under_LightGray.png" />
   </ItemGroup>
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\reticle.png" />
@@ -285,12 +287,6 @@
   <ItemGroup>
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\modelData\SkySprite.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\modelData\SkySample.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

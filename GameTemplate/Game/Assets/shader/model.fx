@@ -17,6 +17,24 @@ Texture2D<float4> g_shadowMap : register(t2);		//todo シャドウマップ。
 /////////////////////////////////////////////////////////////
 sampler Sampler : register(s0);
 
+// ポイントライト構造体を定義する
+struct SPointLight {
+	float3 position;	
+	float3 positionInView;		//!<ビュー空間での座標。
+	float4 color;
+	float4 range;
+};
+
+static const int MAX_POINT_LIGHT = 1024;
+//ポイントライトの数を表す定数を定義する
+//static const int NUM_POINT_LIGHT = 1;
+cbuffer PointLightCb :register(b3) {
+	int NUM_POINT_LIGHT;
+}
+cbuffer PointLightCb2 : register(b4) {
+	SPointLight pointsLights[MAX_POINT_LIGHT];
+}
+
 /////////////////////////////////////////////////////////////
 // 定数バッファ。
 /////////////////////////////////////////////////////////////
@@ -198,8 +216,19 @@ float4 PSMain(PSInput In) : SV_Target0
 		t = pow(t, specPow);
 
 		lig += direction.dligColor[i].xyz*t * 2;
+		lig *= 0.75f;
 	}
-
+	//ポイントライトから光によるLambert拡散反射を計算する
+	for (int i = 0; i < NUM_POINT_LIGHT; i++) {
+		float3  ligDir = normalize(In.worldPos - pointsLights[i].position);
+		float distance = length(In.worldPos - pointsLights[i].position);
+		float t = max(0.0f, dot(-ligDir, In.Normal));
+		float affect = 1.0f - min(1.0f, distance / pointsLights[i].range.x);
+		affect = pow(affect, pointsLights[i].range.y);
+		lig += pointsLights[i].color.xyz * t * affect;
+	}
+	//環境光
+	lig += 0.1f;
 	//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 	float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
 	shadowMapUV *= float2(0.5f, -0.5f);
@@ -215,7 +244,8 @@ float4 PSMain(PSInput In) : SV_Target0
 	//シャドウマップに書き込まれている深度値を取得。
 	float zInShadowMap = g_shadowMap.Sample(Sampler, shadowMapUV);
 
-	if (zInLVP > zInShadowMap + 0.01f) {
+
+	if (zInLVP > zInShadowMap + 0.0001f) {
 		//影が落ちているので、光を弱くする
 		lig *= 0.5f;
 	}

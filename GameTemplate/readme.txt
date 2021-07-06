@@ -1,31 +1,10 @@
-AEŠˆ“®—p‚ÌŒy—ÊƒQ[ƒ€ƒGƒ“ƒWƒ“
 
-@’á‹@”\‚ÈƒQ[ƒ€ƒGƒ“ƒWƒ“‚Å‚·A
-@DirectX‡U‚Ì‹³Þ.docx‚ÌChapter8‚Ü‚Å‚Ì“à—e‚ªŽÀ‘•‚³‚ê‚½‚à‚Ì‚Æ‚È‚è‚Ü‚·B
-@‚±‚ÌƒGƒ“ƒWƒ“‚ðƒx[ƒX‚ÉŠJ”­‚ðs‚Á‚Ä‚à\‚¢‚Ü‚¹‚ñ‚µA
-@‚±‚ÌƒGƒ“ƒWƒ“‚ðŽQl‚É‚µ‚ÄAV‚µ‚¢ƒGƒ“ƒWƒ“‚ðÄ\’z‚µ‚Ä‚à‚ç‚Á‚Ä‚à\‚¢‚Ü‚¹‚ñB
-@DirectX‡V‚ÅŠwK‚·‚éAƒOƒ‰ƒtƒBƒbƒNƒeƒNƒjƒbƒNAƒTƒEƒ“ƒhƒGƒ“ƒWƒ“AEffekseer‚Í
-@Ž©g‚Ì—Í‚Å‘g‚Ýž‚ñ‚Å‚¢‚Á‚Ä‚­‚¾‚³‚¢B
-@‰º‹L‚É‚S“_’ˆÓ‚·‚×‚«“_‚ð‹LÚ‚µ‚Ä‚¢‚Ü‚·B“Ç‚ñ‚Å‚¨‚¢‚Ä‚­‚¾‚³‚¢B
+ãƒ»åˆ¶ä½œäººæ•°	1äºº
+ãƒ»é–‹ç™ºæœŸé–“	2020å¹´10æœˆï½žç¾åœ¨åˆ¶ä½œä¸­
 
-‡@VisualStudio‚É’Ç‰Á‚·‚é•K—v‚ª‚ ‚éƒAƒZƒbƒg‚Í‰º‹L‚Ì“ñ‚Â‚¾‚¯‚Å‚·B
-@@Efbxƒtƒ@ƒCƒ‹
-@@E2D•\Ž¦‚ÉŽg‚¢‚½‚¢‰æ‘œƒf[ƒ^B(ImageContentsPipeline‚ðŽw’è‚·‚é•K—v‚ ‚èB)
-@
-‡AtkEngine‚©‚ç‚Ì”pŽ~€–Ú
-@@EƒJƒXƒ^ƒ€ƒrƒ‹ƒhƒc[ƒ‹‚ÌŽw’èB
-@@@@¨ƒqƒ…[ƒ}ƒ“ƒGƒ‰[‚Ì‚à‚Æ‚¾‚Á‚½‚½‚ßAAssetsƒtƒHƒ‹ƒ_‚É’Ç‰Á‚·‚é‚¾‚¯‚ÉŽd—l•ÏXB
-@@@@@¨‚¢‚ç‚È‚¢ƒtƒ@ƒCƒ‹‚ªAssetsƒtƒHƒ‹ƒ_‚É“ü‚é‚ªA‚»‚Á‚¿‚Ì•û‚ªƒ}ƒV‚¾‚Æ”»’fB
-@@@@@@¨‚±‚ê‚É”º‚¢AVisualStudio‚É’Ç‰Á‚·‚éƒtƒ@ƒCƒ‹‚Íã‹L‚Ì“ñ‚Â‚¾‚¯‚Æ‚È‚Á‚½B
-@@@@@
-‡Btools‚Ì’†‚ÉV‚µ‚¢tkExporter‚ ‚èB
-@¨‰EƒNƒŠƒbƒN‚ÅŠÇ—ŽÒ‚Æ‚µ‚ÄŽÀs‚µ‚Ä‚Ë.bat‚ðŽÀs‚µ‚½‚çƒRƒs[‚³‚ê‚éB
-@
-‡CƒOƒ[ƒoƒ‹‚ÈƒCƒ“ƒXƒ^ƒ“ƒX‚Í‰º‹L‚Ì‚S‚Â
-@GraphicsEngine‚Ìg_graphicsEngine
-@Pad‚Ìg_pad
-@PhysicsWorld‚Ìg_physics
-@Camera‚Ìg_camera3D
+èª¬æ˜Ž:
+ãƒ»å­¦æ ¡å†…è£½ã®ç°¡æ˜“ã‚¨ãƒ³ã‚¸ãƒ³ã‚’æ”¹é€ ã—ã¦è£½ä½œã—ã¦ã„ã‚‹ãƒ•ã‚¡ãƒ³ã‚¿ã‚¸ãƒ¼ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚²ãƒ¼ãƒ ã§ã™ã€‚
 
-
-@
+ãƒ»ã“ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã¯ã‚¨ãƒ³ã‚¸ãƒ³å´ã®å‡¦ç†ã‚’ã€ŒGameTemplete/GameTemplate/myEngineã€ãƒ•ã‚©ãƒ«ãƒ€ã«ã€
+ã€€ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³å´ã®å‡¦ç†ã‚’ã€ŒGameTemplete/GameTemplate/Gameã€ãƒ•ã‚©ãƒ«ãƒ€ã«åˆ†ã‘ã¦ã„ã¾ã™ã€‚
+ã€€ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ã¯ã€ŒGameTemplete\GameTemplate\Game\Assets\shaderã€ãƒ•ã‚©ãƒ«ãƒ€ã®ä¸­ã«å…¥ã£ã¦ã„ã¾ã™ã€‚
