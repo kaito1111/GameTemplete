@@ -3,6 +3,7 @@
 #include "GameSceneFunction/Anime.h"
 class IPlayerState;
 class HuntedSprite;
+class IWeapon;
 
 class Player final : public Anime
 {
@@ -222,5 +223,7 @@ private:
 	SoundSource m_WalkSound;
 	SoundSource m_WalkSound2;
 	SoundSource m_SwingSound;
+
+	IWeapon* m_weapon = nullptr;
 };
 

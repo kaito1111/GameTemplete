@@ -10,6 +10,8 @@
 #include "State/PlayerStateGameClear.h"
 #include "HuntedSprite.h"
 #include "PlayerAttack.h"
+#include "weapon/IWeapon.h"
+#include "weapon/Sword.h"
 
 namespace {
 	const float radius = 35.0f;//キャラコンの横幅
@@ -28,9 +30,9 @@ Player::~Player()
 bool Player::Start()
 {
 	m_ModelScale = { 0.8f,0.8f,0.8f };  //プレイヤーの大きさ
-								    	//設定上少し小さくする
+										//設定上少し小さくする
 	m_ModelPos = m_SpownPosition;
-	CharacterInit(L"Player.cmo", radius,m_height,m_ModelPos);
+	CharacterInit(L"Player.cmo", radius, m_height, m_ModelPos);
 	//待機ステートを作成する。
 	m_currentState = new PlayerStateIdle(this);
 
@@ -43,7 +45,7 @@ bool Player::Start()
 		OnAnimEvent(eventName);
 	});
 
-	InitHpSprite(MaxHp,HpScale::PlayerHP);
+	InitHpSprite(MaxHp, HpScale::PlayerHP);
 
 #ifdef _DEBUG
 	m_HitModel = NewGO<SkinModelRender>(0);
@@ -55,6 +57,10 @@ bool Player::Start()
 	m_WalkSound.Init(L"Walk.wav");
 	m_WalkSound2.Init(L"Walk.wav");
 	m_SwingSound.Init(L"SwingSword.wav");
+
+	m_weapon = new Sword();
+	m_weapon->SetPosition(m_ModelPos);
+	m_weapon->Start();
 	return true;
 }
 void Player::OnAnimEvent(const wchar_t* eventName)
@@ -121,24 +127,24 @@ void Player::OnAnimEvent(const wchar_t* eventName)
 
 void Player::AnimetionInit()
 {
-	LoadAnimation(m_AnimeClip[State::Idle],L"idol.tka"); 
+	LoadAnimation(m_AnimeClip[State::Idle], L"Idle.tka");
 	m_AnimeClip[State::Idle].SetLoopFlag(true);
 
-	LoadAnimation(m_AnimeClip[State::Walk],L"walk.tka");
+	LoadAnimation(m_AnimeClip[State::Walk], L"walk.tka");
 	m_AnimeClip[State::Walk].SetLoopFlag(true);
 
 	LoadAnimation(m_AnimeClip[State::Roling], L"Rolling.tka");
 
-	LoadAnimation(m_AnimeClip[State::Attack],L"Attack.tka");
+	LoadAnimation(m_AnimeClip[State::Attack], L"Attack.tka");
 	m_AnimeClip[Attack].SetLoopFlag(false);
 
-	LoadAnimation(m_AnimeClip[State::RollingAttack],L"RollingAttack.tka");
+	LoadAnimation(m_AnimeClip[State::RollingAttack], L"RollingAttack.tka");
 
-	LoadAnimation(m_AnimeClip[State::Damage],L"damage.tka");
+	LoadAnimation(m_AnimeClip[State::Damage], L"damage.tka");
 
 	LoadAnimation(m_AnimeClip[State::Die], L"Die.tka");
 
-	LoadAnimation(m_AnimeClip[State::GameClear],L"VictoryPose.tka");
+	LoadAnimation(m_AnimeClip[State::GameClear], L"VictoryPose.tka");
 
 	InitAnimation(m_AnimeClip, State::Num);
 
@@ -146,11 +152,34 @@ void Player::AnimetionInit()
 
 void Player::Update()
 {
+	CVector3 weaponPos = m_Model->GetModel().FindBone(L"PlayerWeapon")->GetPosition();
+	m_weapon->SetPosition(weaponPos);
+	CVector3 weaponBindPos = m_Model->GetModel().FindBone(L"PlayerWeaponBind")->GetPosition();
+	CVector3 BoneDiff = weaponBindPos - weaponPos;
+	BoneDiff.Normalize();
+	CQuaternion WeaponRot = CQuaternion::Identity();
+	CMatrix mRot = CMatrix::Identity();
+	mRot.MakeRotationFromQuaternion(m_ModelRot);
+	m_Left = { mRot.m[0][0],mRot.m[0][1],mRot.m[0][2] };
+	m_Left.Normalize();
+	float WeaponRotAngle = BoneDiff.Dot(m_Left);
+	WeaponRot.SetRotation(CVector3::AxisY(), WeaponRotAngle);
+	CQuaternion mulRot = m_ModelRot;
+	mulRot.Multiply(WeaponRot);
+	m_weapon->SetRotation(mulRot);
+	m_weapon->Update();
 	if (m_state == State::Attack) {
 		if (g_pad[0].IsTrigger(enButtonX)) {
 			m_ComboAttack = true;
 		}
 	}
+
+	CVector3 LightPos = m_ModelPos;
+	LightPos.y = 500.0f;
+	LightPos.z += 500.0f;
+	LightPos.x += 500.0f;
+	g_graphicsEngine->GetShadowMap()->SetLightCameraPosition(LightPos);
+	g_graphicsEngine->GetShadowMap()->SetLightCameraTarget(m_ModelPos);
 
 	//状態を切り替え
 	ChangeState(m_NextState);
