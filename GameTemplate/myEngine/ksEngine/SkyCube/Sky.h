@@ -81,7 +81,7 @@ namespace ksEngine {
 		CVector3 m_position = CVector3::Zero();									//座標。
 		CVector3 m_emissionColor = CVector3::Zero();							//自己発光カラー。
 		bool m_isDirty = false;													//ダーティフラグ。
-		std::wstring m_skyCubeMapFilePath = L"Assets/sprite/SkySample.dds";		//空のキューブマップのファイルパス。
+		std::wstring m_skyCubeMapFilePath = L"Assets/sprite/SkySprite.dds";		//空のキューブマップのファイルパス。
 		std::wstring m_skyModelFilePath = L"sky.cmo";							//空のcmoファイルのファイルパス。
 		bool m_isCubemap = true;												//キューブマップ？
 	};
