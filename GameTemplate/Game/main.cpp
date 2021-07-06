@@ -4,7 +4,6 @@
 #include "Player/HuntedSprite.h"
 #include "Fade.h"
 #include "sound/SoundEngine.h"
-
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -23,15 +22,25 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	CGameObjectManager()->Init();
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
-	
+
+	//::EffekseerRenderer::Renderer* effectRenderer = ::EffekseerRendererDX11::Renderer::Create(
+	//	g_graphicsEngine->GetD3DDevice(),
+	//	g_graphicsEngine->GetD3DDeviceContext(),
+	//	512
+	//);
+	//::Effekseer::Manager* effectManager = ::Effekseer::Manager::Create(512);
+
+	//Effekseer::Effect* effect = Effekseer::Effect::Create(effectManager, (EFK_CHAR*)L"Assets/effect/ItemPoint.efk");
+	//Effekseer::Handle handle = effectManager->Play(effect, 0.0f, 0.0f, 0.0f);
 	SoundEngine soundEngine;
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
-	Game* game = NewGO<Game>(0,"game");
+	Game* game = NewGO<Game>(0, "game");
 	game->SetLevelFilePath(L"StageLevel.tkl");
 	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
 	//SkinModelRender* testmodel = NewGO<SkinModelRender>(0);
 	//testmodel->Init(L"Player.cmo");
+	LightManager::GetInstance()->Start();
 	Fade* fade = nullptr;
 	Stopwatch m_sw;
 	//ゲームループ。
@@ -54,9 +63,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//g_camera2D.Update();
 		//g_camera3D.Update();
 		CGameObjectManager()->ExcuteGame();
-
 		//サウンドエンジンを更新。
 		soundEngine.Update();
+		LightManager::GetInstance()->Update();
+		//effectRenderer->SetProjectionMatrix()
+
 		//描画終了。
 		g_graphicsEngine->EndRender();
 
