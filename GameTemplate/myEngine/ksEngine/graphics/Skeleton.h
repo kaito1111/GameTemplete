@@ -118,6 +118,9 @@ public:
 	*/
 	void CalcWorldTRS(CVector3& trans, CQuaternion& rot, CVector3& scale);
 	
+	CVector3 GetPosition() const {
+		return m_position;
+	}
 private:
 
 	std::wstring	m_boneName;

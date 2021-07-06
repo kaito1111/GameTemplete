@@ -207,6 +207,10 @@ void Skeleton::Update(CMatrix mWorld)
 			//親の行列とローカル行列を乗算して、ワールド行列を計算する。
 			mBoneWorld.Mul(localMatrix, mWorld);
 			bone->SetWorldMatrix(mBoneWorld);
+			CVector3 pos = CVector3::Zero();
+			CQuaternion rot = CQuaternion::Identity();
+			CVector3 scale = CVector3::One();
+			bone->CalcWorldTRS(pos, rot, scale);
 		}
 		m_isPlayAnimation = false;
 	}
