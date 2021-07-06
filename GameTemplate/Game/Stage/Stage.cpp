@@ -4,6 +4,7 @@
 #include "PhysicsStageObject.h"
 #include "SceneChangeLocation.h"
 #include "ReturnLocation.h"
+#include "candle.h"
 
 Stage::Stage()
 {
@@ -99,6 +100,13 @@ void Stage::Load(wchar_t * filePath)
 			ReturnLocatoin* SCLoc = NewGO<ReturnLocatoin>(0);
 			SCLoc->SetPosition(funclevel.position);
 			SCLoc->SetFilePath(m_LevelFilePath);
+			return true;
+		}
+
+		if(wcscmp(funclevel.name, L"candle") == 0) {
+			Candle* can = NewGO<Candle>(0);
+			can->SetPosition(funclevel.position);
+			can->SetRotation(funclevel.rotation);
 			return true;
 		}
 

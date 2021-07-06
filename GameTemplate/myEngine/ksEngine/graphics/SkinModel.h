@@ -32,6 +32,13 @@ class SkinModel
 		CVector3 eyePos;
 		float pow;
 	};
+	struct PointLight{
+		CVector3 position = CVector3::Zero();
+		float pad0 = 0.0f;		//パディング
+		CVector3 color = CVector3::Zero();
+		float range = 0.0f;		//カラーの影響を与える範囲
+	};
+	const static int NUM_POINT_LIGHT = 1;
 public:
 	//メッシュが見つかったときのコールバック関数。
 	using OnFindMesh = std::function<void(const std::unique_ptr<DirectX::ModelMeshPart>&)>;
@@ -142,6 +149,7 @@ private:
 
 	void InitSilhouettoDepthStepsilState();
 
+	void InitPointLight();
 private:
 	//定数バッファ。
 	struct SVSConstantBuffer {
@@ -169,4 +177,7 @@ private:
 
 	RenderTarget m_renderTarget;
 	CVector3 m_emissionColor = CVector3::Zero();				//自己発光カラー。
+
+	PointLight m_pointLight[NUM_POINT_LIGHT];
+	ID3D11Buffer* m_PointLightBuffer = nullptr;
 };
