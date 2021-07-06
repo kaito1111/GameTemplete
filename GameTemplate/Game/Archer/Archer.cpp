@@ -7,7 +7,7 @@
 
 namespace {
 	//UŒ‚‚Å‚«‚é”»’è‚É“ü‚Á‚½
-	const float InPlayer = 500.0f;
+	const float InPlayer = 2000.0f;
 	//‹–ìŠp
 	const float ViewAngle = 0.7f;
 
