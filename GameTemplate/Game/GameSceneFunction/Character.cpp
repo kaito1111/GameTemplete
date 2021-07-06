@@ -38,6 +38,7 @@ void Character::CharacterModelUpdate()
 	m_Model->SetPosition(m_ModelPos);
 	m_Model->SetRotation(m_ModelRot);
 	m_Model->SetScale(m_ModelScale);
+	g_graphicsEngine->GetShadowMap()->RegistShadowCaster(&m_Model->GetModel());
 }
 
 void Character::ForwardUpdate()

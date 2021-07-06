@@ -86,5 +86,7 @@ protected:
 	//スプライトの基点をずらしているので
 	//そのズレを修正
 	float m_spriteFix = -50.0f;
+
+	CVector3 m_Left = CVector3::Left();
 };
 

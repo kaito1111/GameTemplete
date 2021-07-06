@@ -23,7 +23,12 @@ public:
 	void Init();
 	void UpdateShadowMap();
 	void RenderToShadowMap();
-
+	void SetLightCameraPosition(const CVector3& cameraPosition) {
+		m_lightCameraPosition = cameraPosition;
+	}	
+	void SetLightCameraTarget(const CVector3& cameraTarget) {
+		m_lightCameraTarget = cameraTarget;
+	}
 private:
 	void SaveRenderTarget();
 	void BackUpRenderTarget();
