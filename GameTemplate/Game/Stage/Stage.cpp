@@ -5,6 +5,7 @@
 #include "SceneChangeLocation.h"
 #include "ReturnLocation.h"
 #include "candle.h"
+#include "Torch.h"
 
 Stage::Stage()
 {
@@ -60,6 +61,28 @@ void Stage::OnDestroy()
 	if (m_sky != nullptr) {
 		DeleteGO(m_sky);
 	}
+	if (m_SCLoc.size() != 0) {
+		for (auto& scl : m_SCLoc) {
+			DeleteGO(scl);
+		}
+	}
+	if (m_RCLoc.size() != 0) {
+		for (auto& rcl : m_RCLoc) {
+			DeleteGO(rcl);
+		}
+	}
+	if (m_Can.size()!=0)
+	{
+		for (auto& can : m_Can) {
+			DeleteGO(can);
+		}
+	}
+	if (m_Torch.size() != 0)
+	{
+		for (auto& tor : m_Torch) {
+			DeleteGO(tor);
+		}
+	}
 }
 
 void Stage::Load(wchar_t * filePath)
@@ -90,26 +113,52 @@ void Stage::Load(wchar_t * filePath)
 		}
 
 		if (wcscmp(funclevel.name, L"DebugShere")==0) {
-			SceneChangeLocation* SCLoc = NewGO<SceneChangeLocation>(0);
-			SCLoc->SetPosition(funclevel.position);
-			SCLoc->SetFilePath(m_LevelFilePath);
+			SceneChangeLocation* scl= NewGO<SceneChangeLocation>(0,"scl");
+			scl->SetPosition(funclevel.position);
+			scl->SetFilePath(m_LevelFilePath);
+			m_SCLoc.push_back(scl);
 			return true;
 		}
 
 		if (wcscmp(funclevel.name, L"ReturnRoad") == 0) {
-			ReturnLocatoin* SCLoc = NewGO<ReturnLocatoin>(0);
-			SCLoc->SetPosition(funclevel.position);
-			SCLoc->SetFilePath(m_LevelFilePath);
+			ReturnLocatoin* rcl= NewGO<ReturnLocatoin>(0,"rcl");
+			m_RCLoc.push_back(rcl);
+			rcl->SetPosition(funclevel.position);
+			rcl->SetFilePath(m_LevelFilePath);
 			return true;
 		}
 
 		if(wcscmp(funclevel.name, L"candle") == 0) {
-			Candle* can = NewGO<Candle>(0);
+			Candle* can = NewGO<Candle>(0, "candle");
 			can->SetPosition(funclevel.position);
 			can->SetRotation(funclevel.rotation);
+			m_Can.push_back(can);
+			return true;
+		}
+		if (wcscmp(funclevel.name, L"TitlePos") == 0) {
+			m_TitlePos = funclevel.position;
+			return true;
+		}
+		if (wcscmp(funclevel.name, L"Torch") == 0) {
+			Torch* to = NewGO<Torch>(0, "candle");
+			to->SetPosition(funclevel.position);
+			m_Torch.push_back(to);
 			return true;
 		}
 
+		if (wcscmp(funclevel.name, L"CameraPos") == 0) {
+			m_TitleCameraPos = funclevel.position;
+			return true;
+		}	
+
+		if (wcscmp(funclevel.name, L"CameraTarget") == 0) {
+			m_TitleCameraTarget = funclevel.position;
+			return true;
+		}
+
+		if (wcscmp(funclevel.name, L"CampFire") == 0) {
+			return true;
+		}
 		PhysicsStageObject* PSO = NewGO<PhysicsStageObject>(0,"PSO");
 		PSO->SetObjectName(funclevel.name);
 		PSO->SetPosition(funclevel.position);

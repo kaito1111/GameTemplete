@@ -2,7 +2,8 @@
 #include "HuntedSprite.h"
 #include "ReSetGame.h"
 #include "Fade.h"
-#include "Title.h"
+#include "Title/Title.h"
+#include "ReSetTitle.h"
 
 namespace {
 	const float addSpriteAlpha = 0.05f;
@@ -42,22 +43,20 @@ void HuntedSprite::Update()
 	if (m_ChoicesAlpha >= 1.00f) {
 		m_ChoicesAlpha = 1.000f;
 	}
-	//リスタートが選ばれると
-	if (m_IConPos.y >= RestarPos &&
-		g_pad[0].IsPress(enButtonA)&&
-		m_fade==nullptr) {
-		m_fade = NewGO<Fade>(0);
-		ReSetGame* reGame = NewGO<ReSetGame>(0, "resetGame");
-		reGame->SetFade(m_fade);
-	}
-	//タイトルが選ばれると
-	if (m_IConPos.y >= TitlePos &&
-		g_pad[0].IsPress(enButtonA)) {
-
-	}
-	if (m_fade != nullptr) {
-		if (m_fade->GetAlpha() > 0.9f) {
-			DeleteGO(this);
+	if (m_ChoicesAlpha >= 1.0f) {
+		//リスタートが選ばれると
+		if (m_IConPos.y >= RestarPos &&
+			g_pad[0].IsPress(enButtonA) &&
+			m_ReSet == false) {
+			ReSetGame* reGame = NewGO<ReSetGame>(0, "resetGame");
+			m_ReSet = true;
+		}
+		//タイトルが選ばれると
+		if (m_IConPos.y >= TitlePos &&
+			g_pad[0].IsPress(enButtonA) &&
+			m_ReSet == false) {
+			ReSetTitle* m_Title = NewGO<ReSetTitle>(0, "resettitle");
+			m_ReSet = true;
 		}
 	}
 	if (g_pad[0].GetLStickYF() > 0.9f) {

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "GraphicsEngine.h"
-
+#include "graphics/PresetRenderState.h"
+#include "graphics/Effect/EffectEngine.h"
 
 GraphicsEngine::GraphicsEngine()
 {
@@ -14,13 +15,12 @@ GraphicsEngine::~GraphicsEngine()
 
 void GraphicsEngine::BegineRender()
 {
-	float ClearColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f }; //red,green,blue,alpha
+	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; //red,green,blue,alpha
 													  //描き込み先をバックバッファにする。
 	m_pd3dDeviceContext->OMSetRenderTargets(1, &m_backBuffer, m_depthStencilView);
 	//バックバッファを灰色で塗りつぶす。
 	m_pd3dDeviceContext->ClearRenderTargetView(m_backBuffer, ClearColor);
 	m_pd3dDeviceContext->ClearDepthStencilView(m_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
 }
 void GraphicsEngine::EndRender()
 {
@@ -155,4 +155,11 @@ void GraphicsEngine::Init(HWND hWnd)
 
 	m_ShadowMap.Init();
 	m_PostEffect.Init();
+
+	//各種レンダリングステートを初期化する。
+	AlphaBlendState::Init(*this);
+	DepthStencilState::Init(*this);
+	RasterizerState::Init(*this);
+	//エフェクトエンジンの初期化。
+	m_effectEngine.Init();
 }

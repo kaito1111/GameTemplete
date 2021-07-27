@@ -22,23 +22,6 @@ enum EnRenderMode {
 */
 class SkinModel
 {
-	static const int m_NumDirection = 4;
-	struct DirectionLight {
-		CVector4 Direction[m_NumDirection];
-		CVector4 Color[m_NumDirection];
-	};
-	struct Light {
-		DirectionLight dir;
-		CVector3 eyePos;
-		float pow;
-	};
-	struct PointLight{
-		CVector3 position = CVector3::Zero();
-		float pad0 = 0.0f;		//パディング
-		CVector3 color = CVector3::Zero();
-		float range = 0.0f;		//カラーの影響を与える範囲
-	};
-	const static int NUM_POINT_LIGHT = 1;
 public:
 	//メッシュが見つかったときのコールバック関数。
 	using OnFindMesh = std::function<void(const std::unique_ptr<DirectX::ModelMeshPart>&)>;
@@ -124,9 +107,13 @@ public:
 		});
 	}
 	// 自己発光色を設定。
-	void SetEmissionColor(CVector3 color)
+	void SetAmbientColor(float color)
 	{
-		m_emissionColor = color;
+		m_AmbientColor = color;
+	}
+	//影がピクセルに書かれるかどうか
+	void SetShadowRecive(bool IsShadowRecive) {
+		m_ShadowRecive = IsShadowRecive;
 	}
 private:
 	/*!
@@ -145,11 +132,7 @@ private:
 	
 	void InitShader();
 
-	void InitDirectionLight();
-
 	void InitSilhouettoDepthStepsilState();
-
-	void InitPointLight();
 private:
 	//定数バッファ。
 	struct SVSConstantBuffer {
@@ -158,7 +141,8 @@ private:
 		CMatrix mProj;
 		CMatrix mLightView;		//todo ライトビュー行列。
 		CMatrix mLightProj;		//todo ライトプロジェクション行列。
-		CVector3 emissionColor;	//!<自己発光色。
+		float AmbientColor;	//!<自己発光色。
+		int ShadowRecive;
 	};
 	EnFbxUpAxis			m_enFbxUpAxis = enFbxUpAxisZ;	//!<FBXの上方向。
 	ID3D11Buffer*		m_cb = nullptr;					//!<定数バッファ。
@@ -169,15 +153,12 @@ private:
 	ksEngine::Shader m_vsShader;
 	ksEngine::Shader m_psShader;
 	ID3D11Buffer* m_light = nullptr;
-	Light m_dirLight;
 
 	ksEngine::Shader m_psSilhouette;
 	int m_renderMode = 0;
 	ID3D11DepthStencilState* m_silhouettoDepthStepsilState = nullptr;	//シルエット描画用のデプスステンシルステート。
 
 	RenderTarget m_renderTarget;
-	CVector3 m_emissionColor = CVector3::Zero();				//自己発光カラー。
-
-	PointLight m_pointLight[NUM_POINT_LIGHT];
-	ID3D11Buffer* m_PointLightBuffer = nullptr;
+	float m_AmbientColor = 0.1f;				//自己発光カラー。
+	int m_ShadowRecive = 1;
 };

@@ -55,6 +55,14 @@ public:
 	float GetHeight() {
 		return m_height;
 	}
+	void SetDepthStencilView(ID3D11DepthStencilView* depthView) {
+		if (m_depthStencilView != nullptr) {
+			//現在のデプスステンシルビューをリリース。
+			m_depthStencilView->Release();
+		}
+		m_depthStencilView = depthView;
+		m_depthStencilView->AddRef();
+	}
 private:
 	ID3D11RenderTargetView*		m_oldRenderTargetView;
 	ID3D11DepthStencilView*		m_oldDepthStencilView;
@@ -66,5 +74,7 @@ private:
 	D3D11_VIEWPORT				m_viewport;							//!<ビューポート。
 	float m_width = 0;
 	float m_height = 0;
+	bool						m_isMSAA = false;					//!<MSAAが有効？
+	bool m_isResolveTexture = false;
 };
 

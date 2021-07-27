@@ -23,11 +23,6 @@ namespace ksEngine {
 			}
 			return hash;
 		}
-		//Effekseerマネージャ管理。
-		//82行目から85行目までのメンバがエフェクトを出すために
-		//追加したメンバ変数　	
-		Effekseer::Manager*	m_effekseerManager = nullptr;//ゲーム中に1つだけ生成する
-		EffekseerRenderer::Renderer*	m_effekseerRenderer = nullptr;//ゲーム中に1つだけ生成する
 	private:
 		void Start();
 		void Update();

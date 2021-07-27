@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="graphics\Effect\Effect.cpp" />
+    <ClCompile Include="graphics\Effect\EffectEngine.cpp" />
+    <ClCompile Include="Light\DirectionLight.cpp" />
     <ClCompile Include="graphics\GPUBuffer\ConstantBufferGPU.cpp" />
     <ClCompile Include="graphics\GaussianBlur.cpp" />
     <ClCompile Include="graphics\Bloom.cpp" />
@@ -57,15 +60,18 @@
     <ClCompile Include="graphics\2D\Sprite.cpp" />
     <ClCompile Include="Light\PointLight.cpp" />
     <ClCompile Include="PostEffect.cpp" />
+    <ClCompile Include="graphics\PresetRenderState.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="graphics\RenderTarget.cpp" />
     <ClCompile Include="graphics\2D\SampleSprite.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyCube\Sky.cpp" />
     <ClCompile Include="sound\SoundSource.cpp" />
     <ClCompile Include="sound\SoundEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="system\system.cpp" />
     <ClCompile Include="Timer\GameTime.cpp" />
@@ -74,6 +80,9 @@
     <ClCompile Include="sound\WaveFileBank.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="graphics\Effect\Effect.h" />
+    <ClInclude Include="graphics\Effect\EffectEngine.h" />
+    <ClInclude Include="Light\DirectionLight.h" />
     <ClInclude Include="graphics\GPUBuffer\ConstantBufferGPU.h" />
     <ClInclude Include="graphics\GaussianBlur.h" />
     <ClInclude Include="graphics\Bloom.h" />
@@ -116,9 +125,11 @@
     <ClInclude Include="graphics\2D\Sprite.h" />
     <ClInclude Include="Light\PointLight.h" />
     <ClInclude Include="PostEffect.h" />
+    <ClInclude Include="graphics\PresetRenderState.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="graphics\RenderTarget.h" />
     <ClInclude Include="graphics\2D\SampleSprite.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkyCube\Sky.h" />
     <ClInclude Include="sound\SoundSource.h" />
@@ -187,8 +198,8 @@
     <IncludePath>$(ProjectDir)effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/\effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(SolutionDir)/x64/Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)effekseerRuntime130/src/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)/DirectXTK\Bin\Desktop_2015_Win10\x64\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -246,6 +257,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)\bulletPhysics\src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -66,6 +66,7 @@ private:
 	//初期化場所
 	bool Start()override;
 
+	void OnDestroy()override final;
 	//アニメーションを初期化
 	void AnimetionInit();
 	//更新

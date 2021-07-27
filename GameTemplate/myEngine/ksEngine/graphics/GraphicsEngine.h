@@ -4,6 +4,7 @@
  */
 #include "ShadowMap.h"
 #include "PostEffect.h"
+#include "Effect/EffectEngine.h"
 class GraphicsEngine
 {
 public:
@@ -52,6 +53,16 @@ public:
 	PostEffect* GetPostEffect() {
 		return &m_PostEffect;
 	}
+	ID3D11DepthStencilView* GetDepthStencilView() {
+		return m_depthStencilView;
+	}
+	ID3D11BlendState*GetBlendState() {
+		return m_BlendState;
+	}
+
+	EffectEngine& GetEffectEngine() {
+		return m_effectEngine;
+	}
 private:
 	D3D_FEATURE_LEVEL		m_featureLevel;				//Direct3D デバイスのターゲットとなる機能セット。
 	ID3D11Device*			m_pd3dDevice = NULL;		//D3D11デバイス。
@@ -63,6 +74,8 @@ private:
 	ID3D11DepthStencilView* m_depthStencilView = NULL;	//デプスステンシルビュー。
 	ShadowMap m_ShadowMap;
 	PostEffect m_PostEffect;
+	ID3D11BlendState* m_BlendState = nullptr;
+	EffectEngine			m_effectEngine;								//!<エフェクトエンジン。
 };
 
 extern GraphicsEngine* g_graphicsEngine;			//グラフィックスエンジン

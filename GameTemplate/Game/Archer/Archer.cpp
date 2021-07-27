@@ -27,6 +27,7 @@ void Archer::OnDestroy()
 			DeleteGO(i);
 		}
 	}
+	Destroy();
 }
 
 void Archer::HitDamage(const float damege) {
@@ -62,9 +63,11 @@ bool Archer::Start()
 	//プレイヤーを見つける
 	m_player = FindGO<Player>("player");
 
+	m_Hp = MaxHp;
 	//絵を初期化
-	InitHpSprite(MaxHp,HpScale::EnemyHP);
+	InitHpSprite(MaxHp,m_Hp,HpScale::EnemyHP);
 
+	m_Model->SetAmbientColor(0.4f);
 	return true;
 }
 
@@ -161,6 +164,8 @@ void Archer::Update()
 	ForwardUpdate();
 	//モデルの更新
 	CharacterModelUpdate();
+	//hpが見えるかどうか
+	UpdateHpAlpha();
 }
 
 void Archer::AnimationUpdate()

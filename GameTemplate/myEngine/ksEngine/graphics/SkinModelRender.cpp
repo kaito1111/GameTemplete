@@ -30,3 +30,8 @@ void SkinModelRender::Draw()
 		m_SkinModel.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
 	}
 }
+void SkinModelRender::PostRender() {
+	if (m_IsPostrender) {
+		m_SkinModel.Draw(g_camera3D.GetViewMatrix(), g_camera3D.GetProjectionMatrix());
+	}
+}

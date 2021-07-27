@@ -35,10 +35,11 @@ private:
 	Stage* m_Stage = nullptr;
 	GameCamera* m_Camera = nullptr;
 	wchar_t m_LevelFilePath[256] = {};
-	int m_SpownHp = 62.5;
+	int m_SpownHp = 62.5f;
 	EnemySpawner* m_EnemySpawner = nullptr;
 	ArcherSpowner* m_ArcherSpawner = nullptr;
 	BossSpawn* m_BossSpawner = nullptr;
 	SkinModel model;
 	SoundSource m_BGM;
+	DirectionLight* m_Direction = nullptr;
 };

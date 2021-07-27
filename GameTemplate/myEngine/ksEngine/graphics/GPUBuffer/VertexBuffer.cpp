@@ -23,7 +23,7 @@ bool VertexBuffer::Create(int numVertex, int stride, const void * pSrcVertexBuff
 	ZeroMemory(&InitDate, sizeof(InitDate));
 	InitDate.pSysMem = pSrcVertexBuffer;
 
-	HRESULT hr = GraphicsEngine().GetD3DDevice()->CreateBuffer(&bd, &InitDate, &m_vertexBuffer);
+	HRESULT hr = g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bd, &InitDate, &m_vertexBuffer);
 	if (FAILED(hr)) {
 		return false;
 	}

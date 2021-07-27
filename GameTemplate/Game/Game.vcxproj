@@ -106,10 +106,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Boss\BossHpSprite.cpp" />
+    <ClCompile Include="GameStart.cpp" />
+    <ClCompile Include="ReSetTitle.cpp" />
+    <ClCompile Include="Title\CampFire.cpp" />
+    <ClCompile Include="Player\State\StandingState.cpp" />
+    <ClCompile Include="Player\State\TitleState.cpp" />
     <ClCompile Include="Stage\candle.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Player\weapon\IWeapon.cpp" />
-    <ClCompile Include="Player\State\PlayerStateGameClear.cpp" />
     <ClCompile Include="Player\HuntedSprite.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
@@ -140,7 +144,7 @@
     <ClCompile Include="Archer\State\IArcherState.cpp" />
     <ClCompile Include="Boss\State\IBossState.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
-    <ClCompile Include="Player\State\playerDieState.cpp" />
+    <ClCompile Include="Player\State\DieState.cpp" />
     <ClCompile Include="Player\PlayerSpowner.cpp" />
     <ClCompile Include="ReSetGame.cpp" />
     <ClCompile Include="Stage\PhysicsStageObject.cpp" />
@@ -148,13 +152,13 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="Enemy\State\IEnemyState.cpp" />
-    <ClCompile Include="Player\State\PlayerStateDamage.cpp" />
+    <ClCompile Include="Player\State\DamageState.cpp" />
     <ClCompile Include="Player\PlayerAttack.cpp" />
-    <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
-    <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
-    <ClCompile Include="Player\State\PlayerStateRun.cpp" />
-    <ClCompile Include="Player\State\PlayerStateBackStep.cpp" />
-    <ClCompile Include="Player\State\PlayerStateIdle.cpp" />
+    <ClCompile Include="Player\State\AttackState.cpp" />
+    <ClCompile Include="Player\State\RollingAttackState.cpp" />
+    <ClCompile Include="Player\State\RunState.cpp" />
+    <ClCompile Include="Player\State\BackStepState.cpp" />
+    <ClCompile Include="Player\State\IdleState.cpp" />
     <ClCompile Include="Player\State\IPlayerState.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -167,16 +171,21 @@
     <ClCompile Include="Stage\SceneChangeLocation.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Player\weapon\Sword.cpp" />
-    <ClCompile Include="Title.cpp" />
+    <ClCompile Include="Title\Title.cpp" />
     <ClCompile Include="Stage\Wall.cpp" />
+    <ClCompile Include="Stage\Torch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archer\State\ArcherDethState.h" />
     <ClInclude Include="Boss\BossHpSprite.h" />
+    <ClInclude Include="GameStart.h" />
+    <ClInclude Include="ReSetTitle.h" />
+    <ClInclude Include="Title\CampFire.h" />
+    <ClInclude Include="Player\State\StandingState.h" />
+    <ClInclude Include="Player\State\TitleState.h" />
     <ClInclude Include="Stage\candle.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player\weapon\IWeapon.h" />
-    <ClInclude Include="Player\State\PlayerStateGameClear.h" />
     <ClInclude Include="Player\HuntedSprite.h" />
     <ClInclude Include="Player\DieSprite.h" />
     <ClInclude Include="GameSceneFunction\Anime.h" />
@@ -207,7 +216,7 @@
     <ClInclude Include="Archer\State\IArcherState.h" />
     <ClInclude Include="Boss\State\IBossState.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
-    <ClInclude Include="Player\State\playerDieState.h" />
+    <ClInclude Include="Player\State\DieState.h" />
     <ClInclude Include="Player\PlayerSpowner.h" />
     <ClInclude Include="ReSetGame.h" />
     <ClInclude Include="Stage\PhysicsStageObject.h" />
@@ -215,13 +224,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="Enemy\State\IEnemyState.h" />
-    <ClInclude Include="Player\State\PlayerStateDamage.h" />
+    <ClInclude Include="Player\State\DamageState.h" />
     <ClInclude Include="Player\PlayerAttack.h" />
-    <ClInclude Include="Player\State\PlayerStateAttack.h" />
-    <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />
-    <ClInclude Include="Player\State\PlayerStateRun.h" />
-    <ClInclude Include="Player\State\PlayerStateBackStep.h" />
-    <ClInclude Include="Player\State\PlayerStateIdle.h" />
+    <ClInclude Include="Player\State\AttackState.h" />
+    <ClInclude Include="Player\State\RollingAttackState.h" />
+    <ClInclude Include="Player\State\RunState.h" />
+    <ClInclude Include="Player\State\BackStepState.h" />
+    <ClInclude Include="Player\State\IdleState.h" />
     <ClInclude Include="Player\State\IPlayerState.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player2.h" />
@@ -230,25 +239,26 @@
     <ClInclude Include="Stage\SceneChangeLocation.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Player\weapon\Sword.h" />
-    <ClInclude Include="Title.h" />
+    <ClInclude Include="Title\Title.h" />
     <ClInclude Include="Stage\Wall.h" />
+    <ClInclude Include="Stage\Torch.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Archer.FBX" />
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
     <MeshContentTask Include="Assets\modelData\Bridge.fbx" />
+    <MeshContentTask Include="Assets\modelData\CampFire.fbx" />
     <MeshContentTask Include="Assets\modelData\candle.fbx" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
+    <MeshContentTask Include="Assets\modelData\Floor.fbx" />
     <MeshContentTask Include="Assets\modelData\Grass.fbx" />
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
     <MeshContentTask Include="Assets\modelData\PlayerSword.fbx" />
     <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
-    <MeshContentTask Include="Assets\modelData\SignBoard.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
-    <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Sky.fbx" />
@@ -256,37 +266,28 @@
     <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
     <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\Stege1.fbx" />
+    <MeshContentTask Include="Assets\modelData\Torch.fbx" />
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\EnemyHP.png" />
+    <ImageContentTask Include="Assets\sprite\AttackTips.png" />
+    <ImageContentTask Include="Assets\sprite\Brack.png" />
+    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
+    <ImageContentTask Include="Assets\sprite\ClearScreen.png" />
+    <ImageContentTask Include="Assets\sprite\DashTips.png" />
+    <ImageContentTask Include="Assets\sprite\EriaBackTips.png" />
+    <ImageContentTask Include="Assets\sprite\EriaChengeTips.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_White.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\reticle.png" />
-    <ImageContentTask Include="Assets\sprite\terget.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\title.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Loading.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\Brack.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
+    <ImageContentTask Include="Assets\sprite\Tips.png" />
+    <ImageContentTask Include="Assets\sprite\title.png" />
+    <ImageContentTask Include="Assets\sprite\TitleButton.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

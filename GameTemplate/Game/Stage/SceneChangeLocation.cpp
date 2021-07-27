@@ -34,20 +34,21 @@ void SceneChangeLocation::Update()
 			if (wcscmp(m_FilePath, L"Assets/level/StageLevel.tkl") == 0||
 				wcscmp(m_FilePath, L"Assets/level/ReturnStageLevel.tkl") == 0) {
 				Game* game = FindGO<Game>("game");
-				int PlayerHP = game->GetPlayerHp();
+				float PlayerHP = game->GetPlayerHp();
 				DeleteGO(game);
 				game = nullptr;
 				game = NewGO<Game>(0, "game");
 				game->SetPlayerHp(PlayerHP);
 				game->SetLevelFilePath(L"Bridge.tkl");
-				game->SetUpdateFlag( false);
 				DeleteGO(this);
 			};
 			if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {
 				Game* game = FindGO<Game>("game");
+				float PlayerHP = game->GetPlayerHp();
 				DeleteGO(game);
 				game = nullptr;
 				game = NewGO<Game>(0, "game");
+				game->SetPlayerHp(PlayerHP);
 				game->SetLevelFilePath(L"StageBoss.tkl");
 				DeleteGO(this);
 			};

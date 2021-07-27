@@ -6,9 +6,11 @@ void Attack::Update()
 {
 	CVector3 toPlayerPos = m_Player->GetPosition() - m_Position;
 	if (toPlayerPos.Length() < m_Area) {
-		if (m_Player->GetState() < Player::State::Damage&&
-			m_Player->GetState() < Player::State::Roling&&
-			m_Player->GetState() < Player::State::GameClear) {
+		if (m_Player->GetState() == Player::State::Damage||
+			m_Player->GetState() == Player::State::Roling||
+			m_Player->GetState() == Player::State::GameClear) {
+		}
+		else {
 			m_DamageSound.Play();
 			m_Player->HitDamage(m_Damege);
 		}

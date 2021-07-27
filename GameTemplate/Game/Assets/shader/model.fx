@@ -28,11 +28,29 @@ struct SPointLight {
 static const int MAX_POINT_LIGHT = 1024;
 //ポイントライトの数を表す定数を定義する
 //static const int NUM_POINT_LIGHT = 1;
-cbuffer PointLightCb :register(b3) {
+cbuffer PointLightCb :register(b1) {
 	int NUM_POINT_LIGHT;
 }
-cbuffer PointLightCb2 : register(b4) {
+
+cbuffer PointLightCb2 : register(b2) {
 	SPointLight pointsLights[MAX_POINT_LIGHT];
+}
+
+struct SDirectionLight {
+	float4 color;
+	float3 dir;
+	float3 eyePos;
+	float  specPow;
+};
+
+static const int MAX_DIRECTION_LIGHT = 8;
+
+cbuffer DirectionLightCB:register(b3) {
+	int NUM_DIRECTION_LIGHT;
+}
+
+cbuffer DIRECTIONLIGHTCB2 : register(b4) {
+	SDirectionLight directionLight[MAX_DIRECTION_LIGHT];
 }
 
 /////////////////////////////////////////////////////////////
@@ -48,7 +66,8 @@ cbuffer VSPSCb : register(b0) {
 	//todo ライトビュー行列を追加。
 	float4x4 mLightView;	//ライトビュー行列。
 	float4x4 mLightProj;	//ライトプロジェクション行列。
-	float3 emissionColor;	//自己発光色。
+	float AmbientColor;	//自己発光色。
+	int ShadowRecive;
 };
 
 /// <summary>
@@ -95,17 +114,6 @@ struct PSInput {
 	float3 worldPos		: TEXCOORD1;	//ワールド座標。
 	float4 posInLVP		: TEXCOORD2;	//ライトビュープロジェクション空間での座標。
 };
-
-struct DirectionLight {
-	float4 dligDirection[4];
-	float4 dligColor[4];
-};
-
-cbuffer Slight : register(b1) {
-	DirectionLight direction;
-	float3 eyePos;
-	float specPow;
-}
 /*!
  *@brief	スキン行列を計算。
  */
@@ -182,6 +190,7 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 
 	//ローカル座標系からワールド座標系に変換する。
 	float4 worldPos = mul(mWorld, In.Position);
+	psInput.worldPos = worldPos.xyz;
 	//続いて、ライトビュープロジェクション空間に変換。
 	psInput.posInLVP = mul(mLightView, worldPos);
 	psInput.posInLVP = mul(mLightProj, psInput.posInLVP);
@@ -198,14 +207,15 @@ PSInput VSMainSkin(VSInputNmTxWeights In)
 float4 PSMain(PSInput In) : SV_Target0
 {
 	float4 albedoColor = albedoTexture.Sample(Sampler, In.TexCoord);
+	
 	//ディレクションライトの拡散反射光を計算する。
 	float3 lig = 0.0f;
-	for (int i = 0; i < 4; i++) {
-		lig += max(0.0f, dot(In.Normal * -1.0f, direction.dligDirection[i])) * direction.dligColor[i];
+	for (int i = 0; i < NUM_DIRECTION_LIGHT; i++) {
+		lig += max(0.0f, dot(In.Normal * -1.0f, directionLight[i].dir)) * directionLight[i].color;
 
-		float3 R = reflect(direction.dligDirection[i], In.Normal);
+		float3 R = reflect(directionLight[i].dir, In.Normal);
 
-		float3 toEye = eyePos - In.worldPos;
+		float3 toEye = directionLight[i].eyePos - In.worldPos;
 		toEye = normalize(toEye);
 
 		float t = dot(toEye, R);
@@ -213,14 +223,16 @@ float4 PSMain(PSInput In) : SV_Target0
 			t = 0.0f;
 		}
 
-		t = pow(t, specPow);
+		t = pow(t, directionLight[i].specPow);
 
-		lig += direction.dligColor[i].xyz*t * 2;
+		lig += directionLight[i].color.xyz * t * 2;
 		lig *= 0.75f;
 	}
 	//ポイントライトから光によるLambert拡散反射を計算する
 	for (int i = 0; i < NUM_POINT_LIGHT; i++) {
+				
 		float3  ligDir = normalize(In.worldPos - pointsLights[i].position);
+	
 		float distance = length(In.worldPos - pointsLights[i].position);
 		float t = max(0.0f, dot(-ligDir, In.Normal));
 		float affect = 1.0f - min(1.0f, distance / pointsLights[i].range.x);
@@ -228,31 +240,32 @@ float4 PSMain(PSInput In) : SV_Target0
 		lig += pointsLights[i].color.xyz * t * affect;
 	}
 	//環境光
-	lig += 0.1f;
+	lig += AmbientColor;
 	//LVP空間から見た時の最も手前の深度値をシャドウマップから取得する。
 	float2 shadowMapUV = In.posInLVP.xy / In.posInLVP.w;
 	shadowMapUV *= float2(0.5f, -0.5f);
 	shadowMapUV += 0.5f;
-	//シャドウマップの範囲内かどうかを判定する。
+		//シャドウマップの範囲内かどうかを判定する。
 	if (shadowMapUV.x < 0.0f || shadowMapUV.y < 0.0f || shadowMapUV.x > 1.0f || shadowMapUV.y > 1.0f) {
 		float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 		finalColor.xyz = albedoColor.xyz * lig;
 		return finalColor;
 	}
+	 
 	///LVP空間での深度値を計算。
 	float zInLVP = In.posInLVP.z / In.posInLVP.w;
 	//シャドウマップに書き込まれている深度値を取得。
 	float zInShadowMap = g_shadowMap.Sample(Sampler, shadowMapUV);
 
 
-	if (zInLVP > zInShadowMap + 0.0001f) {
-		//影が落ちているので、光を弱くする
-		lig *= 0.5f;
+	if (ShadowRecive == 1) {
+		if (zInLVP > zInShadowMap + 0.0001f) {
+			//影が落ちているので、光を弱くする
+			lig *= 0.5f;
+		}
 	}
 	float4 finalColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	finalColor.xyz = albedoColor.xyz * lig;
-	//自己発光を加算。
-	finalColor.xyz += emissionColor;
 	return finalColor;
 }
 
@@ -308,6 +321,6 @@ TextureCube<float4> skyCubeMap : register(t0);	//スカイキューブマップ。
 float4 PSMain_SkyCube(PSInput In) : SV_Target0
 {
 	float4 color = skyCubeMap.Sample(Sampler, In.Normal);
-	color.xyz += emissionColor;
+	color.xyz += 0.0;
 	return color;
 }

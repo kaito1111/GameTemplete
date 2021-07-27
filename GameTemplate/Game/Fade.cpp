@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Fade.h"
-#include "Game.h"
+#include "Enemy/Enemy.h"
+#include "Archer/Archer.h"
+#include "Boss/Boss.h"
+#include "Player/Player.h"
 
 bool Fade::Start()
 {
@@ -18,6 +21,22 @@ void Fade::Update()
 	const float MaxStayCount = 0.5f;
 	//もしStayCountがMaxStayCountを超えていなければ
 	if (m_StayCount >= MaxStayCount) {
+		QueryGOs<Enemy>("enemy", [&](Enemy* en)->bool {
+			en->SetUpdateFlag(true);
+			return true;
+		});
+		QueryGOs<Archer>("archer", [&](Archer* ac)->bool {
+			ac->SetUpdateFlag(true);
+			return true;
+		});
+		Boss* boss = FindGO<Boss>("boss", false);
+		if (boss != nullptr) {
+			boss->SetUpdateFlag(true);
+		}
+		Player* pl = FindGO<Player>("player", false);
+		if (pl != nullptr) {
+			pl->SetUpdateFlag(true);
+		}
 		//透明度を下げる
 		const float alhpaSub = 0.2f;
 		m_Alpha -= alhpaSub;
@@ -27,9 +46,25 @@ void Fade::Update()
 		const float alphaAdd = 0.2f;
 		m_Alpha += alphaAdd;
 	}
-	//もし透明ならStayCountを上げる
+	//もし不透明ならStayCountを上げる
 	if (m_Alpha > 1.1f) {
-		m_StayCount+=gameTime().GetFrameDeltaTime();
+		QueryGOs<Enemy>("enemy", [&](Enemy* en)->bool {
+			en->SetUpdateFlag(false);
+			return true;
+		});
+		QueryGOs<Archer>("archer", [&](Archer* ac)->bool {
+			ac->SetUpdateFlag(false);
+			return true;
+		});
+		Boss* boss = FindGO<Boss>("boss", false);
+		if (boss != nullptr) {
+			boss->SetUpdateFlag(false);
+		}
+		Player* pl = FindGO<Player>("player",false);
+		if (pl != nullptr) {
+			pl->SetUpdateFlag(false);
+		}
+		m_StayCount += gameTime().GetFrameDeltaTime();
 		m_Alpha = 1.1f;
 	}
 	const float OneFrameLodingAngle = 6.0f;
@@ -41,8 +76,6 @@ void Fade::Update()
 	m_FadeSprite->SetAlpha(m_Alpha);
 	//アルファ値がマイナスなので役目が終了
 	if (m_Alpha < 0.0f) {
-		Game* game = FindGO<Game>("game");
-		game->SetUpdateFlag(true);
 		DeleteGO(this);
 	}
 	//フェード中はゲームカメラも消す可能性があるから

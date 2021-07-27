@@ -34,13 +34,20 @@ namespace ksEngine {
 		 {
 			 m_SkinModel.FindMaterial(findMaterial);
 		 }
-		 void SetEmissionColor(CVector3 color)
+		 void SetAmbientColor(float color)
 		 {
-			 m_SkinModel.SetEmissionColor(color);
+			 m_SkinModel.SetAmbientColor(color);
+		 }
+		 void SetPostRender(bool isRender) {
+			 m_IsPostrender = isRender;
+		 }
+		 void SetShadowRecive(bool IsShadowRecive) {
+			 m_SkinModel.SetShadowRecive(IsShadowRecive);
 		 }
 	private:
-		void Update();
-		void Draw();
+		void Update()override;
+		void Draw()override;
+		void PostRender()override;
 	private:
 		SkinModel m_SkinModel;
 		CVector3 m_Pos = CVector3::Zero();
@@ -48,5 +55,6 @@ namespace ksEngine {
 		CVector3 m_Scale = CVector3::One();
 		bool m_IsDraw = true;
 		int m_RenderMode = 0;
+		bool m_IsPostrender = false;
 	};
 }

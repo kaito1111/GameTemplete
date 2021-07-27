@@ -91,7 +91,7 @@ void PostEffect::ChangeMainRendertTarget()
 		&m_PostEffectViewports
 	);
 	//メインレンダリングターゲットをクリアする。
-	float clearColor[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_mainRenderTarget.ClearRenderTarget(clearColor);
 	m_copyMainRtToFrameBufferSprite.Update();
 }

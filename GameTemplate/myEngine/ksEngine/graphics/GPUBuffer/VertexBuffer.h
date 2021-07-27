@@ -8,7 +8,7 @@ public:
 
 	bool Create(int numVertex, int stride, const void* pSrcVertexBuffer);
 
-	int GetStrite()const {
+	int GetStride()const {
 		return m_stride;
 	}
 

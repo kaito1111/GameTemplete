@@ -9,9 +9,7 @@ public :
 
 	void Start()override final;
 	void Update()override final;
-
-private:
-	SkinModelRender* m_model = nullptr;
+	void Delete()override final;
 
 };
 

@@ -18,7 +18,11 @@ public:
 		IndexBuffer::EnIndexType indexType,
 		void* pSrcIndexBuffer
 	);
-
+	/// <summary>
+	/// •`‰æ
+	/// </summary>
+	/// <param name="rc"></param>
+	void Draw();
 	void Release();
 	VertexBuffer& GetVertexBuffer() {
 		return m_VertexBuffer;

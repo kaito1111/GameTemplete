@@ -3,6 +3,7 @@
 #include "LightBase.h"
 #include "PointLight.h"
 #include <algorithm>
+#include"Light/DirectionLight.h"
 
 void LightManager::Start()
 {
@@ -18,9 +19,14 @@ void LightManager::Start()
 	bufferDesc.ByteWidth = sizeof(PointLight) * MAX_POINT_LIGHT;
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_PointLightBuffer);
 
-	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.ByteWidth = (((sizeof(int)) / 16) + 1) * 16;
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_NumPointLightBuffer);
+
+	bufferDesc.ByteWidth = sizeof(DirectionLight)*MAX_DIRECRION_LIGHT;
+	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_DirectionLightsBuffer);
+
+	bufferDesc.ByteWidth = (((sizeof(int)) / 16) + 1) * 16;
+	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_NumDirectionLightBuffer);
 }
 
 void LightManager::Update()
@@ -40,10 +46,25 @@ void LightManager::Update()
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
 	d3dDeviceContext->UpdateSubresource(m_PointLightBuffer, 0, nullptr, &m_rawPointLight, 0, 0);
-	d3dDeviceContext->PSSetConstantBuffers(4, 1, &m_PointLightBuffer);
+	d3dDeviceContext->PSSetConstantBuffers(2, 1, &m_PointLightBuffer);
 
 	d3dDeviceContext->UpdateSubresource(m_NumPointLightBuffer, 0, nullptr, &ligNo, 0, 0);
-	d3dDeviceContext->PSSetConstantBuffers(3, 1, &m_NumPointLightBuffer);
+	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_NumPointLightBuffer);
+
+	ligNo = 0;
+	for (auto lig : DirectionLights) {
+		if (lig->IsActive() == false) {
+			//アクティブじゃない奴はスキップ。
+			continue;
+		}
+		m_rawDirectionLight[ligNo] = lig->GetRawData();
+		ligNo++;
+	}
+	d3dDeviceContext->UpdateSubresource(m_DirectionLightsBuffer, 0, nullptr, &m_rawDirectionLight, 0, 0);
+	d3dDeviceContext->PSSetConstantBuffers(4, 1, &m_DirectionLightsBuffer);
+
+	d3dDeviceContext->UpdateSubresource(m_NumDirectionLightBuffer, 0, nullptr, &ligNo, 0, 0);
+	d3dDeviceContext->PSSetConstantBuffers(3, 1, &m_NumDirectionLightBuffer);
 }
 
 void LightManager::AddLight(LightBace * Light)
@@ -59,6 +80,13 @@ void LightManager::AddLight(LightBace * Light)
 			PointLights.push_back(reinterpret_cast<PointLight*>(Light));
 		}
 	}
+	else if (type_info == typeid(DirectionLight)) {
+		auto find = std::find(DirectionLights.begin(), DirectionLights.end(), Light);
+		if (find == DirectionLights.end()) {
+			//新規登録。
+			DirectionLights.push_back(reinterpret_cast<DirectionLight*>(Light));
+		}
+	}
 }
 
 void LightManager::RemoveLight(LightBace * Light)
@@ -68,6 +96,12 @@ void LightManager::RemoveLight(LightBace * Light)
 			PointLights.erase(
 			std::remove(PointLights.begin(), PointLights.end(), Light),
 				PointLights.end()
+		);
+	}
+	else if (type_info == typeid(DirectionLight)) {
+		DirectionLights.erase(
+			std::remove(DirectionLights.begin(), DirectionLights.end(), Light),
+			DirectionLights.end()
 		);
 	}
 }

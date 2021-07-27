@@ -4,6 +4,8 @@
 #include "Player/HuntedSprite.h"
 #include "Fade.h"
 #include "sound/SoundEngine.h"
+#include "Title/Title.h"
+
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
 ///////////////////////////////////////////////////////////////////
@@ -13,13 +15,14 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	InitGame(hInstance, hPrevInstance, lpCmdLine, nCmdShow, "Game");
 
 	//カメラを初期化。
-	g_camera3D.SetPosition({ 0.0f,100.0f,500.0f });
-	g_camera3D.SetTarget({ 0.0f, 100.0f, 0.0f });
+	g_camera3D.SetPosition({ 500.0f,300.0f,-200.0f });
+	g_camera3D.SetTarget({ 0.0f, 0.0, 0.0f });
 	g_camera3D.SetFar(20000.0f);
 
 	g_camera2D.SetPosition({ 0.0f, 0.0f, 500.0f });
 	g_camera2D.Update();
 	CGameObjectManager()->Init();
+
 	//Sprite sprite;
 	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
 
@@ -35,13 +38,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	SoundEngine soundEngine;
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
-	Game* game = NewGO<Game>(0, "game");
-	game->SetLevelFilePath(L"StageLevel.tkl");
+	
+
+	Title* title = NewGO<Title>(0,"title");
+	//Game* game = NewGO<Game>(0, "game");
+	//game->SetLevelFilePath(L"StageBoss.tkl");
 	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
 	//SkinModelRender* testmodel = NewGO<SkinModelRender>(0);
 	//testmodel->Init(L"Player.cmo");
 	LightManager::GetInstance()->Start();
-	Fade* fade = nullptr;
 	Stopwatch m_sw;
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -66,6 +71,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//サウンドエンジンを更新。
 		soundEngine.Update();
 		LightManager::GetInstance()->Update();
+		//エフェクトを更新。
+		g_graphicsEngine->GetEffectEngine().Update();
 		//effectRenderer->SetProjectionMatrix()
 
 		//描画終了。
@@ -73,5 +80,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		m_sw.Stop();
 		gameTime().PushDeltaFrameTime((float)m_sw.GetElased());
+		char fpsText[256];
+		sprintf(fpsText, "deltaTime = %f\n", m_sw.GetElapesedMillsecond());
+		OutputDebugStringA(fpsText);
 	}
 }

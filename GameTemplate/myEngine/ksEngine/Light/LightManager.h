@@ -4,6 +4,7 @@
 #include "light.h"
 class LightBace;
 class PointLight;
+class DirectionLight;
 
 class LightManager 
 {
@@ -36,4 +37,10 @@ private:
 	std::list<PointLight*> PointLights;
 	ID3D11Buffer* m_PointLightBuffer = nullptr;
 	ID3D11Buffer* m_NumPointLightBuffer = nullptr;
+
+	static const int MAX_DIRECRION_LIGHT = 8;
+	SDirectionLight m_rawDirectionLight[MAX_DIRECRION_LIGHT];
+	std::list< DirectionLight*> DirectionLights;
+	ID3D11Buffer* m_DirectionLightsBuffer = nullptr;
+	ID3D11Buffer* m_NumDirectionLightBuffer = nullptr;
 };

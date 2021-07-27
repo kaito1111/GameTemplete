@@ -60,7 +60,7 @@ void PlayerAttack::Update()
 			if (!m_Hit) {
 				m_DamageSound.Play();
 				boss->HitDamage(m_Attack);
-				m_Hit = true;
+	m_Hit = true;
 			}
 		}
 		return true;

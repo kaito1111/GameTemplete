@@ -34,10 +34,13 @@ const float FRAME_BUFFER_H = 1080.0f;				//フレームバッファの高さ。
 #include "Effekseer.h"
 #include "EffekseerRendererDX11.h"
 
+#include "GameObject/IGameObject.h"
+
 #include "math/Vector.h"
 #include "math/Matrix.h"
 #include "physics/Physics.h"
 #include "HID/Pad.h"
+
 
 
 #include "graphics/GraphicsEngine.h"
@@ -52,7 +55,7 @@ const float FRAME_BUFFER_H = 1080.0f;				//フレームバッファの高さ。
 
 static const int MAX_BONE = 512;	//!<ボーンの最大数。
 
-#include "GameObject/IGameObject.h"
+
 #include "GameObject/GameObjectManager.h"
 #include "graphics/2D/SpriteRender.h"
 #include "graphics/SkinModelRender.h"
@@ -67,5 +70,10 @@ static const int MAX_BONE = 512;	//!<ボーンの最大数。
 #include "Light/PointLight.h"
 #include "Light/LightManager.h"
 #include "Light/LightBase.h"
+#include "Light/DirectionLight.h"
 
+#include "Effekseer.h"
+#include "EffekseerRendererDX11.h"
+
+#include "graphics/Effect/Effect.h"
 using namespace ksEngine;

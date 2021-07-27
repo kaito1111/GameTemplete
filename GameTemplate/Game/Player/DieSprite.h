@@ -8,14 +8,6 @@ public:
 	void Update()override;
 	void OnDestroy()override;
 
-	int GetRezult() {
-		if (g_pad[0].IsPress(enButtonA)) {
-			if (m_ChoicesAlpha >= 1.0f) {
-				return m_Rezult;
-			}
-		}
-		return 1000;
-	}
 private:
 	SpriteRender* m_DieSprite = nullptr;
 	float m_DieAlpha = 0.0f;
@@ -27,8 +19,9 @@ private:
 	float m_ChoicesAlpha = 0.0f;
 
 	SpriteRender* m_ChoicesIConSprite = nullptr;
-	CVector3 m_IConPos = CVector3::Zero();
+	CVector3 m_IConPos = { 0.0f,50.0f,0.0f };
 
+	bool IsReset = false;
 	int m_Rezult = 0;
 };
 

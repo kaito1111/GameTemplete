@@ -121,6 +121,9 @@ public:
 	CVector3 GetPosition() const {
 		return m_position;
 	}
+	CQuaternion GetRotation()const {
+		return m_rotation;
+	}
 private:
 
 	std::wstring	m_boneName;

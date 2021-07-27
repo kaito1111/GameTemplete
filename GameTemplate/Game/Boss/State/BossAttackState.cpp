@@ -3,7 +3,7 @@
 
 void BossAttackState::Update()
 {
-	m_Boss->PlayAnimation();
+	m_Boss->PlayAnimation(1.75f);
 	if (!m_Boss->IsPlayAnimation())
 	{
 		m_Boss->SetWalkState();

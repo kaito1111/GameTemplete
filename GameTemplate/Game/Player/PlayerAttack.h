@@ -15,6 +15,10 @@ public:
 	bool Start();
 	void Update();
 	void OnDestroy()override;
+
+	bool IsHit() {
+		return m_Hit;
+	}
 private:
 	CVector3 m_AttackPos = CVector3::Zero();
 	float m_Attack = 0.0f;

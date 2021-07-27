@@ -4,12 +4,17 @@
 class IPlayerState;
 class HuntedSprite;
 class IWeapon;
+class PlayerAttack;
 
 class Player final : public Anime
 {
 public:
 	////状態の種類をenum化
 	enum State {
+		Title,		//タイトルの待機中（座っている）
+		Stand,		//立ちる
+		TakeOut,	//武器取り出し中
+		TitleWalk,  //TitlePosに向かって歩く
 		Idle,		//待機中
 		Walk,		//走り中
 		Roling,	//ローリング中。
@@ -23,11 +28,11 @@ public:
 	Player();
 	~Player();
 	//初期化
-	bool Start()override;
+	bool Start()override final;
 	//更新
-	void Update()override;
+	void Update()override final;
 	//削除された瞬間に呼ばれる
-	void OnDestroy()override;
+	void OnDestroy()override final;
 
 	//位置を取得
 	CVector3 GetPosition() {
@@ -84,6 +89,19 @@ public:
 		if (IsRollingAttack()) {
 			m_NextState = State::RollingAttack;
 		}
+	}
+	//タイトル状態へ遷移
+	void SetTitleState() {
+		m_NextState = State::Title;
+	}
+	void SetStandingState() {
+		m_NextState = State::Stand;
+	}
+	void SetTakeOutState() {
+		m_NextState = State::TakeOut;
+	}
+	void SetTitleWalk() {
+		m_NextState = State::TitleWalk;
 	}
 	//待機状態へ遷移
 	void SetIdleState() {
@@ -150,6 +168,12 @@ public:
 	int GetState()const {
 		return m_state;
 	}
+	void SetTitlePos(const CVector3& pos) {
+		m_TitlePos = pos;
+	}
+	CVector3 GetTitlePos() {
+		return m_TitlePos;
+	}
 private:
 	/// <summary>
 	/// 状態の更新。
@@ -197,18 +221,19 @@ private:
 
 	//アニメーションの初期化
 	void AnimetionInit();
+
 private:
 	bool m_ComboAttack = false;
 	
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
 	int m_state = State::Idle;					//プレイヤーの現在の状態。
-	int m_NextState = State::Idle;		//次の状態。
+	int m_NextState = State::Idle;				//次の状態。
 	CVector3 m_MoveSpeed = CVector3::Zero();	//移動量
 	
 	float m_mulAnimSpeed = 1.0f;				//アニメーション速度に乗算する
 	CVector3 m_AttackPos = CVector3::Zero();	//攻撃場所
-	AnimationClip m_AnimeClip[State::Num];//アニメーションクリップ
+	AnimationClip m_AnimeClip[State::Num];		//アニメーションクリップ
 
 	const float m_SpriteSize = 0.025f;			//hpの絵を調整する定数
 
@@ -225,5 +250,8 @@ private:
 	SoundSource m_SwingSound;
 
 	IWeapon* m_weapon = nullptr;
+	CVector3 m_TitlePos = CVector3::Zero();
+	PlayerAttack* m_PlAttack = nullptr;
+	PointLight* m_myLuminous = nullptr;			//自分を光らせるポイントライト　名前は適当
 };
 

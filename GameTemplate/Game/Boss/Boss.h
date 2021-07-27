@@ -23,9 +23,12 @@ public:
 	bool Start()override;//初期化関数を呼ぶ場所
 	void Update()override;//更新関数を呼ぶ場所
 	void OnDestroy()override;
-	//ステート先でアニメーションをプレイする。
-	void PlayAnimation() {
-		m_Animation.Update(gameTime().GetFrameDeltaTime());
+	/// <summary>
+	/// /ステート先でアニメーションをプレイする。
+	/// </summary>
+	/// <param name="nulTime">デルタタイムにアニメーションスピードを掛ける</param>
+	void PlayAnimation(float nulTime=1.0f) {
+		m_Animation.Update(gameTime().GetFrameDeltaTime()*nulTime);
 	}
 	
 	//アニメーションを再生しているか？
@@ -67,7 +70,7 @@ private:
 	IBossState* m_ActiveState = nullptr;	//状態の処理が入っている　　
 
 	State m_CurrentState = State::AppearanceRoar;	//現在の状態
-	State m_NextState = State::Walk;		//次の状態
+	State m_NextState = State::AppearanceRoar;		//次の状態
 
 	const float m_CoolTimeRoar = 10;	//咆哮をしてから咆哮をするまでの時間
 	float m_RoarTime = 0;				//咆哮してからの経過時間

@@ -21,7 +21,8 @@ bool Game::Start()
 	m_Player->SetSpownPos(m_Stage->GetPlayerPos());
 	m_Player->SetRotation(m_Stage->GetPlayerRotation());
 	m_Player->SetSpwonHp(m_SpownHp);
-	m_Camera = NewGO<GameCamera>(0);
+	m_Player->SetIdleState();
+	m_Camera = NewGO<GameCamera>(2);
 	m_Camera->SetStartAngle(m_Player->GetRot());
 	m_EnemySpawner = NewGO<EnemySpawner>(0);
 	m_EnemySpawner->SetFilePath(m_LevelFilePath);
@@ -31,11 +32,23 @@ bool Game::Start()
 	m_BossSpawner->SetFilePath(m_LevelFilePath);
 	m_BGM.Init(L"bgm.wav");
 	m_BGM.Play(true);
+
+	m_Direction = NewGO< DirectionLight>(0, "direction");
+	CVector3 Dir = CVector3::One();
+	Dir = { 2.0,-1.0f,2.0f };
+	Dir.Normalize();
+
+	CVector3 color = CVector3::One()*0.5f;
+	m_Direction->SetColor(color);
+	m_Direction->SetDirection(Dir);
+	m_Direction->SetEyePos(g_camera3D.GetPosition());
+	m_Direction->SetSpecPow(5.0f);
 	return true;
 }
 
 void Game::Update()
 {
+
 }
 
 void Game::OnDestroy()
@@ -46,4 +59,5 @@ void Game::OnDestroy()
 	DeleteGO(m_EnemySpawner);
 	DeleteGO(m_ArcherSpawner);
 	DeleteGO(m_BossSpawner);
+	DeleteGO(m_Direction);
 }

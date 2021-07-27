@@ -11,6 +11,7 @@ public:
 	};
 	~Character() ;
 
+	void Destroy();
 
 	//初期位置を設定
 	void SetSpownPos(const CVector3& pos) {
@@ -52,8 +53,7 @@ public:
 	}
 	
 	//hpと最大Hpを設定している
-	//hpだけ設定したければSetHPとかを作る
-	void InitHpSprite(const float hp, HpScale hpScale);
+	void InitHpSprite(const float maxHp,const float hp, HpScale hpScale);
 
 	//スプライトのhpの残りとかを計算している
 	void SpriteUpdate();
@@ -61,6 +61,9 @@ public:
 	//攻撃が当たった時に呼ばれる
 	//関数内にステートを変更する処理が入るので純粋仮想関数にする
 	virtual	void HitDamage(const float damege) = 0;
+
+	void Heal();
+
 private:
 	void SpriteInit(SpriteRender*& SpriteP,wchar_t* fileName);
 	void HpPosAdjustment();
@@ -88,5 +91,8 @@ protected:
 	float m_spriteFix = -50.0f;
 
 	CVector3 m_Left = CVector3::Left();
+	SpriteRender* m_HpTopTranslucentSprite = nullptr;  //Hpの半透明スプライト
+	float m_TranslucentScale = 1.0f;
+	float m_HoldTimer = 3.0f;
 };
 

@@ -3,6 +3,10 @@
 #include "level/Level.h"
 class PhysicsStageObject;
 class Player;
+class SceneChangeLocation;
+class ReturnLocatoin;
+class Candle;
+class Torch;
 class Stage final :public IGameObject
 {
 	//敵のポジションとローテーションを記憶
@@ -18,16 +22,26 @@ public:
 	void OnDestroy()override;
 
 	void Load(wchar_t* filePath);
-	CVector3 GetPlayerPos() {
+	CVector3 GetPlayerPos()const {
 		return m_SpownPlayerPosition;
 	}
 	
-	CQuaternion GetPlayerRotation() {
+	CQuaternion GetPlayerRotation() const{
 		return m_PlayerSpawnRot;
 	}
 
-	CVector3 GetEnemyPos() {
+	CVector3 GetEnemyPos()const {
 		return m_SpownEnemyPosition;
+	}
+
+	CVector3 GetTitlePos() const{
+		return m_TitlePos;
+	}
+	CVector3 GetTitleCameraPos() const{
+		return m_TitleCameraPos;
+	}
+	CVector3 GetTitleCameraTarget()const {
+		return m_TitleCameraTarget;
 	}
 private:
 	std::vector< PhysicsStageObject*> m_PSOList;
@@ -41,5 +55,12 @@ private:
 	CQuaternion m_PlayerSpawnRot = CQuaternion::Identity();
 	CVector3 m_SpownEnemyPosition = CVector3::Zero();
 	Sky* m_sky = nullptr;
+	CVector3 m_TitlePos = CVector3::Zero();
+	CVector3 m_TitleCameraPos = CVector3::Zero();
+	CVector3 m_TitleCameraTarget = CVector3::Zero();
+	std::vector<SceneChangeLocation*> m_SCLoc;
+	std::vector<ReturnLocatoin*> m_RCLoc;
+	std::vector<Candle*> m_Can;
+	std::vector<Torch*> m_Torch;
 };
 

@@ -24,18 +24,12 @@ void ReturnLocatoin::Update()
 		NewGO<Fade>(0, "fade");
 		if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {
 			Game* game = FindGO<Game>("game");
+			float PlayerHP = game->GetPlayerHp();
 			DeleteGO(game);
 			game = nullptr;
 			game = NewGO<Game>(0, "game");
+			game->SetPlayerHp(PlayerHP);
 			game->SetLevelFilePath(L"ReturnStageLevel.tkl");
-			DeleteGO(this);
-		};
-		if (wcscmp(m_FilePath, L"Assets/level/Stage2Level.tkl") == 0) {
-			Game* game = FindGO<Game>("game");
-			DeleteGO(game);
-			game = nullptr;
-			game = NewGO<Game>(0, "game");
-			game->SetLevelFilePath(L"Bridge.tkl");
 			DeleteGO(this);
 		};
 	}

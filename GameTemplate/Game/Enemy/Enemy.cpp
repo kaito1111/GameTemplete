@@ -52,8 +52,9 @@ bool Enemy::Start()
 	//モデルとキャラコンを初期化
 	CharacterInit(L"Skeleton.cmo", radius, m_height, m_ModelPos);
 
+	m_Hp = EnemyMaxHp;
 	//HPのスプライトを初期化
-	InitHpSprite(EnemyMaxHp, HpScale::PlayerHP);
+	InitHpSprite(EnemyMaxHp,m_Hp, HpScale::PlayerHP);
 
 	//アニメーションを初期化
 	AnimetionInit();
@@ -64,7 +65,15 @@ bool Enemy::Start()
 	m_SwingSound.Init(L"EnemySwingSword.wav");
 	//m_WalkSound.Play(true);
 	//m_WalkSound.SetVolume(0.0f);
+	m_Model->SetAmbientColor(0.4f);
 	return true;
+}
+void Enemy::OnDestroy()
+{
+	Destroy();
+	if (m_ActiveState != nullptr) {
+		delete m_ActiveState;
+	}
 }
 void Enemy::AnimetionInit()
 {
@@ -157,7 +166,10 @@ void Enemy::Update()
 	ForwardUpdate();
 	//アニメーションを更新
 	m_Animation.Update(gameTime().GetFrameDeltaTime());
+	//モデルを移動
 	CharacterModelUpdate();
+	//hpが見えるかどうか
+	UpdateHpAlpha();
 }
 
 bool Enemy::IsWalk() const

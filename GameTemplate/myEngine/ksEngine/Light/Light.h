@@ -7,7 +7,7 @@ struct SPointLight {
 	float pad1;
 	CVector4	color;				//!<ライトのカラー。
 	CVector4	attn;				//!<減衰定数。xはポイントライトの影響が届く範囲。yはポイントライトの減衰率に影響を与えます。
-										//!<yが大きくなると、減衰が強くなります。1.0で線形の減衰率になります。z,wは未使用。
+									//!<yが大きくなると、減衰が強くなります。1.0で線形の減衰率になります。z,wは未使用。
 };
 
 /*!
@@ -16,5 +16,7 @@ struct SPointLight {
 struct SDirectionLight {
 	CVector4	color;			//!<ライトのカラー。
 	CVector3	direction;		//!<ライトの方向。
-	unsigned int lightingMaterialIDGroup;	//!<ライトの影響を与えるマテリアルIDのグループ。
+	float pad;
+	CVector3	eyePos;
+	float pow;
 };

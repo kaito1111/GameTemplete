@@ -45,11 +45,6 @@
       <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="Player\State\IPlayerState.cpp" />
-    <ClCompile Include="Player\State\PlayerStateIdle.cpp" />
-    <ClCompile Include="Player\State\PlayerStateBackStep.cpp" />
-    <ClCompile Include="Player\State\PlayerStateRun.cpp" />
-    <ClCompile Include="Player\State\PlayerStateAttack.cpp" />
-    <ClCompile Include="Player\State\PlayerStateRollingAttack.cpp" />
     <ClCompile Include="Player\PlayerAttack.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\State\IEnemyState.cpp" />
@@ -58,8 +53,6 @@
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWalkState.cpp" />
     <ClCompile Include="Enemy\State\EnemyDamageState.cpp" />
-    <ClCompile Include="Player\State\PlayerStateDamage.cpp" />
-    <ClCompile Include="Title.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Stage\Floor.cpp" />
@@ -89,16 +82,28 @@
     <ClCompile Include="GameSceneFunction\Character.cpp" />
     <ClCompile Include="GameSceneFunction\AIProcesing.cpp" />
     <ClCompile Include="GameSceneFunction\Anime.cpp" />
-    <ClCompile Include="Player\State\playerDieState.cpp" />
     <ClCompile Include="Player\DieSprite.cpp" />
     <ClCompile Include="ReSetGame.cpp" />
     <ClCompile Include="Boss\BossHpSprite.cpp" />
     <ClCompile Include="Player\HuntedSprite.cpp" />
-    <ClCompile Include="Player\State\PlayerStateGameClear.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Player\weapon\IWeapon.cpp" />
     <ClCompile Include="Player\weapon\Sword.cpp" />
     <ClCompile Include="Stage\candle.cpp" />
+    <ClCompile Include="Player\State\DieState.cpp" />
+    <ClCompile Include="Player\State\BackStepState.cpp" />
+    <ClCompile Include="Player\State\DamageState.cpp" />
+    <ClCompile Include="Player\State\IdleState.cpp" />
+    <ClCompile Include="Player\State\RollingAttackState.cpp" />
+    <ClCompile Include="Player\State\RunState.cpp" />
+    <ClCompile Include="Player\State\TitleState.cpp" />
+    <ClCompile Include="Player\State\AttackState.cpp" />
+    <ClCompile Include="Player\State\StandingState.cpp" />
+    <ClCompile Include="Title\Title.cpp" />
+    <ClCompile Include="Title\CampFire.cpp" />
+    <ClCompile Include="Stage\Torch.cpp" />
+    <ClCompile Include="GameStart.cpp" />
+    <ClCompile Include="ReSetTitle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player2.h" />
@@ -109,11 +114,6 @@
       <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="Player\State\IPlayerState.h" />
-    <ClInclude Include="Player\State\PlayerStateIdle.h" />
-    <ClInclude Include="Player\State\PlayerStateBackStep.h" />
-    <ClInclude Include="Player\State\PlayerStateRun.h" />
-    <ClInclude Include="Player\State\PlayerStateRollingAttack.h" />
-    <ClInclude Include="Player\State\PlayerStateAttack.h" />
     <ClInclude Include="Player\PlayerAttack.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\State\IEnemyState.h" />
@@ -122,8 +122,6 @@
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Enemy\State\EnemyWalkState.h" />
     <ClInclude Include="Enemy\State\EnemyDamageState.h" />
-    <ClInclude Include="Player\State\PlayerStateDamage.h" />
-    <ClInclude Include="Title.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Stage\Floor.h" />
@@ -153,24 +151,35 @@
     <ClInclude Include="GameSceneFunction\Character.h" />
     <ClInclude Include="GameSceneFunction\AIProcesing.h" />
     <ClInclude Include="GameSceneFunction\Anime.h" />
-    <ClInclude Include="Player\State\playerDieState.h" />
     <ClInclude Include="Player\DieSprite.h" />
     <ClInclude Include="ReSetGame.h" />
     <ClInclude Include="Archer\State\ArcherDethState.h" />
     <ClInclude Include="Boss\BossHpSprite.h" />
     <ClInclude Include="Player\HuntedSprite.h" />
-    <ClInclude Include="Player\State\PlayerStateGameClear.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Player\weapon\IWeapon.h" />
     <ClInclude Include="Player\weapon\Sword.h" />
     <ClInclude Include="Stage\candle.h" />
+    <ClInclude Include="Player\State\DieState.h" />
+    <ClInclude Include="Player\State\AttackState.h" />
+    <ClInclude Include="Player\State\BackStepState.h" />
+    <ClInclude Include="Player\State\DamageState.h" />
+    <ClInclude Include="Player\State\IdleState.h" />
+    <ClInclude Include="Player\State\RollingAttackState.h" />
+    <ClInclude Include="Player\State\RunState.h" />
+    <ClInclude Include="Player\State\TitleState.h" />
+    <ClInclude Include="Player\State\StandingState.h" />
+    <ClInclude Include="Title\Title.h" />
+    <ClInclude Include="Title\CampFire.h" />
+    <ClInclude Include="Stage\Torch.h" />
+    <ClInclude Include="GameStart.h" />
+    <ClInclude Include="ReSetTitle.h" />
   </ItemGroup>
   <ItemGroup>
     <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
-    <MeshContentTask Include="Assets\modelData\PlayerArmor.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
     <MeshContentTask Include="Assets\modelData\Stege1.fbx" />
@@ -186,26 +195,30 @@
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
     <MeshContentTask Include="Assets\modelData\Sky.fbx" />
     <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
-    <MeshContentTask Include="Assets\modelData\SignBoard.fbx" />
     <MeshContentTask Include="Assets\modelData\PlayerSword.fbx" />
     <MeshContentTask Include="Assets\modelData\candle.fbx" />
+    <MeshContentTask Include="Assets\modelData\Torch.fbx" />
+    <MeshContentTask Include="Assets\modelData\Floor.fbx" />
+    <MeshContentTask Include="Assets\modelData\CampFire.fbx" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\EnemyHP.png" />
+    <ImageContentTask Include="Assets\sprite\AttackTips.png" />
+    <ImageContentTask Include="Assets\sprite\Brack.png" />
+    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
+    <ImageContentTask Include="Assets\sprite\ClearScreen.png" />
+    <ImageContentTask Include="Assets\sprite\DashTips.png" />
+    <ImageContentTask Include="Assets\sprite\EriaBackTips.png" />
+    <ImageContentTask Include="Assets\sprite\EriaChengeTips.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_White.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
-    <ImageContentTask Include="Assets\sprite\reticle.png" />
-    <ImageContentTask Include="Assets\sprite\terget.png" />
-    <ImageContentTask Include="Assets\sprite\title.png" />
-    <ImageContentTask Include="Assets\sprite\Loading.png" />
-    <ImageContentTask Include="Assets\sprite\Brack.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieChoices.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
-    <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
+    <ImageContentTask Include="Assets\sprite\Tips.png" />
+    <ImageContentTask Include="Assets\sprite\title.png" />
+    <ImageContentTask Include="Assets\sprite\TitleButton.png" />
   </ItemGroup>
 </Project>

@@ -19,8 +19,12 @@ public:
 	CVector3 GetPlayerPos() {
 		return m_player->GetPosition();
 	}
+	//プレイヤーが遠いとHpを見えなくする
+	void UpdateHpAlpha();
 protected:
 	Player* m_player = nullptr;//プレイヤーのポインタ
 	float AttackReach = 50.0f;	//攻撃の肩から腕までの距離
 	Attack* m_HaveAttack = nullptr;
+	float m_HpAlhpa = 0.0;		//距離によって視認できるかを見る
+	float m_deltaTime = 0.0f;	//Hpが見えなくなる時間
 };

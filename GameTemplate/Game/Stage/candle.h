@@ -7,6 +7,7 @@ public:
 
 	bool Start()override final;
 	void Update()override final;
+	void OnDestroy()override final;
 
 	void SetPosition(const CVector3& pos) {
 		m_Position = pos;
@@ -24,4 +25,5 @@ private:
 	CVector3 LightPos = CVector3::Zero();
 
 	PointLight* m_PointLightYellow = nullptr;//“à‘¤‚ÌŒõ‚ğÄŒ»‚·‚é
+	Effect* m_Effect = nullptr;
 };

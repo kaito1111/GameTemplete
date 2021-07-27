@@ -9,7 +9,7 @@ public:
 	bool Start()override;
 	void Update()override;
 	
-	void SetFade(Fade* fa) {
+	void SetFade(Fade*& fa) {
 		m_Fade = fa;
 	}
 private:

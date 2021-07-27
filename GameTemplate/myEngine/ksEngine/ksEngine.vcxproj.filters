@@ -52,6 +52,11 @@
     <ClCompile Include="Light\LightManager.cpp" />
     <ClCompile Include="Light\PointLight.cpp" />
     <ClCompile Include="Light\LightBase.cpp" />
+    <ClCompile Include="Light\DirectionLight.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="graphics\Effect\Effect.cpp" />
+    <ClCompile Include="graphics\Effect\EffectEngine.cpp" />
+    <ClCompile Include="graphics\PresetRenderState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -110,5 +115,10 @@
     <ClInclude Include="Light\PointLight.h" />
     <ClInclude Include="Light\LightBase.h" />
     <ClInclude Include="Light\Light.h" />
+    <ClInclude Include="Light\DirectionLight.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="graphics\Effect\Effect.h" />
+    <ClInclude Include="graphics\Effect\EffectEngine.h" />
+    <ClInclude Include="graphics\PresetRenderState.h" />
   </ItemGroup>
 </Project>

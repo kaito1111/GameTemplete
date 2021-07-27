@@ -38,10 +38,6 @@ void SkinModel::Init(const wchar_t* filePath, EnFbxUpAxis enFbxUpAxis)
 
 	InitShader();
 
-	InitDirectionLight();
-
-	InitPointLight();
-
 	InitSilhouettoDepthStepsilState();
 	
 	//SkinModelDataManagerを使用してCMOファイルのロード。
@@ -92,39 +88,6 @@ void SkinModel::InitSilhouettoDepthStepsilState()
 	pd3d->CreateDepthStencilState(&desc, &m_silhouettoDepthStepsilState);
 }
 
-void SkinModel::InitPointLight()
-{
-	for (auto& pt : m_pointLight) {
-		pt.position.x = 00.0;
-		pt.position.y = 20.0f;
-		pt.position.z = 00.0f;
-		pt.range = 300.0f;
-		pt.color.x = 1.0f;
-		pt.color.y = 1.0f;
-		pt.color.z = 1.0f;
-	}
-}
-
-void SkinModel::InitDirectionLight()
-{
-	m_dirLight.dir.Direction[0] = { 1.0f, 0.0f, 0.0f, 0.0f };
-	m_dirLight.dir.Color[0] = { 0.0f, 0.0f, 0.0f, 1.0f };
-
-	//これを太陽光とする
-	m_dirLight.dir.Direction[1] = { -1.0f, -1.0f, -1.0f, 0.0f };
-	m_dirLight.dir.Direction[1].Normalize();
-	m_dirLight.dir.Color[1] = { 1.2f, 1.2f, 1.2f, 1.0f };
-
-	m_dirLight.dir.Direction[2] = { 0.0f, 0.0f, 1.0f, 0.0f };
-	m_dirLight.dir.Color[2] = { 0.2f, 0.2f, 0.2f, 1.0f };
-
-	m_dirLight.dir.Direction[3] = { 1.0f, 1.0f, -1.0f, 0.0f };
-	m_dirLight.dir.Direction[3].Normalize();
-	m_dirLight.dir.Color[3] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	m_dirLight.eyePos = g_camera3D.GetPosition();
-	m_dirLight.pow = 5.0f;
-}
-
 void SkinModel::InitConstantBuffer()
 {
 	//作成するバッファのサイズをsizeof演算子で求める。
@@ -141,12 +104,6 @@ void SkinModel::InitConstantBuffer()
 																//CPUアクセスが不要な場合は0。
 	//作成。
 	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_cb);
-
-	bufferDesc.ByteWidth = (((sizeof(Light)) / 16) + 1) * 16;				//SDirectionLightは16byteの倍数になっているので、切り上げはやらない。
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_light); 
-
-	bufferDesc.ByteWidth = (((sizeof(PointLight)) / 16) + 1) * 16;
-	g_graphicsEngine->GetD3DDevice()->CreateBuffer(&bufferDesc, NULL, &m_PointLightBuffer);
 }
 void SkinModel::InitSamplerState()
 {
@@ -190,14 +147,6 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 
 	ID3D11DeviceContext* d3dDeviceContext = g_graphicsEngine->GetD3DDeviceContext();
 
-	m_dirLight.eyePos = g_camera3D.GetPosition();
-	d3dDeviceContext->UpdateSubresource(m_light, 0, nullptr, &m_dirLight, 0, 0);
-	d3dDeviceContext->PSSetConstantBuffers(1, 1, &m_light);
-
-	d3dDeviceContext->UpdateSubresource(m_PointLightBuffer, 0, nullptr, &m_pointLight, 0, 0);
-	d3dDeviceContext->PSSetConstantBuffers(2, 1, &m_PointLightBuffer);
-
-
 	//定数バッファの内容を更新。
 	SVSConstantBuffer vsCb;
 	vsCb.mWorld = m_worldMatrix;
@@ -205,7 +154,8 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 	vsCb.mView = viewMatrix;
 	vsCb.mLightProj = g_graphicsEngine->GetShadowMap()->GetLightProjMatrix();
 	vsCb.mLightView = g_graphicsEngine->GetShadowMap()->GetLightViewMatrox();
-	vsCb.emissionColor = m_emissionColor;
+	vsCb.AmbientColor = m_AmbientColor;
+	vsCb.ShadowRecive = m_ShadowRecive;
 	d3dDeviceContext->UpdateSubresource(m_cb, 0, nullptr, &vsCb, 0, 0);
 	//定数バッファをGPUに転送。
 	d3dDeviceContext->VSSetConstantBuffers(0, 1, &m_cb);
@@ -217,7 +167,7 @@ void SkinModel::Draw(CMatrix viewMatrix, CMatrix projMatrix)
 
 	switch (m_renderMode)
 	{
-		//通常描画
+	//通常描画
 	case enNormalDraw:
 		//通常描画
 		m_modelDx->UpdateEffects([&](DirectX::IEffect* material) {

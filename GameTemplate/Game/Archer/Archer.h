@@ -75,7 +75,9 @@ public:
 	}
 	//弓をアーチャーのリストから削除
 	void ArrowListPop() {
-		m_ArrowList.pop_front();
+		if (m_ArrowList.size() != 0) {
+			m_ArrowList.pop_front();
+		}
 	}
 
 	bool IsFacingFlag()const{

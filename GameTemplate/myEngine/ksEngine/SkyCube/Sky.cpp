@@ -104,7 +104,7 @@ void ksEngine::Sky::Update()
 		//更新の必要あり。
 		m_skinModelRender->SetScale(m_scale);
 		m_skinModelRender->SetPosition(m_position);
-		m_skinModelRender->SetEmissionColor(m_emissionColor);
+		m_skinModelRender->SetAmbientColor(m_AmbientColor);
 		m_isDirty = false;
 	}
 }

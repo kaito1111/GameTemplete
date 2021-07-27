@@ -23,5 +23,5 @@ private:
 	CVector3 m_IConPos = CVector3::Zero();
 
 	int m_Rezult = 0;
-	Fade* m_fade = nullptr;
+	bool m_ReSet = false;
 };

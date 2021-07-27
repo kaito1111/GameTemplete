@@ -1,5 +1,5 @@
 #pragma once
-
+#include "GameObject/IGameObject.h"
 class LightBace : public ksEngine::IGameObject
 {
 public:

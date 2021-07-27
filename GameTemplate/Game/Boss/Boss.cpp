@@ -43,11 +43,14 @@ bool Boss::Start() {
 #endif
 	AttackReach = 150.0f;
 
-	InitHpSprite(BossMaxHp, HpScale::BossHP);
+	m_Hp = BossMaxHp;
+	InitHpSprite(BossMaxHp,m_Hp, HpScale::BossHP);
 	InitSprite();
 	m_RoarSound.Init(L"RoarSound.wav");
 	m_HpTopSprite->SetAlpha(0.0f);
 	m_HpUnderSprite->SetAlpha(0.0f);
+	m_HpTopTranslucentSprite->SetAlpha(0.0f);
+	m_Model->SetAmbientColor(0.2f);
 	return true;
 }
 
@@ -75,6 +78,10 @@ void Boss::OnDestroy()
 	DeleteGO(m_HitModel);
 #endif
 	DeleteGO(m_BossSprite);
+	Destroy();
+	if (m_ActiveState != nullptr) {
+		delete m_ActiveState;
+	}
 }
 
 void Boss::IsChengeAttackState()

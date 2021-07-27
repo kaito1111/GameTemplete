@@ -7,10 +7,10 @@
 #include "Vector.h"
 
 
-/*!
- * @brief	行列。
- */
-class CMatrix{
+ /*!
+  * @brief	行列。
+  */
+class CMatrix {
 public:
 
 	union {
@@ -28,6 +28,32 @@ public:
 	operator DirectX::XMMATRIX() const
 	{
 		return DirectX::XMLoadFloat4x4(&mat);
+	}
+	operator Effekseer::Matrix44() const
+	{
+		Effekseer::Matrix44 eMat = *((Effekseer::Matrix44*)&mat);
+		return eMat;
+	}
+	operator Effekseer::Matrix43() const
+	{
+		Effekseer::Matrix43 eMat;
+		eMat.Value[0][0] = mat.m[0][0];
+		eMat.Value[0][1] = mat.m[0][1];
+		eMat.Value[0][2] = mat.m[0][2];
+
+		eMat.Value[1][0] = mat.m[1][0];
+		eMat.Value[1][1] = mat.m[1][1];
+		eMat.Value[1][2] = mat.m[1][2];
+
+		eMat.Value[2][0] = mat.m[2][0];
+		eMat.Value[2][1] = mat.m[2][1];
+		eMat.Value[2][2] = mat.m[2][2];
+
+		eMat.Value[3][0] = mat.m[3][0];
+		eMat.Value[3][1] = mat.m[3][1];
+		eMat.Value[3][2] = mat.m[3][2];
+
+		return eMat;
 	}
 	CMatrix() {
 
@@ -51,7 +77,7 @@ public:
 	{
 		memcpy(efMat.Values, m, sizeof(efMat.Values));
 	}
-	CMatrix(const DirectX::XMFLOAT4X4& m) 
+	CMatrix(const DirectX::XMFLOAT4X4& m)
 	{
 		mat = m;
 	}
@@ -81,24 +107,24 @@ public:
 	void Mul(CVector3& vOut) const
 	{
 		DirectX::XMStoreFloat3(
-			&vOut.vec, 
+			&vOut.vec,
 			DirectX::XMVector3Transform(vOut, *this)
 		);
 	}
 	void Mul(CVector4& vOut) const
 	{
-		DirectX::XMStoreFloat4( 
-			&vOut.vec, 
-			DirectX::XMVector4Transform(vOut, *this) 
+		DirectX::XMStoreFloat4(
+			&vOut.vec,
+			DirectX::XMVector4Transform(vOut, *this)
 		);
 	}
 	/*!
 	 *@brief	平行移動行列を作成。
 	 */
-	void MakeTranslation( const CVector3& trans ) 
+	void MakeTranslation(const CVector3& trans)
 	{
-		DirectX::XMStoreFloat4x4( 
-			&mat, 
+		DirectX::XMStoreFloat4x4(
+			&mat,
 			DirectX::XMMatrixTranslationFromVector(trans)
 		);
 	}
@@ -139,7 +165,7 @@ public:
 	 *@brief	クォータニオンから回転行列を作成。
 	 *@param[in]	q		クォータニオン
 	 */
-	void MakeRotationFromQuaternion( const CQuaternion& q )
+	void MakeRotationFromQuaternion(const CQuaternion& q)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -151,7 +177,7 @@ public:
 	*@param[in]	axis	回転軸。
 	*@param[in]	angle	回転角度
 	*/
-	void MakeRotationAxis(const CVector3& axis, float angle )
+	void MakeRotationAxis(const CVector3& axis, float angle)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -181,7 +207,7 @@ public:
 		float aspect,
 		float fNear,
 		float fFar
-		)
+	)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -195,7 +221,7 @@ public:
 	*@param[in]	fNear		近平面。
 	*@param[in]	fFar		遠平面。
 	*/
-	void MakeOrthoProjectionMatrix( float w, float h, float fNear, float fFar )
+	void MakeOrthoProjectionMatrix(float w, float h, float fNear, float fFar)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -208,7 +234,7 @@ public:
 	 *@param[in]	target		注視点。
 	 *@param[in]	up			カメラの上方向。
 	 */
-	void MakeLookAt( const CVector3& position, const CVector3& target, const CVector3& up )
+	void MakeLookAt(const CVector3& position, const CVector3& target, const CVector3& up)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -220,7 +246,7 @@ public:
 	 *@details
 	 * *this = m0 * m1
 	 */
-	void Mul( const CMatrix& m0, const CMatrix& m1 )
+	void Mul(const CMatrix& m0, const CMatrix& m1)
 	{
 		DirectX::XMFLOAT4X4 lm;
 		DirectX::XMStoreFloat4x4(
@@ -233,7 +259,7 @@ public:
 	 *@brief	逆行列を計算。
 	 *@param[in]	m	元になる行列。
 	 */
-	void Inverse( const CMatrix& _m )
+	void Inverse(const CMatrix& _m)
 	{
 		DirectX::XMStoreFloat4x4(
 			&mat,
@@ -258,3 +284,14 @@ public:
 		return identity;
 	}
 };
+/*!
+*@brief	行列同士の乗算。
+*@details
+* 乗算は左から右に向かってかかっていく。
+*/
+static inline CMatrix operator*(const CMatrix& m1, const CMatrix m2)
+{
+	CMatrix mRet;
+	mRet.Mul(m1, m2);
+	return mRet;
+}
