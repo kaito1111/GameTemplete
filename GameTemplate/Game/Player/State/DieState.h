@@ -3,22 +3,25 @@
 #include "Player/DieSprite.h"
 class ReSetGame;
 class Fade;
+/// <summary>
+/// 死んだときに呼ばれるクラス
+/// 継承を使って使用する
+/// </summary>
 class DieState : public IPlayerState
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// 何も書いてないが、IPlayerStateにプレイヤーポインタを確保している
+	/// </summary>
+	/// <param name="pl">プレイヤーポインタ</param>
 	DieState(Player* player)
 		:IPlayerState(player) {
-		m_DieSprite = NewGO< DieSprite>(0);
 	};
-	~DieState();
-
-	void Update()override final;
-	void Delete()override final;
-
 private:
-	void ReStart();
-	DieSprite* m_DieSprite = nullptr;
-	int m_Rezult = 0; 
-	ReSetGame* m_resetGame = nullptr;
+	/// <summary>
+	/// 毎フレーム呼ばれる更新処理。
+	/// </summary>
+	void Update()override final;
 };
 

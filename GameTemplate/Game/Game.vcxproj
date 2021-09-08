@@ -138,7 +138,6 @@
     <ClCompile Include="Enemy\State\EnemyWalkState.cpp" />
     <ClCompile Include="Enemy\State\EnemyAttackState.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
-    <ClCompile Include="Enemy\EnemyAttack.cpp" />
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Fade.cpp" />
     <ClCompile Include="Archer\State\IArcherState.cpp" />
@@ -157,7 +156,7 @@
     <ClCompile Include="Player\State\AttackState.cpp" />
     <ClCompile Include="Player\State\RollingAttackState.cpp" />
     <ClCompile Include="Player\State\RunState.cpp" />
-    <ClCompile Include="Player\State\BackStepState.cpp" />
+    <ClCompile Include="Player\State\RollingState.cpp" />
     <ClCompile Include="Player\State\IdleState.cpp" />
     <ClCompile Include="Player\State\IPlayerState.cpp" />
     <ClCompile Include="main.cpp" />
@@ -165,7 +164,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Stage\ReturnLocation.cpp" />
     <ClCompile Include="Stage\SceneChangeLocation.cpp" />
@@ -210,7 +208,6 @@
     <ClInclude Include="Enemy\State\EnemyWalkState.h" />
     <ClInclude Include="Enemy\State\EnemyAttackState.h" />
     <ClInclude Include="Enemy\Enemy.h" />
-    <ClInclude Include="Enemy\EnemyAttack.h" />
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Fade.h" />
     <ClInclude Include="Archer\State\IArcherState.h" />
@@ -229,11 +226,10 @@
     <ClInclude Include="Player\State\AttackState.h" />
     <ClInclude Include="Player\State\RollingAttackState.h" />
     <ClInclude Include="Player\State\RunState.h" />
-    <ClInclude Include="Player\State\BackStepState.h" />
+    <ClInclude Include="Player\State\RollingState.h" />
     <ClInclude Include="Player\State\IdleState.h" />
     <ClInclude Include="Player\State\IPlayerState.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Stage\ReturnLocation.h" />
     <ClInclude Include="Stage\SceneChangeLocation.h" />
@@ -256,11 +252,10 @@
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
     <MeshContentTask Include="Assets\modelData\PlayerSword.fbx" />
     <MeshContentTask Include="Assets\modelData\Ruins.fbx" />
-    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
     <MeshContentTask Include="Assets\modelData\ReturnRoad.fbx" />
-    <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
+    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Sky.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2.fbx" />
     <MeshContentTask Include="Assets\modelData\Stage2Gate.fbx" />
@@ -270,14 +265,10 @@
     <MeshContentTask Include="Assets\modelData\wall.FBX" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\AttackTips.png" />
     <ImageContentTask Include="Assets\sprite\Brack.png" />
     <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
     <ImageContentTask Include="Assets\sprite\ClearScreen.png" />
-    <ImageContentTask Include="Assets\sprite\DashTips.png" />
-    <ImageContentTask Include="Assets\sprite\EriaBackTips.png" />
-    <ImageContentTask Include="Assets\sprite\EriaChengeTips.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
+    <ImageContentTask Include="Assets\sprite\Stamina_Top_Green.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
@@ -285,7 +276,6 @@
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
-    <ImageContentTask Include="Assets\sprite\Tips.png" />
     <ImageContentTask Include="Assets\sprite\title.png" />
     <ImageContentTask Include="Assets\sprite\TitleButton.png" />
   </ItemGroup>

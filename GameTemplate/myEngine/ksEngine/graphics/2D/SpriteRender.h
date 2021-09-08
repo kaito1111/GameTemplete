@@ -40,10 +40,14 @@ namespace ksEngine {
 			m_Size = { wide,hight };
 		}
 
+		//透明度
+		//0.0で透明になる
 		void SetAlpha(float alpha) {
 			m_alpha = alpha;
 		}
 
+		//基点
+		//floatでもセットできる用
 		void SetPivot(float x,float y) {
 			m_pivot = { x,y };
 		}
@@ -75,6 +79,9 @@ namespace ksEngine {
 		}
 		static float Down() {
 			return 1.0f;
+		}
+		bool Get3DDraw()const {
+			return m_Is3DDraw;
 		}
 	private:
 		Sprite m_sprite;

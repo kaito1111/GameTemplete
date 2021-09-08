@@ -111,6 +111,10 @@ public:
 	CMatrix GetOrthoProjectionMatrix()const {
 		return m_OrtProjMatrix;
 	}
+
+	float GetViewAngle()const {
+		return m_viewAngle;
+	}
 private:
 	CMatrix	m_viewMatrix = CMatrix::Identity();		//ビュー行列。
 	CMatrix m_projMatrix = CMatrix::Identity();		//プロジェクション行列。

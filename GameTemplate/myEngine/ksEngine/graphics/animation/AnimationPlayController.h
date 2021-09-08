@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <deque>
+
 class Skeleton;
 class AnimationClip;
 class Bone;
@@ -121,4 +123,5 @@ private:
 	CVector3 m_deltaValueFootstepBoneOneFrame = CVector3::Zero();	//footstepボーンの1フレームでの変化量
 	CVector3 m_freezeBoneTranslate = CVector3::Zero();						//フリーズしているボーンの平行移動量。
 	CVector3 m_deltaValueFootstepBone = CVector3::Zero();					//footstepの移動量。
+	std::deque<CVector3> m_m_deltaValueFootstepList;
 };

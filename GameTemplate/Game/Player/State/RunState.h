@@ -1,27 +1,36 @@
 #pragma once
 #include "Player/State/IPlayerState.h"
 class Player;
+/// <summary>
+/// 移動するときに呼ばれるクラス
+/// 継承を使って利用する
+/// </summary>
 class RunState : public IPlayerState
 {
-public: 
+public:
+	/// <summary>
+	/// コンストラクタ
+	/// 何も書いてないが、IPlayerStateにプレイヤーポインタを確保している
+	/// </summary>
+	/// <param name="pl">プレイヤーポインタ</param>
 	RunState(Player* pl) :
 		IPlayerState(pl) {
 	}
-	
+
+private:
 	/// <summary>
-	/// 更新処理。
+	/// 毎フレーム呼ばれる更新処理。
 	/// </summary>
 	void Update()override;
 
 	/// <summary>
-	/// 回転できるか
+	///	回転できるかどうか
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>攻撃中は回転ができるのでtrueを返す</returns>
 	bool IsPossibleRotate()const override
 	{
 		return true;
 	}
-private:
 	SoundSource m_sound;
 };
 

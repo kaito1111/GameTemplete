@@ -8,6 +8,7 @@ void RollingAttackState::Update()
 
 	m_player->PlayAnimation();
 
+	m_player->IsStaminaRest();
 	if (m_player->IsPlayAnimation() == false) {
 		m_player->SetIdleState();
 	}

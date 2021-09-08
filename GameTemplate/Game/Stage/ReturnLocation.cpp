@@ -21,17 +21,19 @@ void ReturnLocatoin::Update()
 	CVector3 Diff = m_player->GetPosition() - m_Pos;
 	Diff.y = 0.0f;
 	if (Diff.Length() < m_Eria) {
-		NewGO<Fade>(0, "fade");
-		if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {
-			Game* game = FindGO<Game>("game");
-			float PlayerHP = game->GetPlayerHp();
-			DeleteGO(game);
-			game = nullptr;
-			game = NewGO<Game>(0, "game");
-			game->SetPlayerHp(PlayerHP);
-			game->SetLevelFilePath(L"ReturnStageLevel.tkl");
-			DeleteGO(this);
-		};
+		if (g_pad[0].IsPress(enButtonA)) {
+			NewGO<Fade>(0, "fade");
+			if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {
+				Game* game = FindGO<Game>("game");
+				float PlayerHP = game->GetPlayerHp();
+				DeleteGO(game);
+				game = nullptr;
+				game = NewGO<Game>(0, "game");
+				game->SetPlayerHp(PlayerHP);
+				game->SetLevelFilePath(L"ReturnStageLevel.tkl");
+				DeleteGO(this);
+			}
+		}
 	}
 }
 

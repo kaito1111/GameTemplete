@@ -171,6 +171,7 @@ CVector3 Animation::UpdateGlobalPose()
 		}
 	}
 	m_numAnimationPlayController = numAnimationPlayController;
+
 	return vGlobalDeltaFootStep;
 }
 	

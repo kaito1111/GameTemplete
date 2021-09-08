@@ -6,43 +6,80 @@ class HuntedSprite;
 class IWeapon;
 class PlayerAttack;
 
+/// <summary>
+/// プレイヤークラス
+/// </summary>
 class Player final : public Anime
 {
 public:
-	////状態の種類をenum化
+	//プレイヤーのスタミナ消費量を表した列挙型
+	enum  StaminaCostList {
+		StaminaRun = 1,				//走り中
+		StaminaRolling = 30,		//ローリング中
+		StaminaAttack = 20,			//攻撃中
+		StaminaRollingAttack = 60,	//ローリング攻撃中
+		StaminaNum					
+	};
+	//状態の種類を表した列挙型
 	enum State {
-		Title,		//タイトルの待機中（座っている）
-		Stand,		//立ちる
-		TakeOut,	//武器取り出し中
-		TitleWalk,  //TitlePosに向かって歩く
-		Idle,		//待機中
-		Walk,		//走り中
-		Roling,	//ローリング中。
-		Attack,	//攻撃中
-		RollingAttack,//ローリングアタック中
-		Damage,	//ダメージ中
-		Die,    //死亡
-		GameClear,
+		Title,			//タイトルの待機中（座っている）
+		Stand,			//立つ
+		Idle,			//待機中
+		Walk,			//走り中
+		Roling,			//ローリング中。
+		Attack,			//攻撃中
+		RollingAttack,	//ローリングアタック中
+		Damage,			//ダメージ中
+		Die,			//死亡
+		GameClear,		//ゲームクリア
 		Num
 	};
-	Player();
-	~Player();
-	//初期化
+	/// <summary>
+	/// インスタンスが生成されると、一度だけ呼ばれる開始処理
+	/// </summary>
+	/// <remarks>
+	/// UnityのStart()関数の仕様に準拠。
+	/// </remarks>
+	/// <returns>
+	/// trueが帰ってきたら、初期化完了。
+	/// 複数フレームにわたって初期化をしたい場合は、
+	/// 初期化完了までfalseを返す。
+	/// </returns>
 	bool Start()override final;
-	//更新
+	/// <summary>
+	/// 毎フレーム呼ばれる更新処理。
+	/// </summary>
 	void Update()override final;
-	//削除された瞬間に呼ばれる
+	/// <summary>
+	/// インスタンスが破棄される時に呼ばれる関数。
+	/// </summary>
+	/// <remarks>
+	/// 本エンジンで実装している、ゲームオブジェクトを削除する
+	/// DeleteGO関数は、すぐにインスタンスを削除するわけではなく、
+	/// 1フレーム遅れてインスタンスが削除される。
+	/// そのため、デストラクタの呼び出しが、DeleteGOの呼び出しから1フレーム遅れることとなる。
+	/// DeleteGOが呼ばれたタイミングで、行いたい終了処理はOnDestroy()に記述する。
+	/// </remarks>
 	void OnDestroy()override final;
 
-	//位置を取得
+	/// <summary>
+	/// プレイヤーモデルの位置を取得
+	/// </summary>
+	/// <returns>モデルの位置</returns>
 	CVector3 GetPosition() {
 		return m_ModelPos;
 	}
-	//攻撃位置を取得
+	/// <summary>
+	/// プレイヤーの攻撃位置を取得
+	/// </summary>
+	/// <returns>攻撃位置</returns>
 	CVector3 AttackPos() {
 		return m_AttackPos;
 	}
-	//hpを取得
+	/// <summary>
+	/// プレイヤーの残りHpを取得
+	/// </summary>
+	/// <returns>Hpを取得</returns>
 	float GetHp() const{
 		return m_Hp;
 	}
@@ -90,27 +127,33 @@ public:
 			m_NextState = State::RollingAttack;
 		}
 	}
-	//タイトル状態へ遷移
+	/// <summary>
+	/// タイトル状態へ遷移
+	/// </summary>
 	void SetTitleState() {
 		m_NextState = State::Title;
 	}
+	/// <summary>
+	/// 立つ状態へ遷移
+	/// </summary>
 	void SetStandingState() {
 		m_NextState = State::Stand;
 	}
-	void SetTakeOutState() {
-		m_NextState = State::TakeOut;
-	}
-	void SetTitleWalk() {
-		m_NextState = State::TitleWalk;
-	}
-	//待機状態へ遷移
+	/// <summary>
+	/// 待機状態へ遷移
+	/// </summary>
 	void SetIdleState() {
 		m_NextState = State::Idle;
 	}
+	/// <summary>
+	/// ゲームクリアステートへ遷移
+	/// </summary>
 	void SetClearState() {
 		m_NextState = State::GameClear;
 	}
-	//アニメーションを再生
+	/// <summary>
+	/// アニメーションを再生
+	/// </summary>
 	void PlayAnimation()
 	{
 		//待機状態の処理
@@ -131,7 +174,10 @@ public:
 	bool IsPlayAnimation() const {
 		return m_Animation.IsPlaying();
 	}
-	//ダメージを受けた
+	/// <summary>
+	/// ダメージを受けた
+	/// </summary>
+	/// <param name="damege">ダメージ量</param>
 	void HitDamage(const float damege) override{
 
 		//hpを減らす
@@ -145,34 +191,63 @@ public:
 		}
 	}
 
-	//初期位置を設定
+	/// <summary>
+	/// 初期位置を設定
+	/// </summary>
+	/// <param name="pos"></param>
 	void SetSpownPos(const CVector3& pos) {
 		m_SpownPosition = pos;
 	}
-	//回転率を設定
+	/// <summary>
+	/// 回転率を設定
+	/// </summary>
+	/// <param name="rot"></param>
 	void SetRotation(const CQuaternion& rot) {
 		m_ModelRot = rot;
 	}
-	//Hpを設定
-	//エリアチェンジで使う
+	/// <summary>
+	/// Hpを設定
+	/// エリアチェンジで使う
+	/// </summary>
+	/// <param name="hp"></param>
 	void SetSpwonHp(const float hp) {
 		m_Hp = hp;
 	}
 
-	//プレイヤーの高さを取得
+	/// <summary>
+	/// プレイヤーの身長を取得
+	/// </summary>
+	/// <returns>キャラコンの高さ</returns>
 	float GetHeight() const {
 		return m_height;
 	}
 
-	//プレイヤーの状態を取得
+	/// <summary>
+	/// プレイヤーの状態を取得
+	/// </summary>
+	/// <returns></returns>
 	int GetState()const {
 		return m_state;
 	}
-	void SetTitlePos(const CVector3& pos) {
-		m_TitlePos = pos;
+	/// <summary>
+	/// プレイヤーのスタミナ残量を取得
+	/// </summary>
+	/// <returns>スタミナの残量</returns>
+	float GetStamina()const {
+		return m_Stamina;
 	}
-	CVector3 GetTitlePos() {
-		return m_TitlePos;
+	/// <summary>
+	/// スタミナを設定する
+	/// </summary>
+	/// <param name="st"></param>
+	void SetStamina(const float st) {
+		m_Stamina = st;
+	}
+	/// <summary>
+	/// スタミナをつくことができるか
+	/// </summary>
+	void IsStaminaRest() {
+		m_StaminaRest = false;
 	}
 private:
 	/// <summary>
@@ -219,12 +294,13 @@ private:
 	/// <param name="state"></param>
 	void ChangeState(int state);
 
-	//アニメーションの初期化
+	/// <summary>
+	/// アニメーションを初期化する
+	/// </summary>
 	void AnimetionInit();
 
 private:
-	bool m_ComboAttack = false;
-	
+	bool m_ComboAttack = false;	
 
 	IPlayerState* m_currentState = nullptr;		//現在のステート。
 	int m_state = State::Idle;					//プレイヤーの現在の状態。
@@ -244,14 +320,22 @@ private:
 	SkinModelRender* m_HitModel = nullptr;		//デバッグ用のモデル
 #endif
 	CVector3 m_SpownPosition = CVector3::Zero();//初期位置
-	HuntedSprite* m_HuntedSprite = nullptr;
-	SoundSource m_WalkSound;
-	SoundSource m_WalkSound2;
-	SoundSource m_SwingSound;
+	HuntedSprite* m_HuntedSprite = nullptr;		//ゲームクリア時に出るスプライト
+	SoundSource m_WalkSound;					//歩く音
+	SoundSource m_WalkSound2;					//歩く音が被った時に流れる予備音声
+	SoundSource m_SwingSound;					//武器を振った音
 
-	IWeapon* m_weapon = nullptr;
-	CVector3 m_TitlePos = CVector3::Zero();
-	PlayerAttack* m_PlAttack = nullptr;
+	IWeapon* m_weapon = nullptr;				//武器のスキン
+	PlayerAttack* m_PlAttack = nullptr;			//プレイヤーの攻撃判定
 	PointLight* m_myLuminous = nullptr;			//自分を光らせるポイントライト　名前は適当
+	SpriteRender* m_StaminaSprite = nullptr;	//スタミナ残量のスプライト
+	float m_Stamina = 100.0f;					//スタミナ値
+	SpriteRender* m_StaminaFrame = nullptr;		//スタミナのフレーム
+	bool m_StaminaRest = true;					//スタミナが回復できるか
+	float m_RestStopTime = 1.0f;				//スタミナを使い切ると回復出来なくなるクールタイム
+	bool m_IsLastAttack = false;				//この攻撃が最後？
+	float m_NewClearTime = 0.0f;				//ClearスプライトをNewするタイミング
+
+	SoundSource m_RollingSound;					//回転時に流れる音
 };
 

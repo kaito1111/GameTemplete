@@ -57,6 +57,7 @@
     <ClCompile Include="graphics\Effect\Effect.cpp" />
     <ClCompile Include="graphics\Effect\EffectEngine.cpp" />
     <ClCompile Include="graphics\PresetRenderState.cpp" />
+    <ClCompile Include="graphics\SpringCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -120,5 +121,6 @@
     <ClInclude Include="graphics\Effect\Effect.h" />
     <ClInclude Include="graphics\Effect\EffectEngine.h" />
     <ClInclude Include="graphics\PresetRenderState.h" />
+    <ClInclude Include="graphics\SpringCamera.h" />
   </ItemGroup>
 </Project>

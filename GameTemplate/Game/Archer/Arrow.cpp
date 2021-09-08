@@ -4,7 +4,7 @@
 #include "ArcherAttack.h"
 
 namespace {
-	const float MoveSpeed = 20.0f;
+	const float MoveSpeed = 40.0f;
 	const float DeleteTime = 10.0f;
 }
 

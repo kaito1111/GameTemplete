@@ -1,12 +1,13 @@
 #include "pch.h"
-#include "BackStepState.h"
+#include "RollingState.h"
 #include "Player/Player.h"
 
-void BackStepState::Update() {
+void RollingState::Update() {
 	m_player->SetMulAnimSpeed(1.0f);
 
 	m_player->PlayAnimation();
 
+	m_player->IsStaminaRest();
 
 	if (m_player->IsPlayAnimation() == false) {
 		m_player->SetIdleState();

@@ -65,9 +65,12 @@ bool Archer::Start()
 
 	m_Hp = MaxHp;
 	//äGÇèâä˙âª
-	InitHpSprite(MaxHp,m_Hp,HpScale::EnemyHP);
+	InitHpSprite(MaxHp,m_Hp);
 
 	m_Model->SetAmbientColor(0.4f);
+
+	m_Shot.Init(L"ArrowShot.wav");
+	m_Draw.Init(L"ArrowDraw.wav");
 	return true;
 }
 
@@ -102,12 +105,14 @@ void Archer::InitAnimetion()
 void Archer::OnAnimEvent(const wchar_t * eventName)
 {
 	if (wcscmp(eventName, L"SpownArrow") == 0) {
-		//ñÓÇçÏÇÈ
-		Arrow* m_Arrow = NewGO<Arrow>(0,"arrow");
-		//ñÓÇÃèâä˙âª
-		m_Arrow->Init(this);
-		m_ArrowList.push_back(m_Arrow);
-		m_HasArrow = m_Arrow;
+		if (m_HasArrow == nullptr) {
+			//ñÓÇçÏÇÈ
+			Arrow* m_Arrow = NewGO<Arrow>(0, "arrow");
+			//ñÓÇÃèâä˙âª
+			m_Arrow->Init(this);
+			m_ArrowList.push_back(m_Arrow);
+			m_HasArrow = m_Arrow;
+		}
 	}
 	if (wcscmp(eventName, L"bindArrow") == 0) {
 		m_isAttachArrow = true;
@@ -118,6 +123,12 @@ void Archer::OnAnimEvent(const wchar_t * eventName)
 	}
 	if(wcscmp(eventName, L"PlayerFacingFinish") == 0) {
 		m_IsPlayerFacing = false;
+	}	
+	if (wcscmp(eventName, L"ArrowShot") == 0) {
+		m_Shot.Play();
+	}
+	if (wcscmp(eventName, L"ArrowDraw") == 0) {
+		m_Draw.Play();
 	}
 }
 

@@ -13,6 +13,7 @@ bool SceneChangeLocation::Start()
 	m_Skin->SetPosition(m_Pos);
 	m_Skin->SetScale({ m_Eria,m_Eria,0.0f });
 #endif
+	//m_manual = FindGO<Manual>("manual");
 	return true;
 }
 
@@ -20,12 +21,18 @@ void SceneChangeLocation::Update()
 {
 	//もしフェードが作られていないなら
 	if (m_Fade == nullptr) {
+		//プレイヤーとの距離を測る
 		CVector3 Diff = m_player->GetPosition() - m_Pos;
 		Diff.y = 0.0f;
 		//もしプレイヤーが範囲に入っていれば
 		if (Diff.Length() < m_Eria) {
-			//フェードを出す
-			m_Fade = NewGO<Fade>(0, "fade");
+			////マニュアルでAボタンを押してもらえるよう促す
+			//m_manual->SetManualPattern(Manual::ManualPattern::EriaChenge);
+			//Bボタンを押されたら
+			if (g_pad[0].IsPress(enButtonA)) {
+				//フェードを出す
+				m_Fade = NewGO<Fade>(0, "fade");
+			}
 		}
 	}
 	else {

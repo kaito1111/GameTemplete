@@ -7,73 +7,48 @@
 
 namespace {
 	const float addSpriteAlpha = 0.05f;
-	const float priority = 1;
+	const float priority = 4;
 	const float RestarPos = -100.0f;
 	const float TitlePos = -350.0f;
 }
 bool HuntedSprite::Start()
 {
-	m_HuntSprite = NewGO<SpriteRender>(priority);
-	m_HuntSprite->Init(L"PlayerHunted.dds");
+	m_HuntSprite = NewGO<SpriteRender>(priority+1);
+	m_HuntSprite->Init(L"PlayerHunted.dds", 1024, 1024);
 	m_HuntSprite->SetAlpha(m_HuntAlpha);
-	//ロゴはDieスプライトより手前に来てほしいので-１する
-	m_LogoSprite = NewGO<SpriteRender>(priority -1);
-	m_LogoSprite->Init(L"PlayerHuntedLogo.dds");
-	m_LogoSprite->SetAlpha(m_LogoAlpha);
-
-	m_ChoicesIConSprite = NewGO<SpriteRender>(priority - 1);
-	m_ChoicesIConSprite->Init(L"ChoicesIcon.dds");
-	m_ChoicesIConSprite->SetAlpha(m_ChoicesAlpha);
-	m_IConPos.y = RestarPos;
-	m_ChoicesIConSprite->SetPosition(m_IConPos);
+	m_BrackSprite = NewGO<SpriteRender>(priority);
+	m_BrackSprite->Init(L"Brack.dds");
+	m_BrackSprite->SetAlpha(m_HuntAlpha);
+	m_HuntSound.Init(L"Hunted.wav"); 
+	m_HuntSound.SetVolume(20.0f);
+	m_HuntSound.Play();
 	return true;
 }
 
 void HuntedSprite::Update()
 {
 	m_HuntAlpha += addSpriteAlpha;
-	if (m_HuntAlpha >= 0.500f) {
-		m_HuntAlpha = 0.500f;
-		m_LogoAlpha += addSpriteAlpha;
+	if (m_HuntAlpha > 0.5f) {
+		m_BrackSprite->SetAlpha(0.5f);
 	}
-	if (m_LogoAlpha >= 1.000f) {
-		m_LogoAlpha = 1.000f;
-		m_ChoicesAlpha += 0.5f;
+	else {
+		m_BrackSprite->SetAlpha(m_HuntAlpha);
 	}
-	if (m_ChoicesAlpha >= 1.00f) {
-		m_ChoicesAlpha = 1.000f;
+	if (m_HuntAlpha > 1.0f) {
+		m_HuntAlpha = 1.0f;
 	}
-	if (m_ChoicesAlpha >= 1.0f) {
-		//リスタートが選ばれると
-		if (m_IConPos.y >= RestarPos &&
-			g_pad[0].IsPress(enButtonA) &&
-			m_ReSet == false) {
-			ReSetGame* reGame = NewGO<ReSetGame>(0, "resetGame");
-			m_ReSet = true;
-		}
-		//タイトルが選ばれると
-		if (m_IConPos.y >= TitlePos &&
-			g_pad[0].IsPress(enButtonA) &&
-			m_ReSet == false) {
-			ReSetTitle* m_Title = NewGO<ReSetTitle>(0, "resettitle");
-			m_ReSet = true;
-		}
+	//タイトルが選ばれると
+	if (m_HuntAlpha >= 1.0f&&
+		g_pad[0].IsPressAnyKey() &&
+		m_ReSet == false) {
+		ReSetTitle* m_Title = NewGO<ReSetTitle>(0, "resettitle");
+		m_ReSet = true;
 	}
-	if (g_pad[0].GetLStickYF() > 0.9f) {
-		m_IConPos.y = RestarPos;
-	}
-	if (g_pad[0].GetLStickYF() < -0.9f) {
-		m_IConPos.y = TitlePos;
-	}
-	m_ChoicesIConSprite->SetPosition(m_IConPos);
 	m_HuntSprite->SetAlpha(m_HuntAlpha);
-	m_LogoSprite->SetAlpha(m_LogoAlpha);
-	m_ChoicesIConSprite->SetAlpha(m_ChoicesAlpha);
 }
 
 void HuntedSprite::OnDestroy()
 {
 	DeleteGO(m_HuntSprite);
-	DeleteGO(m_LogoSprite);
-	DeleteGO(m_ChoicesIConSprite);
+	DeleteGO(m_BrackSprite);
 }

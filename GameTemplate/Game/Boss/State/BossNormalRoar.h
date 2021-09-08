@@ -1,17 +1,26 @@
 #pragma once
 #include "IBossState.h"
+/// <summary>
+/// ボスが咆哮をするときに呼ばれるクラス
+/// 継承を使って利用する
+/// </summary>
 class BossNormalRoar:public IBossState
 {
 public:
+	/// <summary>
+	/// コンストラクタ
+	/// 何も書いてないが、IBossStateにボスのポインタを確保している
+	/// </summary>
+	/// <param name="boss">ボスのポインタ</param>
 	BossNormalRoar(Boss* boss) :
 		IBossState(boss) {
-		m_Effect = NewGO<Effect>(0);
-		m_Effect->Play(L"Assets/effect/BossRoar.efk");
 	};
 
+	/// <summary>
+	/// 毎フレーム呼ばれる更新処理。
+	/// </summary>
 	void Update()override;
 
 private:
-	Effect* m_Effect = nullptr;
 };
 

@@ -6,9 +6,9 @@ public:
 	ReturnLocatoin() {};
 	~ReturnLocatoin() {};
 
-	bool Start();
-	void Update();
-	void OnDestroy()override;
+	bool Start()override final;
+	void Update()override final;
+	void OnDestroy()override final;
 
 	void SetPosition(CVector3 pos) {
 		m_Pos = pos;
@@ -22,6 +22,6 @@ private:
 #ifdef _DEBUG
 	SkinModelRender* m_Skin = nullptr;
 #endif
-	float m_Eria = 50.0f;
+	const float m_Eria = 75.0f;
 	wchar_t m_FilePath[256] = {};
 };

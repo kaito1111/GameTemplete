@@ -1,6 +1,7 @@
 #pragma once
 class Player;
 class Fade;
+//#include "Manual.h"
 class SceneChangeLocation final : public IGameObject
 {
 public:
@@ -24,8 +25,9 @@ private:
 #ifdef _DEBUG
 	SkinModelRender* m_Skin = nullptr;
 #endif
-	float m_Eria = 50.0f;
+	float m_Eria = 300.0f;
 	wchar_t m_FilePath[256] = {};
 	Fade* m_Fade = nullptr;
+	//Manual* m_manual = nullptr;
 };
 

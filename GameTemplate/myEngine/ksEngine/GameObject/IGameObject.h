@@ -4,58 +4,124 @@ namespace ksEngine {
 	class IGameObject
 	{
 	public:
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
 		IGameObject()
 		{
 		}
+		/// <summary>
+		/// デストラクタ
+		/// </summary>
 		virtual ~IGameObject() {
 
 		}
 	public:
+		/// <summary>
+		/// 描画順番を返す
+		/// </summary>
+		/// <returns>
+		/// 描画順番
+		/// </returns>
 		GameObjectPrio GetPriority()const {
 			return m_priority;
 		}
-		//スタート関数が終わった？
+
+		/// <summary>
+		/// スタート関数が完了したかをどうかのフラグを返す
+		/// </summary>
+		/// <returns>
+		/// trueが帰ってきたら、初期化完了。
+		/// </returns>
 		bool IsStart() {
 			return m_IsStart;
 		}
-		//死亡フラグを立てる。
-		//このエンジンより外では使わない
+		
+		/// <summary>
+		/// 死亡フラグを立てる。
+		///このエンジンより外では使わない
+		/// </summary>
 		void SetDeadMark() {
 			m_IsDead = true;
 		}
-		//死亡判定
+		
+		/// <summary>
+		/// DeleteGOが呼ばれたか
+		/// 呼ばれた場合は更新などの関数が自動的に呼ばれなくなる
+		///つまり死んでいるということ
+	 	/// </summary>
+		/// <returns>
+		/// trueが帰ってきたら、死んでいることになる。
+		/// </returns>
 		bool IsDead()const {
 			return m_IsDead;
 		}
-		//アクティブフラグを設定
+
+		/// <summary>
+		/// アクティブフラグを設定
+		/// m_IsDeadに似ていて更新などを呼びたくない時などに使う
+		/// でも、死んではいない
+		/// </summary>
+		/// <param name="flag">アクティブフラグ</param>
 		void SetActiveFlag(bool flag) {
 			m_IsActive = flag;
 		}
-		//アクティブか？
+		
+		/// <summary>
+		/// アクティブフラグが有効かどうか
+		/// </summary>
+		/// <returns>
+		/// trueが帰ってきたら、アクティブフラグが有効
+		/// </returns>
 		bool IsActive()const {
 			return m_IsActive;
 		}
-		//タグを設定
+
+		/// <summary>
+		/// タグを設定
+		/// </summary>
+		/// <param name="tags">タグ</param>
 		void SetTag(unsigned int tags) {
 			m_Tags = tags;
 		}
-		//GameObjectでNewされたときに呼ぶ
+
+		/// <summary>
+		/// GameObjectでNewされたときに呼ぶ
+		/// </summary>
 		void SetMarkNewFromGameObjectManager() {
 			m_IsNewFromGameObjectManajer = true;
 		}
-		//GameObjectでNewされたかを取得
+		/// <summary>
+		/// GameObjectでNewされたかを取得
+		/// </summary>
+		/// <returns>
+		/// trueが帰ってきたら、Newされている
+		/// </returns>
 		bool IsNewFromGameObjectManager() const {
 			return m_IsNewFromGameObjectManajer;
 		}
+
+		/// <summary>
+		/// Update関数を呼ぶかどうか
+		/// trueでUpdateを呼ぶ
+		/// </summary>
+		/// <param name="isUpdate">アップデートをする</param>
 		void SetUpdateFlag(bool isUpdate) {
 			m_IsUpdate = isUpdate;
 		}
 	public:
+		/// <summary>
+		/// GameObjectManagerに積まれているインスタンスのUpdateを呼ぶ
+		/// </summary>		
 		void UpdateWrapper() {
 			if (m_IsActive&&m_IsStart &&m_IsUpdate && !m_IsDead && !m_IsRegistDeadList) {
+				//更新
 				Update();
 			}
 		}
+		/// <summary>
+		/// GameObjectManagerに積まれているインスタンスのスタートを呼ぶ
+		/// </summary>	
 		void StartWrapper() {
 			if (m_IsActive && !m_IsStart && !m_IsDead && !m_IsRegistDeadList) {
 				if (Start()) {
@@ -63,6 +129,10 @@ namespace ksEngine {
 				}
 			}
 		}
+
+		/// <summary>
+		/// GameObjectManagerに積まれているインスタンスのDrawを呼ぶ
+		/// </summary>	
 		void DrawWrapper()
 		{
 			if (m_IsActive&&m_IsStart && !m_IsDead && !m_IsRegistDeadList) {
@@ -70,16 +140,50 @@ namespace ksEngine {
 			}
 		}
 
+		/// <summary>
+		/// GameObjectManagerに積まれているインスタンスのPostRenderを呼ぶ
+		/// </summary>	
 		void PostRenderWrapper() {
 			if (m_IsActive&&m_IsStart && !m_IsDead && !m_IsRegistDeadList) {
 				PostRender();
 			}
 		}
 	public:
+		/// <summary>
+		/// インスタンスが生成されると、一度だけ呼ばれる開始処理
+		/// </summary>
+		/// <remarks>
+		/// UnityのStart()関数の仕様に準拠。
+		/// </remarks>
+		/// <returns>
+		/// trueが帰ってきたら、初期化完了。
+		/// 複数フレームにわたって初期化をしたい場合は、
+		/// 初期化完了までfalseを返す。
+		/// </returns>
 		virtual bool Start() { return true; };
+		/// <summary>
+		/// 毎フレーム呼ばれる更新処理。
+		/// </summary>
 		virtual	void Update() {};
+		/// <summary>
+		/// 毎フレーム呼ばれる描画処理。
+		/// </summary>
 		virtual void Draw() {};
+		/// <summary>
+		/// インスタンスが破棄される時に呼ばれる関数。
+		/// </summary>
+		/// <remarks>
+		/// 本エンジンで実装している、ゲームオブジェクトを削除する
+		/// DeleteGO関数は、すぐにインスタンスを削除するわけではなく、
+		/// 1フレーム遅れてインスタンスが削除される。
+		/// そのため、デストラクタの呼び出しが、DeleteGOの呼び出しから1フレーム遅れることとなる。
+		/// DeleteGOが呼ばれたタイミングで、行いたい終了処理はOnDestroy()に記述する。
+		/// </remarks>
 		virtual void OnDestroy() {};
+		/// <summary>
+		/// 毎フレーム呼ばれる描画処理。
+		/// Draw関数よりも呼ばれるタイミングが遅い
+		/// </summary>
 		virtual void PostRender() {};
 
 		friend class GameObjectManager;

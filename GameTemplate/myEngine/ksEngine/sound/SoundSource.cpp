@@ -20,6 +20,7 @@ SoundSource::~SoundSource()
 void SoundSource::InitCommon()
 {
 }
+/// L"Assets/sound"‚Í‚¢‚ç‚È‚¢
 void SoundSource::Init(wchar_t* filePath)
 {
 	wchar_t fileName[256] = L"Assets/sound/";

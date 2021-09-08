@@ -18,15 +18,15 @@ bool DieSprite::Start()
 	m_DieSprite->SetAlpha(m_DieAlpha);
 	//ロゴはDieスプライトより手前に来てほしいので＋１する
 	m_LogoSprite = NewGO<SpriteRender>(priority+1);
-	m_LogoSprite->Init(L"PlayerDieLogo.dds", 1280.0f, 920.0f);
+	m_LogoSprite->Init(L"PlayerDieLogo.dds", 1024.0f, 1024.0f);
 	m_LogoSprite->SetAlpha(m_LogoAlpha);
 
 	m_PlayerDieChoicesSprite = NewGO<SpriteRender>(priority + 1);
-	m_PlayerDieChoicesSprite->Init(L"PlayerDieChoices.dds",1280.0f,920.0f);
+	m_PlayerDieChoicesSprite->Init(L"PlayerDieChoices.dds", 1024.0f, 1024.0f);
 	m_PlayerDieChoicesSprite->SetAlpha(m_ChoicesAlpha);
 
 	m_ChoicesIConSprite = NewGO<SpriteRender>(priority + 1);
-	m_ChoicesIConSprite->Init(L"ChoicesIcon.dds",1280.0f, 920.0f);
+	m_ChoicesIConSprite->Init(L"ChoicesIcon.dds", 1024.0f, 1024.0f);
 	m_ChoicesIConSprite->SetAlpha(m_ChoicesAlpha);
 	m_ChoicesIConSprite->SetPosition(m_IConPos);
 	return true;

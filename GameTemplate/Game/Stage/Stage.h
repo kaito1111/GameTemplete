@@ -45,10 +45,8 @@ public:
 	}
 private:
 	std::vector< PhysicsStageObject*> m_PSOList;
-	//SkinModelRender* m_Model = nullptr;
 	CVector3 m_pos = CVector3::Zero();
 	CVector3 m_Scale = CVector3::One()*20.0f;
-	//PhysicsStaticObject m_phy;
 	Level m_level;
 	wchar_t m_LevelFilePath[256] = {};
 	CVector3 m_SpownPlayerPosition = CVector3::Zero();

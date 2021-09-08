@@ -4,12 +4,12 @@
 
 namespace {
 	const int AttackPrio = 0;		//攻撃の優先順位
-	const float MoveSpeed = 2.3f;	//移動できる距離
+	const float MoveSpeed = 6.0f;	//移動できる距離
 	const float MaxApperDiff = 400.0f;//HPを視認できる最大の距離
 	const float DeleteTime = 1.5f;	//Hpスプライトが見えなくなってから消えるまでの時間
-} 
+}
 
-void AIProcesing::AIAttack(float damage,float eria,char* AttackName)
+void AIProcesing::AIAttack(float damage, float eria, char* AttackName)
 {
 	CVector3 AttackPos = m_ModelPos + m_forward * AttackReach;
 	m_HaveAttack = NewGO<Attack>(AttackPrio, AttackName);
@@ -34,7 +34,7 @@ void AIProcesing::UpdateHpAlpha()
 	else {
 		m_deltaTime += gameTime().GetFrameDeltaTime();
 	}
-	if (m_deltaTime >=DeleteTime) {
+	if (m_deltaTime >= DeleteTime) {
 		m_HpAlhpa -= 0.05f;
 	}
 	m_HpAlhpa = min(m_HpAlhpa, 1.0f);
@@ -44,10 +44,19 @@ void AIProcesing::UpdateHpAlpha()
 	m_HpUnderSprite->SetAlpha(m_HpAlhpa);
 }
 
+void AIProcesing::DeleteAttack()
+{
+	if (m_HaveAttack != nullptr) {
+		DeleteGO(m_HaveAttack);
+		m_HaveAttack = nullptr;
+	}
+}
+
 AIProcesing::~AIProcesing()
 {
 	if (m_HaveAttack != nullptr) {
 		DeleteGO(m_HaveAttack);
+		m_HaveAttack = nullptr;
 	}
 }
 

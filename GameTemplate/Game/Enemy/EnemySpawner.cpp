@@ -12,7 +12,7 @@ bool EnemySpawner::Start()
 			Enemy* enemy = NewGO<Enemy>(0, "enemy");
 			//“G‚Ì‰ŠúˆÊ’u‚ğİ’è
 			CVector3 SpownPos = funclevel.position;
-			enemy->SetSpownPos(SpownPos);
+			enemy->SetSporwnModelPosition(SpownPos);
 			//“G‚Ì‰Šú‰ñ“]—Ê‚ğİ’è
 			enemy->SetRotation(funclevel.rotation);
 			//ƒŠƒXƒg‚ÉÏ‚Ş

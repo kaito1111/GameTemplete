@@ -7,7 +7,6 @@
 #include "Enemy/State/IEnemyState.h"
 #include "Enemy/State/EnemyDamageState.h"
 #include "State/EnemyDown.h"
-#include "EnemyAttack.h"
 #include "GameSceneFunction/AIProcesing.h"
 #include "GameSceneFunction/Attack.h"
 
@@ -46,15 +45,13 @@ bool Enemy::Start()
 	m_ModelScale *= EnemyScale;
 	//プレイヤーのポインタを見つける
 	m_Player = FindGO<Player>("player");
-	//初期位置を設定
-	m_ModelPos = m_SpownPosition;
 
 	//モデルとキャラコンを初期化
 	CharacterInit(L"Skeleton.cmo", radius, m_height, m_ModelPos);
 
 	m_Hp = EnemyMaxHp;
 	//HPのスプライトを初期化
-	InitHpSprite(EnemyMaxHp,m_Hp, HpScale::PlayerHP);
+	InitHpSprite(EnemyMaxHp,m_Hp);
 
 	//アニメーションを初期化
 	AnimetionInit();
@@ -66,6 +63,9 @@ bool Enemy::Start()
 	//m_WalkSound.Play(true);
 	//m_WalkSound.SetVolume(0.0f);
 	m_Model->SetAmbientColor(0.4f);
+
+	m_AttackVoice.Init(L"EnemyAttackVoice.wav"); 
+	m_AttackVoice.SetVolume(3.0f);
 	return true;
 }
 void Enemy::OnDestroy()
@@ -105,14 +105,16 @@ void Enemy::OnAnimEvent(const wchar_t* eventName)
 	//AttackEndの名前を見つけたら
 	if (wcscmp(eventName, L"AttackEnd") == 0) {
 		//攻撃判定を消す
-		DeleteGO(m_HaveAttack);
-		m_HaveAttack = nullptr;
+		DeleteAttack();
 	}
 	if (wcscmp(eventName, L"WalkSound1") == 0) {
 		m_WalkSound.Play();
 	}
 	if (wcscmp(eventName, L"WalkSound2") == 0) {
 		m_WalkSound.Play();
+	}
+	if (wcscmp(eventName, L"AttackVoice") == 0) {
+		m_AttackVoice.Play();
 	}
 	//if (wcscmp(eventName, L"SwingSound") == 0) {
 	//	m_WalkSound.Play();
@@ -139,14 +141,12 @@ void Enemy::ChangeState(int st)
 		break;
 	case State::Damege:		//攻撃をくらった
 		delete m_ActiveState;
-		DeleteGO(m_HaveAttack);
-		m_HaveAttack = nullptr;
+		DeleteAttack();
 		m_ActiveState = new EnemyDamageState(this);
 		break;
 	case State::Down:		//死んだ
 		delete m_ActiveState;
-		DeleteGO(m_HaveAttack);
-		m_HaveAttack = nullptr;
+		DeleteAttack();
 		m_CharaCon.RemoveRigidBoby();
 		m_HpUnderSprite->SetAlpha(SpriteClear);
 		m_ActiveState = new EnemyDown(this);

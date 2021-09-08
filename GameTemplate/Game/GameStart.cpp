@@ -5,7 +5,7 @@
 
 bool GameStart::Start()
 {
-	m_fade = NewGO<Fade>(0, "fade");
+	m_fade = NewGO<Fade>(5, "fade");
 	return true;
 }
 

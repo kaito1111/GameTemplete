@@ -21,20 +21,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	g_camera2D.SetPosition({ 0.0f, 0.0f, 500.0f });
 	g_camera2D.Update();
+	//ゲームオブジェクトマネージャーを初期化
 	CGameObjectManager()->Init();
 
-	//Sprite sprite;
-	//sprite.Init(L"Assets/sprite/discode_icon.dds"/*, 128, 128*/);
-
-	//::EffekseerRenderer::Renderer* effectRenderer = ::EffekseerRendererDX11::Renderer::Create(
-	//	g_graphicsEngine->GetD3DDevice(),
-	//	g_graphicsEngine->GetD3DDeviceContext(),
-	//	512
-	//);
-	//::Effekseer::Manager* effectManager = ::Effekseer::Manager::Create(512);
-
-	//Effekseer::Effect* effect = Effekseer::Effect::Create(effectManager, (EFK_CHAR*)L"Assets/effect/ItemPoint.efk");
-	//Effekseer::Handle handle = effectManager->Play(effect, 0.0f, 0.0f, 0.0f);
 	SoundEngine soundEngine;
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
@@ -43,10 +32,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	Title* title = NewGO<Title>(0,"title");
 	//Game* game = NewGO<Game>(0, "game");
 	//game->SetLevelFilePath(L"StageBoss.tkl");
-	//HuntedSprite* huntSp = NewGO<HuntedSprite>(0);
-	//SkinModelRender* testmodel = NewGO<SkinModelRender>(0);
-	//testmodel->Init(L"Player.cmo");
+	//ライトの初期化
 	LightManager::GetInstance()->Start();
+	//ゲームタイマー
 	Stopwatch m_sw;
 	//ゲームループ。
 	while (DispatchWindowMessage() == true)
@@ -61,27 +49,31 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		//物理エンジンの更新。
 		g_physics.Update();
 		g_physics.GetDynamicWorld()->debugDrawWorld();
-		//CQuaternion Rot = CQuaternion::Identity();
-		//Rot.SetRotationDeg(CVector3::AxisY(), 180.0f);
-		//sprite.Update(/*CVector3::Zero(), CQuaternion::Identity(), CVector3::One()*/);
-		//sprite.Draw(g_camera2D.GetViewMatrix(),g_camera2D.GetProjectionMatrix());
-		//g_camera2D.Update();
-		//g_camera3D.Update();
+		//ゲームオブジェクトを更新
 		CGameObjectManager()->ExcuteGame();
 		//サウンドエンジンを更新。
 		soundEngine.Update();
 		LightManager::GetInstance()->Update();
 		//エフェクトを更新。
 		g_graphicsEngine->GetEffectEngine().Update();
-		//effectRenderer->SetProjectionMatrix()
 
 		//描画終了。
 		g_graphicsEngine->EndRender();
 
+		//スピンロックを行う。
+		int restTime = 0;
+		do {
+			m_sw.Stop();
+			restTime = 32 - (int)m_sw.GetElapesedMillsecond();
+		} while (restTime > 0);
+
+
 		m_sw.Stop();
+		// スピンロック
+
 		gameTime().PushDeltaFrameTime((float)m_sw.GetElased());
-		char fpsText[256];
+		/*char fpsText[256];
 		sprintf(fpsText, "deltaTime = %f\n", m_sw.GetElapesedMillsecond());
-		OutputDebugStringA(fpsText);
+		OutputDebugStringA(fpsText);*/
 	}
 }

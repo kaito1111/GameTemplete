@@ -17,7 +17,7 @@ namespace ksEngine {
 		}
 		//1フレームの経過時間を取得(単位・秒)。
 		const float GetFrameDeltaTime()const {
-			return m_frameDeltaTime;
+			return 1.0 / 30.0f;// m_frameDeltaTime;
 		}
 		void PushDeltaFrameTime(float deltaTime) {
 			m_frameDeltaTimeQue.push_back(deltaTime);
@@ -27,7 +27,7 @@ namespace ksEngine {
 					totalTime += time;
 				}
 				//平均値をとる。
-				m_frameDeltaTime = min(1.0f / 60.0f, totalTime / m_frameDeltaTimeQue.size());
+				m_frameDeltaTime = min(1.0f / 30.0f, totalTime / m_frameDeltaTimeQue.size());
 				m_frameDeltaTimeQue.pop_front();
 			}
 		}

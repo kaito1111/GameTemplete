@@ -3,21 +3,25 @@
 #include "Player/State/IPlayerState.h"
 
 /// <summary>
-/// 待機ステートクラス。
+/// プレイヤーが何もしていないときに呼ばれる待機クラス。
+/// 継承を使って使用する
 /// </summary>
 class IdleState : public IPlayerState
 {
 public:
 	/// <summary>
 	/// コンストラクタ
+	/// 何も書いてないが、IPlayerStateにプレイヤーポインタを確保している
 	/// </summary>
+	/// <param name="pl">プレイヤーポインタ</param>
 	IdleState(Player* pl) :
 		IPlayerState(pl)
 	{
 
 	}
+private:
 	/// <summary>
-	/// 更新処理。
+	/// 毎フレーム呼ばれる更新処理。
 	/// </summary>
 	void Update() override;
 	/// <summary>
@@ -28,6 +32,5 @@ public:
 	{
 		return false;
 	}
-
 };
 

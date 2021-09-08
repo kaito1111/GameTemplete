@@ -88,6 +88,9 @@ namespace ksEngine {
 		{
 			return m_TextureSRV;
 		}
+		void Set3Draw(bool is3dDraw) {
+			m_Is3DDraw = is3dDraw;
+		}
 	private:
 		/// <summary>
 		/// ‰Šú‰»‚Ì‹¤’Êˆ—B
@@ -127,5 +130,6 @@ namespace ksEngine {
 		CVector3 m_Forward = CVector3::Front();
 		CVector3 m_Right = CVector3::Zero();
 		bool m_IsFaceCamera = false;
+		bool m_Is3DDraw = false;
 	};
 }

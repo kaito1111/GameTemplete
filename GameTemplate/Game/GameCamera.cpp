@@ -22,15 +22,24 @@ bool GameCamera::Start()
 	CQuaternion ReverceRot = CQuaternion::Identity();
 	ReverceRot.SetRotationDeg(CVector3::AxisY(), 180.0f);
 	m_StartRot.Multiply(ReverceRot);
+
+	m_springCamera.Init(g_camera3D, 1000.0f);
+	m_springCamera.Refresh();
 	return true;
 }
 
 void GameCamera::Update()
 {
+	if (m_refleshTimer > 0.0f) {
+		m_refleshTimer -= gameTime().GetFrameDeltaTime();
+		if (m_refleshTimer > 0.0f) {
+			m_springCamera.Refresh();
+		}
+	}
 	if (m_player != nullptr) {
 		CVector3 PlayerPos = m_player->GetPosition();
 		CVector3 Target = { PlayerPos.x,PlayerPos.y + m_player->GetHeight(),PlayerPos.z };
-		g_camera3D.SetTarget(Target);
+		m_springCamera.SetTarget(Target);
 		CVector3 moveSpeed = CVector3::Zero();
 		moveSpeed = PlayerCameraLeave;
 		CQuaternion Rot = CQuaternion::Identity();
@@ -89,11 +98,13 @@ void GameCamera::Update()
 	}
 	else {
 		m_Pos = { 0.0f,200.0f,500.0f };
-		g_camera3D.SetTarget(CVector3::Zero());
+		m_springCamera.SetTarget(CVector3::Zero());
 	}
-	//m_Pos = Target + moveSpeed;
-	g_camera3D.SetPosition(m_Pos);
 	
+	//m_Pos = Target + moveSpeed;
+	m_springCamera.SetPosition(m_Pos);
+	
+	m_springCamera.Update();
 	//カメラの更新はGameObjectManagerのExcuteGameでやっている。
 	//g_camera3D.Update();
 

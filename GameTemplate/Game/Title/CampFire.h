@@ -46,7 +46,6 @@ private:
 	float a2 = -1.5f;
 	SoundSource m_Sound;
 	float m_ScaleTime = 0.0f; 
-	PointLight*	m_PointLight2 = nullptr;
 	bool m_Big = false;
 	Effect* m_effect = nullptr;
 };

@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player2.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameCamera.cpp" />
@@ -48,7 +47,6 @@
     <ClCompile Include="Player\PlayerAttack.cpp" />
     <ClCompile Include="Enemy\Enemy.cpp" />
     <ClCompile Include="Enemy\State\IEnemyState.cpp" />
-    <ClCompile Include="Enemy\EnemyAttack.cpp" />
     <ClCompile Include="Enemy\State\EnemyAttackState.cpp" />
     <ClCompile Include="Enemy\State\EnemyIdleState.cpp" />
     <ClCompile Include="Enemy\State\EnemyWalkState.cpp" />
@@ -91,7 +89,6 @@
     <ClCompile Include="Player\weapon\Sword.cpp" />
     <ClCompile Include="Stage\candle.cpp" />
     <ClCompile Include="Player\State\DieState.cpp" />
-    <ClCompile Include="Player\State\BackStepState.cpp" />
     <ClCompile Include="Player\State\DamageState.cpp" />
     <ClCompile Include="Player\State\IdleState.cpp" />
     <ClCompile Include="Player\State\RollingAttackState.cpp" />
@@ -104,9 +101,9 @@
     <ClCompile Include="Stage\Torch.cpp" />
     <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="ReSetTitle.cpp" />
+    <ClCompile Include="Player\State\RollingState.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player2.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameCamera.h" />
@@ -117,7 +114,6 @@
     <ClInclude Include="Player\PlayerAttack.h" />
     <ClInclude Include="Enemy\Enemy.h" />
     <ClInclude Include="Enemy\State\IEnemyState.h" />
-    <ClInclude Include="Enemy\EnemyAttack.h" />
     <ClInclude Include="Enemy\State\EnemyAttackState.h" />
     <ClInclude Include="Enemy\State\EnemyIdleState.h" />
     <ClInclude Include="Enemy\State\EnemyWalkState.h" />
@@ -162,7 +158,6 @@
     <ClInclude Include="Stage\candle.h" />
     <ClInclude Include="Player\State\DieState.h" />
     <ClInclude Include="Player\State\AttackState.h" />
-    <ClInclude Include="Player\State\BackStepState.h" />
     <ClInclude Include="Player\State\DamageState.h" />
     <ClInclude Include="Player\State\IdleState.h" />
     <ClInclude Include="Player\State\RollingAttackState.h" />
@@ -174,9 +169,9 @@
     <ClInclude Include="Stage\Torch.h" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="ReSetTitle.h" />
+    <ClInclude Include="Player\State\RollingState.h" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="Assets\modelData\Skeleton\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\DebugShere.fbx" />
     <MeshContentTask Include="Assets\modelData\Load.fbx" />
     <MeshContentTask Include="Assets\modelData\Player.FBX" />
@@ -190,7 +185,6 @@
     <MeshContentTask Include="Assets\modelData\Arrow.fbx" />
     <MeshContentTask Include="Assets\modelData\StageBoss.fbx" />
     <MeshContentTask Include="Assets\modelData\Boss.fbx" />
-    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
     <MeshContentTask Include="Assets\modelData\Grass.fbx" />
     <MeshContentTask Include="Assets\modelData\Ground.fbx" />
     <MeshContentTask Include="Assets\modelData\Sky.fbx" />
@@ -200,16 +194,12 @@
     <MeshContentTask Include="Assets\modelData\Torch.fbx" />
     <MeshContentTask Include="Assets\modelData\Floor.fbx" />
     <MeshContentTask Include="Assets\modelData\CampFire.fbx" />
+    <MeshContentTask Include="Assets\modelData\Skeleton.fbx" />
   </ItemGroup>
   <ItemGroup>
-    <ImageContentTask Include="Assets\sprite\AttackTips.png" />
     <ImageContentTask Include="Assets\sprite\Brack.png" />
     <ImageContentTask Include="Assets\sprite\ChoicesIcon.png" />
     <ImageContentTask Include="Assets\sprite\ClearScreen.png" />
-    <ImageContentTask Include="Assets\sprite\DashTips.png" />
-    <ImageContentTask Include="Assets\sprite\EriaBackTips.png" />
-    <ImageContentTask Include="Assets\sprite\EriaChengeTips.png" />
-    <ImageContentTask Include="Assets\sprite\HP_Top_Green.png" />
     <ImageContentTask Include="Assets\sprite\HP_Top_Red.png" />
     <ImageContentTask Include="Assets\sprite\HP_Under_Brack.png" />
     <ImageContentTask Include="Assets\sprite\PlayerDie.png" />
@@ -217,8 +207,8 @@
     <ImageContentTask Include="Assets\sprite\PlayerDieLogo.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHunted.png" />
     <ImageContentTask Include="Assets\sprite\PlayerHuntedLogo.png" />
-    <ImageContentTask Include="Assets\sprite\Tips.png" />
     <ImageContentTask Include="Assets\sprite\title.png" />
     <ImageContentTask Include="Assets\sprite\TitleButton.png" />
+    <ImageContentTask Include="Assets\sprite\Stamina_Top_Green.png" />
   </ItemGroup>
 </Project>

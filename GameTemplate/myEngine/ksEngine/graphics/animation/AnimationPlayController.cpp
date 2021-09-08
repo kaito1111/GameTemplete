@@ -34,12 +34,12 @@ void AnimationPlayController::InvokeAnimationEvent(Animation* animation)
 		}
 	}
 }
-	
 void AnimationPlayController::StartLoop()
 {
+
 	m_isFirst = true;
-	m_currentKeyFrameNo = 0;
-	m_time = 0.0f;
+	m_currentKeyFrameNo = 1;
+	m_time = 1.0f / 30.0f;
 	//アニメーションイベントを全て未発生にする。
 	auto& animEventArray = m_animationClip->GetAnimationEvent();
 	for (auto i = 0; i < m_animationClip->GetNumAnimationEvent(); i++) {
@@ -86,7 +86,7 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 			}
 			break;
 		}
-		if (topBoneKeyFrameList.at(m_currentKeyFrameNo)->time >= m_time) {
+		if (topBoneKeyFrameList.at(m_currentKeyFrameNo)->time >= m_time + 0.001f) {
 			//終わり。
 			break;
 		}
@@ -139,7 +139,7 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 			//	printf("hoge");
 			//}
 			if (m_isFirst == true) {
-				m_deltaValueFootstepBoneOneFrame = CVector3::Zero();
+				m_deltaValueFootstepBoneOneFrame = m_deltaValueFootstepBone;
 				m_isFirst = false;
 			}
 			else {
@@ -147,6 +147,21 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 			}
 		}
 	}
+	//m_m_deltaValueFootstepList.push_back(m_deltaValueFootstepBone);
+	//if (m_m_deltaValueFootstepList.size() == 5) {
+	//	m_m_deltaValueFootstepList.pop_front();
+	//}
+	////アベレージにする。
+	//m_deltaValueFootstepBone = CVector3::Zero();
+	//for (int i = 0; i < 5; i++) {
+	//	if (i < m_m_deltaValueFootstepList.size()) {
+	//		m_deltaValueFootstepBone += m_m_deltaValueFootstepList[i];
+	//	}
+	//}
+	//int size = m_m_deltaValueFootstepList.size();
+	//m_deltaValueFootstepBone.x /= size;
+	//m_deltaValueFootstepBone.y /= size;
+	//m_deltaValueFootstepBone.z /= size;
 	//footstepボーンのxz平面での移動量を減算。
 	for (int boneNo = 0; boneNo < numBone; boneNo++) {
 		auto bone = m_skelton->GetBone(boneNo);
@@ -154,5 +169,6 @@ void AnimationPlayController::Update(float deltaTime, Animation* animation)
 		m_boneMatrix[bone->GetNo()].m[3][1] -= m_deltaValueFootstepBone.y;
 		m_boneMatrix[bone->GetNo()].m[3][2] -= m_deltaValueFootstepBone.z;
 	}
+
 }
 

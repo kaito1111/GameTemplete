@@ -7,6 +7,7 @@ void SpriteRender::Init(const wchar_t * fileName, float w, float h , bool is3DDr
 	wcscat(filePath, fileName);
 	m_sprite.Init(filePath,w,h);
 	m_Is3DDraw = is3DDraw;
+	m_sprite.Set3Draw(m_Is3DDraw);
 }
 
 void SpriteRender::Update()

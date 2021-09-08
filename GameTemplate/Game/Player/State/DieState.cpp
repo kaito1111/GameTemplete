@@ -9,20 +9,3 @@ void DieState::Update()
 {
 	m_player->PlayAnimation();
 }
-
-void DieState::Delete()
-{
-	if (m_DieSprite != nullptr) {
-		DeleteGO(m_DieSprite);
-	}
-}
-
-void DieState::ReStart()
-{
-}
-
-DieState::~DieState()
-{
-}
-
-

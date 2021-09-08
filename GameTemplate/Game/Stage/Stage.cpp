@@ -17,40 +17,11 @@ Stage::~Stage()
 
 bool Stage::Start()
 {
-	//m_Model = NewGO<SkinModelRender>(0);
-	//m_Model->Init(L"Assets/modelData/floor.cmo");
-	//m_Model->SetScale(m_Scale);
-	//m_Model->SetRenderMode(0);
-		//Floor* floor = NewGO<Floor>(0);
-		//floor->SetPosition(funclevel.position);
-	//m_phy.CreateMeshObject(m_Model->GetModel(), m_pos, CQuaternion::Identity());
-	//m_level.Init(m_LevelFilePath, [&](LevelObjectData funclevel)->bool {
-
-
-	//	//Wall* wall = NewGO<Wall>(0);
-	//	//wall->SetPosition(funclevel.position);
-
-	//	if (wcscmp(funclevel.name, L"keleton")==0) {			
-	//		m_SpownEnemyPosition = funclevel.position;
-	//		return true;
-	//	}
-	//	if (wcscmp(funclevel.name, L"Player")==0) {
-	//		m_SpownPlayerPosition = funclevel.position;
-	//		return true;
-	//	}
-
-	//	PhysicsStageObject* PSO = NewGO<PhysicsStageObject>(0);
-	//	PSO->SetObjectName(funclevel.name);
-	//	PSO->SetPosition(funclevel.position);
-	//	PSO->SetRotation(funclevel.rotation);
-	//	return true;
-	//});
 	return true;
 }
 
 void Stage::Update()
 {
-	//m_Model->SetPosition(m_pos);
 }
 
 void Stage::OnDestroy()
@@ -89,9 +60,6 @@ void Stage::Load(wchar_t * filePath)
 {
 	wcscpy(m_LevelFilePath, filePath);	
 	m_level.Init(m_LevelFilePath, [&](LevelObjectData funclevel)->bool {
-		//Wall* wall = NewGO<Wall>(0);
-		//wall->SetPosition(funclevel.position);
-
 		if (wcscmp(funclevel.name, L"Skeleton") == 0) {
 			return true;
 		}

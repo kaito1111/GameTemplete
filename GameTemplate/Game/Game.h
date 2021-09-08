@@ -6,6 +6,7 @@ class GameCamera;
 #include "Enemy/EnemySpawner.h"
 #include "Archer/ArcherSpowner.h"
 #include "Boss/BossSpawn.h"
+//#include "Manual.h"
 
 class Game final : public IGameObject
 {
@@ -20,16 +21,21 @@ public:
 		wcscpy(m_LevelFilePath, fileName);
 	}
 
+	//level上で設置されていたプレイヤーの位置を返す
 	int GetPlayerHp() {
 		return m_Player->GetHp();
 	}
+	//Hpを引き継ぐ
 	void SetPlayerHp(int hp) {
 		m_SpownHp = hp;
 	}
 private:
-	bool Start()override;
-	void Update()override;
-	void OnDestroy()override;
+	//初期化
+	bool Start()override final;
+	//更新
+	void Update()override final;
+	//削除
+	void OnDestroy()override final;
 private:
 	Player* m_Player = nullptr;
 	Stage* m_Stage = nullptr;
@@ -42,4 +48,5 @@ private:
 	SkinModel model;
 	SoundSource m_BGM;
 	DirectionLight* m_Direction = nullptr;
+	//Manual* m_Manual = nullptr;
 };

@@ -1,6 +1,8 @@
 #pragma once
 class Player;
 #include "character/CharacterController.h"
+#include "graphics/SpringCamera.h"
+
 class GameCamera :public IGameObject
 {
 public:
@@ -26,4 +28,6 @@ private:
 	CharacterController m_CharaCon;
 	CQuaternion m_StartRot = CQuaternion::Identity();
 	CVector3 PlayerCameraLeave = { 0.0f,100.0f,500.0f };
+	SpringCamera m_springCamera;
+	float m_refleshTimer = 1.0f;
 };
