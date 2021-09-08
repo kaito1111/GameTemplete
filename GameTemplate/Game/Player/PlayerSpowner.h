@@ -27,11 +27,11 @@ public:
 	/// 複数フレームにわたって初期化をしたい場合は、
 	/// 初期化完了までfalseを返す。
 	/// </returns>
-	bool Start()override;
+	bool Start()override final;
 	/// <summary>
 	/// 毎フレーム呼ばれる更新処理。
 	/// </summary>
-	void OnDestroy()override;
+	void OnDestroy()override final;
 
 private:
 	Player* m_player = nullptr;		//プレイヤーポインタ
