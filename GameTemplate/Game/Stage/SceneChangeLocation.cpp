@@ -4,6 +4,10 @@
 #include "Game.h"
 #include "Fade.h"
 
+namespace {
+	const float Eria = 300.0f;	//エリチェンできる範囲
+}
+
 bool SceneChangeLocation::Start()
 {
 	m_player = FindGO<Player>("player");
@@ -11,9 +15,8 @@ bool SceneChangeLocation::Start()
 	m_Skin = NewGO<SkinModelRender>(0);
 	m_Skin->Init(L"DebugShere.cmo");
 	m_Skin->SetPosition(m_Pos);
-	m_Skin->SetScale({ m_Eria,m_Eria,0.0f });
+	m_Skin->SetScale({ Eria,Eria,0.0f });
 #endif
-	//m_manual = FindGO<Manual>("manual");
 	return true;
 }
 
@@ -25,7 +28,7 @@ void SceneChangeLocation::Update()
 		CVector3 Diff = m_player->GetPosition() - m_Pos;
 		Diff.y = 0.0f;
 		//もしプレイヤーが範囲に入っていれば
-		if (Diff.Length() < m_Eria) {
+		if (Diff.Length() < Eria) {
 			////マニュアルでAボタンを押してもらえるよう促す
 			//m_manual->SetManualPattern(Manual::ManualPattern::EriaChenge);
 			//Bボタンを押されたら

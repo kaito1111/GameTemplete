@@ -4,6 +4,10 @@
 #include "Fade.h"
 #include "Game.h"
 
+namespace {
+	const float Eria = 70.0f;	//エリアチェンジの範囲
+}
+
 bool ReturnLocatoin::Start()
 {
 	m_player = FindGO<Player>("player");
@@ -11,7 +15,7 @@ bool ReturnLocatoin::Start()
 	m_Skin = NewGO<SkinModelRender>(0);
 	m_Skin->Init(L"ReturnRoad.cmo");
 	m_Skin->SetPosition(m_Pos);
-	m_Skin->SetScale({ m_Eria,m_Eria,0.0f });
+	m_Skin->SetScale({ Eria,Eria,0.0f });
 #endif
 	return true;
 }
@@ -20,7 +24,7 @@ void ReturnLocatoin::Update()
 {
 	CVector3 Diff = m_player->GetPosition() - m_Pos;
 	Diff.y = 0.0f;
-	if (Diff.Length() < m_Eria) {
+	if (Diff.Length() < Eria) {
 		if (g_pad[0].IsPress(enButtonA)) {
 			NewGO<Fade>(0, "fade");
 			if (wcscmp(m_FilePath, L"Assets/level/Bridge.tkl") == 0) {

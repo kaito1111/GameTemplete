@@ -27,7 +27,6 @@ bool Title::Start()
 void Title::Update()
 {
 	if (g_pad[0].IsPressAnyKey()) {
-		m_AlphaAdd = 0.1f;
 		m_Player->SetStandingState();
 	}
 	float lightPow = m_camp->GetLightPow() / m_camp->GetMaxLightPow();

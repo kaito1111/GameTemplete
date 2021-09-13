@@ -51,9 +51,9 @@ void Candle::Update()
 {
 	//‰Š‚É‹­Žã‚ð‚Â‚¯‚é
 	if (m_LightPower > MaxLightPower || m_LightPower < MinLightPower) {
-		a *= -1.0f;
+		m_LightMulPower *= -1.0f;
 	}
-	m_LightPower += a;
+	m_LightPower += m_LightMulPower;
 	m_PointLightRed->SetRenge({ m_LightPower,attn,0.0f,0.0f });
 	m_Effect->SetScale(EffectScale*(m_LightPower / MaxLightPower));
 }

@@ -46,14 +46,13 @@ public:
 		m_Rotation = rot;
 	}
 private:
-	SkinModelRender* m_Model = nullptr;
-	CVector3 m_Position = CVector3::Zero();
-	CQuaternion m_Rotation = CQuaternion::Identity();
-	PointLight* m_PointLightRed = nullptr;//外側の光を再現する
-	float m_LightPower = 200.0f;
-	float a = -8.0f; 
-	CVector3 LightPos = CVector3::Zero();
-
-	PointLight* m_PointLightYellow = nullptr;//内側の光を再現する
-	Effect* m_Effect = nullptr;
+	SkinModelRender* m_Model = nullptr;					//キャンドルのモデル
+	CVector3 m_Position = CVector3::Zero();				//位置
+	CQuaternion m_Rotation = CQuaternion::Identity();	//回転
+	PointLight* m_PointLightRed = nullptr;				//赤色の光源
+	float m_LightPower = 200.0f;						//光の強さ
+	float m_LightMulPower = -8.0f;						//光の増減を管理する変数
+	CVector3 LightPos = CVector3::Zero();				//光の位置
+	PointLight* m_PointLightYellow = nullptr;			//黄色の光源
+	Effect* m_Effect = nullptr;							//炎のエフェクト
 };

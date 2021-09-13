@@ -7,23 +7,6 @@
 #include "candle.h"
 #include "Torch.h"
 
-Stage::Stage()
-{
-}
-
-Stage::~Stage()
-{
-}
-
-bool Stage::Start()
-{
-	return true;
-}
-
-void Stage::Update()
-{
-}
-
 void Stage::OnDestroy()
 {
 	for (PhysicsStageObject* it : m_PSOList) {
@@ -56,7 +39,7 @@ void Stage::OnDestroy()
 	}
 }
 
-void Stage::Load(wchar_t * filePath)
+void Stage::Load(const wchar_t * filePath)
 {
 	wcscpy(m_LevelFilePath, filePath);	
 	m_level.Init(m_LevelFilePath, [&](LevelObjectData funclevel)->bool {

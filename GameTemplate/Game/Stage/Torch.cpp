@@ -30,9 +30,9 @@ bool Torch::Start()
 void Torch::Update()
 {
 	if (m_LightPower > 500.0f || m_LightPower < 450.0f) {
-		a *= -1.0f;
+		m_LightMulPower *= -1.0f;
 	}
-	m_LightPower += a;
+	m_LightPower += m_LightMulPower;
 	m_PoinsLight->SetRenge({ m_LightPower,2.5f,0.0f,0.0f });
 	m_Effect->SetScale(effectScale*(m_LightPower / 500.0f));
 }

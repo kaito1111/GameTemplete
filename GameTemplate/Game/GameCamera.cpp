@@ -2,14 +2,6 @@
 #include "GameCamera.h"
 #include "Player/Player.h"
 
-GameCamera::GameCamera()
-{
-}
-
-GameCamera::~GameCamera()
-{
-}
-
 bool GameCamera::Start()
 {
 	const float m_GameFar = 15000.0f;
@@ -30,6 +22,7 @@ bool GameCamera::Start()
 
 void GameCamera::Update()
 {
+	//定期的にカメラをリフレッシュする
 	if (m_refleshTimer > 0.0f) {
 		m_refleshTimer -= gameTime().GetFrameDeltaTime();
 		if (m_refleshTimer > 0.0f) {
@@ -52,21 +45,8 @@ void GameCamera::Update()
 			m_AngleX += g_pad[0].GetRStickXF()*XRotVolum;
 		}
 		Rot.SetRotationDeg(CVector3::AxisY(), -m_AngleX);
-		//CVector4 RevarceRot = { 1.0f - m_StartRot.x,1.0f - m_StartRot.y,1.0f - m_StartRot.z,1.0f };
-		//m_StartRot.y*-1.0f;
-		//CQuaternion ReverceRot ;
-		//ReverceRot.SetRotation(CVector3::AxisY(), -m_StartRot.y
-		//CVector3 Back = m_StartForward*-1.0f;
-		//CQuaternion BackRot = CQuaternion::Identity();
-		//BackRot.SetRotation(Back);
-		//CMatrix mBack=CMatrix::Identity();
-		//mBack.Inverse(mForward);
-		//m_StartRot.SetRotation(mBack);
-		//Rot.Multiply(m_StartRot);
-		//Rot.Multiply(moveSpeed); 
 		m_StartRot.Multiply(moveSpeed);
 		Rot.Multiply(moveSpeed);
-		//moveSpeed = { moveSpeed.x * Back.x,moveSpeed.y* Back.y,moveSpeed.z*Back.z };
 		//プレイヤーからちょっとカメラの終点に近い場所
 		CVector3 RayStart = Target + moveSpeed * 0.01f;
 
@@ -84,9 +64,7 @@ void GameCamera::Update()
 		if (m_AngleY > UpperLimit) {
 			m_AngleY = UpperLimit;
 		}
-		//m_AngleY = max(LowerLimmit, min(UpperLimit, m_AngleY));
 		moveSpeed.y += m_AngleY;
-		//moveSpeed.y = max(LowerLimmit, min(UpperLimit, moveSpeed.y));
 		if (moveSpeed.y < LowerLimmit) {
 			moveSpeed.y = LowerLimmit;
 		}
@@ -107,25 +85,4 @@ void GameCamera::Update()
 	m_springCamera.Update();
 	//カメラの更新はGameObjectManagerのExcuteGameでやっている。
 	//g_camera3D.Update();
-
-	//ばねカメラのようなものを実装しようとしていた。
-	//CVector3 Target = m_player->GetPosition();
-	//g_camera3D.SetTarget(Target);
-	//CVector3 StartCameraPos = { 0.0f,100.0f,500.0f };
-	//StartCameraPos += Target;
-	//m_CharaCon.SetPosition(StartCameraPos);
-	//CVector3 MoveSpeed;
-	//CQuaternion Rot = CQuaternion::Identity();
-	//if (fabsf(g_pad[0].GetRStickXF()) > 0.001f) {
-	//	m_AngleX += g_pad[0].GetRStickXF()*2.0f;
-	//}
-	//Rot.SetRotationDeg(CVector3::AxisY(), -m_AngleX);
-	//Rot.Multiply(MoveSpeed);
-	//m_AngleY += g_pad[0].GetRStickYF()*20.0f;
-	//m_AngleY = max(-100.0f, min(300.0f, m_AngleY));
-	//MoveSpeed.y += m_AngleY;
-	//MoveSpeed.y = max(-100.0f, min(300.0f, MoveSpeed.y));
-	//MoveSpeed += Target;
-	//m_Pos = m_CharaCon.Execute(1.0f, MoveSpeed);
-	//g_camera3D.SetPosition(m_Pos);
 }

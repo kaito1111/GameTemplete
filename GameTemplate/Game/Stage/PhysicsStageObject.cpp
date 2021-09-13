@@ -1,18 +1,6 @@
 #include "pch.h"
 #include "PhysicsStageObject.h"
 
-PhysicsStageObject::PhysicsStageObject()
-{
-	int a = 0;
-	a++;
-}
-
-PhysicsStageObject::~PhysicsStageObject()
-{
-	int a = 0;
-	a++;
-}
-
 bool PhysicsStageObject::Start() {
 	m_Model = NewGO<SkinModelRender>(0);
 	wchar_t filePath[256] = {};

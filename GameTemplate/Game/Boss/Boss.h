@@ -35,11 +35,11 @@ public:
 	/// 複数フレームにわたって初期化をしたい場合は、
 	/// 初期化完了までfalseを返す。
 	/// </returns>
-	bool Start()override;
+	bool Start()override final;
 	/// <summary>
 	/// 毎フレーム呼ばれる更新処理。
 	/// </summary>
-	void Update()override;
+	void Update()override final;
 	/// <summary>
 	/// インスタンスが破棄される時に呼ばれる関数。
 	/// </summary>
@@ -50,7 +50,7 @@ public:
 	/// そのため、デストラクタの呼び出しが、DeleteGOの呼び出しから1フレーム遅れることとなる。
 	/// DeleteGOが呼ばれたタイミングで、行いたい終了処理はOnDestroy()に記述する。
 	/// </remarks>
-	void OnDestroy()override;
+	void OnDestroy()override final;
 	/// <summary>
 	/// /ステート先でアニメーションをプレイする。
 	/// </summary>

@@ -7,58 +7,77 @@ class SceneChangeLocation;
 class ReturnLocatoin;
 class Candle;
 class Torch;
+/// <summary>
+/// ステージのクラス
+/// </summary>
 class Stage final :public IGameObject
 {
-	//敵のポジションとローテーションを記憶
-	struct EnemyInfor {
-		CVector3 position = CVector3::Zero();
-		CQuaternion rotation = CQuaternion::Identity();
-	};
 public:
-	Stage();
-	~Stage();
-	bool Start();
-	void Update();
-	void OnDestroy()override;
+	/// <summary>
+	/// インスタンスが破棄される時に呼ばれる関数。
+	/// </summary>
+	/// <remarks>
+	/// 本エンジンで実装している、ゲームオブジェクトを削除する
+	/// DeleteGO関数は、すぐにインスタンスを削除するわけではなく、
+	/// 1フレーム遅れてインスタンスが削除される。
+	/// そのため、デストラクタの呼び出しが、DeleteGOの呼び出しから1フレーム遅れることとなる。
+	/// DeleteGOが呼ばれたタイミングで、行いたい終了処理はOnDestroy()に記述する。
+	/// </remarks>
+	void OnDestroy()override final;
 
-	void Load(wchar_t* filePath);
-	CVector3 GetPlayerPos()const {
+	/// <summary>
+	/// ステージを読み込む関数
+	/// この関数でしかステージを作れない
+	/// </summary>
+	/// <param name="filePath">ファイルパス</param>
+	void Load(const wchar_t* filePath);
+	/// <summary>
+	/// ステージで読み込んだプレイヤーの初期位置を返す　
+	/// </summary>
+	/// <returns>プレイヤーの初期位置</returns>
+	const CVector3 GetPlayerPos()const {
 		return m_SpownPlayerPosition;
 	}
-	
-	CQuaternion GetPlayerRotation() const{
+	/// <summary>
+	/// ステージで読み込んだプレイヤーの回転量を返す
+	/// </summary>
+	/// <returns>プレイヤーの回転量</returns>
+	const CQuaternion GetPlayerRotation() const{
 		return m_PlayerSpawnRot;
 	}
-
-	CVector3 GetEnemyPos()const {
-		return m_SpownEnemyPosition;
-	}
-
-	CVector3 GetTitlePos() const{
+	/// <summary>
+	/// タイトルシーン中にプレイヤーのいる位置
+	/// </summary>
+	/// <returns>プレイヤーの位置</returns>
+	const CVector3 GetTitlePos() const{
 		return m_TitlePos;
 	}
-	CVector3 GetTitleCameraPos() const{
+	/// <summary>
+	/// タイトルシーンのカメラの位置
+	/// </summary>
+	/// <returns></returns>
+	const CVector3 GetTitleCameraPos() const{
 		return m_TitleCameraPos;
 	}
-	CVector3 GetTitleCameraTarget()const {
+	/// <summary>
+	/// タイトルシーンのカメラの注視点
+	/// </summary>
+	const CVector3 GetTitleCameraTarget()const {
 		return m_TitleCameraTarget;
 	}
 private:
-	std::vector< PhysicsStageObject*> m_PSOList;
-	CVector3 m_pos = CVector3::Zero();
-	CVector3 m_Scale = CVector3::One()*20.0f;
-	Level m_level;
-	wchar_t m_LevelFilePath[256] = {};
-	CVector3 m_SpownPlayerPosition = CVector3::Zero();
-	CQuaternion m_PlayerSpawnRot = CQuaternion::Identity();
-	CVector3 m_SpownEnemyPosition = CVector3::Zero();
-	Sky* m_sky = nullptr;
-	CVector3 m_TitlePos = CVector3::Zero();
-	CVector3 m_TitleCameraPos = CVector3::Zero();
-	CVector3 m_TitleCameraTarget = CVector3::Zero();
-	std::vector<SceneChangeLocation*> m_SCLoc;
-	std::vector<ReturnLocatoin*> m_RCLoc;
-	std::vector<Candle*> m_Can;
-	std::vector<Torch*> m_Torch;
+	std::vector< PhysicsStageObject*> m_PSOList;			//静的物理オブジェクト達のポインタリスト				
+	Level m_level;											//ステージを読み込むレベル
+	wchar_t m_LevelFilePath[256] = {};						//レベルで読み込むときに使うファイルパス
+	CVector3 m_SpownPlayerPosition = CVector3::Zero();		//プレイヤーの初期位置
+	CQuaternion m_PlayerSpawnRot = CQuaternion::Identity();	//プレイヤーの初期回転量
+	Sky* m_sky = nullptr;									//空のキューブマップ
+	CVector3 m_TitlePos = CVector3::Zero();					//プレイヤーがタイトルにいるときの位置
+	CVector3 m_TitleCameraPos = CVector3::Zero();			//タイトルシーンのカメラの位置
+	CVector3 m_TitleCameraTarget = CVector3::Zero();		//タイトルシーンのカメラの注視点
+	std::vector<SceneChangeLocation*> m_SCLoc;				//次のシーンの移動するクラスのリスト
+	std::vector<ReturnLocatoin*> m_RCLoc;					//前のシーンに戻るクラスのリスト
+	std::vector<Candle*> m_Can;								//キャンドルのリスト
+	std::vector<Torch*> m_Torch;							//松明のリスト
 };
 
