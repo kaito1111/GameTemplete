@@ -5,6 +5,7 @@
 #include "Fade.h"
 #include "sound/SoundEngine.h"
 #include "Title/Title.h"
+#include "GameCamera.h"
 
 ///////////////////////////////////////////////////////////////////
 // ウィンドウプログラムのメイン関数。
@@ -28,7 +29,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//サウンドエンジンを初期化。
 	soundEngine.Init();
 	
-
 	Title* title = NewGO<Title>(0,"title");
 	//Game* game = NewGO<Game>(0, "game");
 	//game->SetLevelFilePath(L"StageBoss.tkl");
@@ -51,6 +51,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		g_physics.GetDynamicWorld()->debugDrawWorld();
 		//ゲームオブジェクトを更新
 		CGameObjectManager()->ExcuteGame();
+
 		//サウンドエンジンを更新。
 		soundEngine.Update();
 		LightManager::GetInstance()->Update();
